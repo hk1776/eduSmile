@@ -16,10 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static org.springframework.web.servlet.function.RequestPredicates.headers;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
 
 
     // HTTP 보안 설정
@@ -28,7 +29,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/user/login", "/user/signup", "/user", "/h2-console/**").permitAll()  // 특정 URL 접근 허용
+                                .requestMatchers("/user/login", "/user/signup", "/user/**", "/h2-console/**", "/**").permitAll()  // 특정 URL 접근 허용
                                 .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
                 .csrf((csrf) -> csrf.ignoringRequestMatchers((new AntPathRequestMatcher("/h2-console/**"))))
@@ -42,8 +43,7 @@ public class SecurityConfig {
                                 .logoutSuccessUrl("/user/login")  // 로그아웃 후 이동할 URL
                                 .invalidateHttpSession(true)  // 세션 무효화
                 )
-                .csrf(csrf -> csrf.disable())  // CSRF 비활성화
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+                .csrf(csrf -> csrf.disable());  // CSRF 비활성화
 
         return http.build();
     }
@@ -54,9 +54,8 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
-    @ConditionalOnProperty(name = "spring.h2.console.enabled",havingValue = "true")
+    @ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true")
     public WebSecurityCustomizer configureH2ConsoleEnable() {
         return web -> web.ignoring()
                 .requestMatchers(PathRequest.toH2Console());

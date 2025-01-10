@@ -1,6 +1,8 @@
 server:
   port: 8080
 
+server.servlet.encoding.force-response: true
+
 spring:
   datasource:
     driver-class-name: org.h2.Driver

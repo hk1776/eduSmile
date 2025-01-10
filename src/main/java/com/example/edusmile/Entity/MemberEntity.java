@@ -8,9 +8,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 import java.security.Timestamp;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -18,6 +22,7 @@ import java.security.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class MemberEntity {
 
     @Id
@@ -41,19 +46,21 @@ public class MemberEntity {
     private String school;
 
     @Column(name = "school_class" , nullable = false)
-    private String schoolClass;
+    private int schoolClass;
 
     @Column(name = "role" , nullable = false)
     private String role;
 
-    @Column(name = "teacher_code" , nullable = false)
+    @Column(name = "teacher_code" )
     private String teacherCode;
 
-    @CreationTimestamp
-    private Timestamp createDate;
+    @CreatedDate
+    @Column(name = "created_date", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
 
-    @UpdateTimestamp
-    private Timestamp updateDate;
+    @LastModifiedDate
+    @Column(name = "last_modified_date", nullable = false)
+    private LocalDateTime lastModifiedDate;
 
 
 

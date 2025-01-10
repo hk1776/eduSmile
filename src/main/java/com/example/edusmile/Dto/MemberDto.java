@@ -5,28 +5,33 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.Timestamp;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class MemberDto {
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-
-    private Long id;
     private String loginId;
     private String password;
     private String name;
     private String phoneNumber;
     private String school;
-    private String schoolClass;
+    private int schoolClass;
     private String role;
-    private String teacherCode;
-    private Timestamp createDate;
-    private Timestamp updateDate;
+
 
     public MemberEntity toEntity() {
-        return new MemberEntity(null,loginId,password,name,phoneNumber,school,schoolClass,
-                role,teacherCode,null,null);
+        return new MemberEntity(null,loginId,encoder.encode(password),name,phoneNumber,school,schoolClass,
+                role,null,null,null);
     }
 }
