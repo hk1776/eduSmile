@@ -2,6 +2,7 @@ package com.example.edusmile.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
@@ -21,6 +22,12 @@ public class LoginController {
 
     @GetMapping("user/signup")
     public String signup() {
+
+        return "signup";
+    }
+
+    @PostMapping("user/signupsave")
+    public String signupsave() {
 
         return "signup";
     }
