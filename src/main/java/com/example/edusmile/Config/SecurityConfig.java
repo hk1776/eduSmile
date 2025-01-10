@@ -1,5 +1,7 @@
 package com.example.edusmile.Config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +42,8 @@ public class SecurityConfig {
                                 .logoutSuccessUrl("/user/login")  // 로그아웃 후 이동할 URL
                                 .invalidateHttpSession(true)  // 세션 무효화
                 )
-                .csrf(csrf -> csrf.disable());  // CSRF 비활성화
+                .csrf(csrf -> csrf.disable())  // CSRF 비활성화
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
         return http.build();
     }
@@ -48,5 +52,13 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.h2.console.enabled",havingValue = "true")
+    public WebSecurityCustomizer configureH2ConsoleEnable() {
+        return web -> web.ignoring()
+                .requestMatchers(PathRequest.toH2Console());
     }
 }
