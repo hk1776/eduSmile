@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 
 import static org.springframework.web.servlet.function.RequestPredicates.headers;
 
@@ -59,5 +61,11 @@ public class SecurityConfig {
     public WebSecurityCustomizer configureH2ConsoleEnable() {
         return web -> web.ignoring()
                 .requestMatchers(PathRequest.toH2Console());
+    }
+
+
+    @Bean           //로그인 시큐리티 인증
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }

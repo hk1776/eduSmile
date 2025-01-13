@@ -28,10 +28,10 @@ public class MemberDto {
     private String school;
     private int schoolClass;
     private String role;
-
+    private String teacherCode;
 
     public MemberEntity toEntity() {
         return new MemberEntity(null,loginId,encoder.encode(password),name,phoneNumber,school,schoolClass,
-                role,null,null,null);
+                role,teacherCode,null,null);
     }
 }
