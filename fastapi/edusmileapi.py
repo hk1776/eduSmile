@@ -1,6 +1,4 @@
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import JSONResponse
-import speech_recognition as sr
 import tempfile
 
 
