@@ -1,0 +1,368 @@
+._002,
+._002 * {
+    box-sizing: border-box;
+}
+._002 {
+    background: #fcf2d4;
+    height: 2169px;
+    position: relative;
+    overflow: hidden;
+}
+
+.class {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 50vw;
+    top: 50vw;
+}
+.div2 {
+    color: #4b4b4b;
+    text-align: left;
+    position: absolute;
+    font-size: 1.5vw;
+    font-weight: 400;
+    left: 60vw;
+    top: 95vw;
+}
+.div-2-span {
+    color: #4b4b4b;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+}
+.div-2-span2 {
+    color: #4b4b4b;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+}
+.duplication-danger
+{
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 12vw;
+}
+.rectangle-3 {
+    border-radius: 0px;
+    width: 835px;
+    height: 118px;
+    position: absolute;
+    left: 419px;
+    top: 361px;
+    overflow: visible;
+}
+.rectangle-2 {
+    border-radius: 0px;
+    width: 835px;
+    height: 118px;
+    position: absolute;
+    left: 419px;
+    top: 220px;
+    overflow: visible;
+}
+.form-control-signup {
+    border-radius: 15px; /* 모서리를 둥글게 */
+    padding: 10px; /* 입력 필드의 내용이 가장자리에 붙지 않게 여백 추가 */
+    height: 2vw;
+    width:10vw; !important;
+    display: block; /* 텍스트를 독립된 블록으로 처리 */
+    font-size: 2vh;
+}
+.signup-btn {
+    padding: 10px 20px;
+    position: absolute;
+    font-size: 1vw;
+    background-color: #576096;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px; /* 버튼 위에 간격 추가 */
+    transition: background-color 0.3s ease;
+    width: 20vw;
+    height: 3vw;
+    left: 40vw;
+    top: 100vw;
+}
+.id {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 15vw;
+
+
+}
+.div3 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 22vw;
+}
+.rectangle-105 {
+    border-radius: 0px;
+    width: 835px;
+    height: 118px;
+    position: absolute;
+    left: 419px;
+    top: 361px;
+    overflow: visible;
+}
+.rectangle-106 {
+    border-radius: 0px;
+    width: 835px;
+    height: 118px;
+    position: absolute;
+    left: 419px;
+    top: 502px;
+    overflow: visible;
+}
+.div4 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 29vw;
+}
+.div5 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 57vw;
+}
+.div {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 800;
+    position: absolute;
+    left: 30vw;
+    top: 62vw;
+}
+.div6 {
+    color: #eb6319;
+    text-align: left;
+    font-family: "SCoreDream-4Regular", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    position: absolute;
+    left: 430px;
+    top: 163px;
+}
+.div7 {
+    color: #1e2d84;
+    text-align: left;
+    font-family: "SCoreDream-6Bold", sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    position: absolute;
+    left: 717px;
+    top: 1112px;
+}
+.lets-icons-check-fill {
+    width: 41px;
+    height: 41px;
+    position: absolute;
+    left: 666px;
+    top: 1116px;
+    overflow: visible;
+}
+.rectangle-109 {
+    border-radius: 0px;
+    width: 835px;
+    height: 118px;
+    position: absolute;
+    left: 419px;
+    top: 643px;
+    overflow: visible;
+}
+.div8 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 36vw;
+}
+.rectangle-1062 {
+    background: #FFFDFD; /* 배경색 */
+    color: #000000; /* 텍스트 색상 */
+    border-radius: 15px; /* 테두리를 둥글게 */
+    border: 2px solid #000000; /* 얇은 테두리 라인 */
+    width: 40vw; /* 너비 */
+    height: 25vw; /* 높이 */
+    position: absolute; /* 절대 위치 */
+    left: 30vw; /* 왼쪽 위치 */
+    top: 65vw; /* 위쪽 위치 */
+    overflow: visible; /* 넘치는 내용 표시 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    padding: 10px;
+}
+.div9 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 43vw;
+}
+.div10 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 30vw;
+    top: 50vw;
+}
+.div11 {
+    color: #1e2d84;
+    text-align: left;
+    font-family: "SCoreDream-6Bold", sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    position: absolute;
+    left: 717px;
+    top: 960px;
+}
+.lets-icons-check-fill2 {
+    width: 41px;
+    height: 41px;
+    position: absolute;
+    left: 666px;
+    top: 964px;
+    overflow: visible;
+}
+.frame-12 {
+    background: #576096;
+    width: 100vw;
+    height: 6vw;
+    position: absolute;
+    display: flex;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+}
+.polygon-2 {
+    width: 32px;
+    height: 16px;
+    position: absolute;
+    left: 1086px;
+    top: 32px;
+    overflow: visible;
+}
+._3 {
+    width: 5vw;
+    height: 5vw;
+    position: absolute;
+    left: 23vw;
+    top: 0.5vh;
+    object-fit: cover;
+}
+.div12 {
+    color: #fffefd;
+    text-align: left;
+    font-family: "HakgyoansimDunggeunmisoOtf-B", sans-serif;
+    font-size: 3vw;
+    font-weight: 400;
+    position: absolute;
+    left: 3vw;      /* 화면 너비의 3% 위치 */
+    top: 1.5vh;       /* 화면 높이의 3% 위치 */
+}
+.rectangle-111 {
+    background: #576096;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #fb9c1f;
+    border-width: 3px;
+    width: 217px;
+    height: 62px;
+    position: absolute;
+    left: 419px;
+    top: 953px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.div13 {
+    color: #ffffff;
+    text-align: left;
+    font-family: "SCoreDream-6Bold", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    position: absolute;
+    left: 457px;
+    top: 964px;
+}
+.rectangle-113 {
+    background: #576096;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #fb9c1f;
+    border-width: 3px;
+    width: 217px;
+    height: 62px;
+    position: absolute;
+    left: 419px;
+    top: 1105px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.div14 {
+    color: #ffffff;
+    text-align: left;
+    font-family: "SCoreDream-6Bold", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    position: absolute;
+    left: 457px;
+    top: 1116px;
+}
+.rectangle-112 {
+    background: #576096;
+    border-radius: 30px;
+    border-style: solid;
+    border-color: #fb9c1f;
+    border-width: 5px;
+    width: 1034px;
+    height: 117px;
+    position: absolute;
+    left: 200px;
+    top: 1952px;
+    box-shadow: 0px 8px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.div15 {
+    color: #ffffff;
+    text-align: left;
+    font-family: "SCoreDream-6Bold", sans-serif;
+    font-size: 48px;
+    font-weight: 400;
+    position: absolute;
+    left: 624px;
+    top: 1982px;
+}

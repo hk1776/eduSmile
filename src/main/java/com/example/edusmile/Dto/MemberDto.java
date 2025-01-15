@@ -1,18 +1,11 @@
 package com.example.edusmile.Dto;
 
 import com.example.edusmile.Entity.MemberEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.security.Timestamp;
 
 
 @Getter
@@ -24,7 +17,7 @@ public class MemberDto {
     private String loginId;
     private String password;
     private String name;
-    private String phoneNumber;
+    private Long phoneNumber;
     private String school;
     private int schoolClass;
     private String role;

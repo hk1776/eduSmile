@@ -28,7 +28,7 @@ public class LoginService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public void saveMember(MemberDto memberDto) {
+    public boolean saveMember(MemberDto memberDto) {
         if (memberDto.getRole().equals("teacher")) {
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"; // 대문자만 포함
             StringBuilder result = new StringBuilder();
@@ -42,8 +42,29 @@ public class LoginService {
             memberDto.setTeacherCode(result.toString());
 
             memberRepository.save(memberDto.toEntity());
+            return true;
 
         }
+        else if(memberDto.getRole().equals("student")) {
+                List<MemberEntity> members = memberRepository.findByTeacherCodeTeacher(memberDto.getTeacherCode() , "teacher");
+
+                if(members.isEmpty())
+                {
+                    return false;
+                }
+                else
+                {
+                    MemberEntity teacher = members.get(0);
+
+                    memberDto.setSchoolClass(teacher.getSchoolClass());
+                    memberDto.setSchool(teacher.getSchool());
+
+                    memberRepository.save(memberDto.toEntity());
+                    return true;
+                }
+
+        }
+        return false;
 
     }
     public boolean findmember(MemberDto memberDto) {

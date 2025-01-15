@@ -4,9 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>signup</title>
+    <link rel="stylesheet" href="/css/signup_teacher.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+
+<!-- d
 <form action="/user/signupsave" method="post" oninput="return validateForm()">
 
     {{#duplication}}
@@ -46,6 +50,71 @@
     <button type="submit" id="submitButton" class="btn btn-primary" disabled>회원가입</button>
     <a target="_blank" href="/user/login" id="signup" class="find_text">로그인</a>
 </form>
+-->
+
+<div class="_002">
+    <form action="/user/signupsave" method="post" oninput="return validateForm()">
+    <div class="full">
+    <div class="div">개인정보 보호 동의서</div>
+    <div class="div2">
+    <span>
+      <span class="div-2-span">동의합니다</span>
+      <span class="div-2-span2">.</span>
+    </span>
+    </div>
+        {{#duplication}}
+            <div class="duplication-danger" role="alert">
+                이미 존재하는 ID 입니다.
+            </div>
+        {{/duplication}}
+    <div class="id">
+        ID<input type="text" class="form-control-signup" id="LoginId" name="loginId" maxlength='30' required>
+
+        <div id="idError" class="text-danger" style="display: none;">아이디는 6-12자의 영문, 숫자, 기호(-, _)만 사용 가능합니다.</div>
+    </div>
+
+    <div class="div3">
+        비밀번호<input type="password" class="form-control-signup" id="password" name="password" maxlength='30' required>
+        <div id="passwordError" class="text-danger" style="display: none;">비밀번호는 6-15자의 영문, 숫자, 특수문자가 하나 이상 필요합니다.(숫자로 시작 불가)</div>
+    </div>
+
+    <div class="div4">
+        비밀번호 확인<input type="password" class="form-control-signup" id="samepassword" name="samepassword" maxlength='30' required>
+        <div id="SamepasswordError" class="text-danger" style="display: none;">비밀번호가 일치 하지 않습니다</div>
+    </div>
+    <div class="div5">교사 인증</div>
+
+    <div class="div8">
+        이름<input type="text" class="form-control-signup" id="name" name="name" maxlength='30' required>
+        <div id="nameError" class="text-danger" style="display: none;">이름은 한글 또는 영어로만 입력 가능합니다.</div>
+    </div>
+    <div class="div9">
+        전화 번호<input type="tel" class="form-control-signup" id="phoneNumber" name="phoneNumber" maxlength='11' required>
+        <div id="phoneError" class="text-danger" style="display: none;">전화번호는 숫자만 입력 가능합니다.</div>
+    </div>
+    <div class="div10">
+        학교 이름<input type="text" class="form-control-signup" id="school" name="school" maxlength='20' required>
+    </div>
+
+        <div class="class">
+            <label for="반번호" class="form-label">반</label>
+            <input type="number" class="form-control-signup" id="schoolClass" name="schoolClass" maxlength='2' required>
+        </div>
+
+    <div class="frame-12">
+        <img class="polygon-2" src="/css/images/polygon-20.svg" />
+        <img class="_3" src="/images/_30.png" />
+        <div class="div12">교사 회원가입</div>
+    </div>
+        <div class="rectangle-1062">개인정보 어쩌구 저쩌구</div>
+        <input type="hidden" id="role" name="role" value="teacher">
+
+    </div>
+        <button type="submit" id="submitButton" class="signup-btn" disabled>회원가입</button>
+    </form>
+</div>
+
+
 
 <script>
 
@@ -79,6 +148,19 @@
             passworderrorMessage.style.display = "none"; // 에러 x
         }
 
+        //비번 재확인 유효성
+        var samepassword = document.getElementById("samepassword").value;
+
+        var SamepassworderrorMessage = document.getElementById("SamepasswordError");
+
+        if (password != samepassword) {
+            SamepassworderrorMessage.style.display = "block"; // 에러
+            document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
+            return false;
+        } else {
+            SamepassworderrorMessage.style.display = "none"; // 에러 x
+        }
+
         //이름 유효성
         var name = document.getElementById("name").value;
         var nameregex =/^[a-zA-Z]+$|^[가-힣]+$/; //한글로만 또는 영어로만 // 숫자 x
@@ -94,7 +176,7 @@
 
         //전화번호 유효성
         var phone = document.getElementById("phoneNumber").value;
-        var phoneregex =/^(?!-)(?!.*--)[0-9-]+$/; // 숫자와 - 만 사용 - 연속이나 맨앞 불가
+        var phoneregex =/^\d*$/; // 숫자와 - 만 사용 - 연속이나 맨앞 불가
         var phoneerrorMessage = document.getElementById("phoneError");
 
         if (!phoneregex.test(phone)) {

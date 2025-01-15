@@ -40,7 +40,7 @@ public class MemberEntity {
     private String name;
 
     @Column(name = "phone_number" , nullable = false)
-    private String phoneNumber;
+    private Long phoneNumber;
 
     @Column(name = "school" , nullable = false)
     private String school;
