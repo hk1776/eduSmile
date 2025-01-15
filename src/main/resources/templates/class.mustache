@@ -1,0 +1,101 @@
+{{>header}}
+<style>
+    /*#startBtn {*/
+    /*    width: 50px;*/
+    /*    height: 50px;*/
+    /*    border: none;*/
+    /*    background: url('/images/recording_start.jpg') no-repeat center;*/
+    /*    background-size: contain;*/
+    /*    cursor: pointer;*/
+    /*}*/
+
+    /*#stopBtn {*/
+    /*    width: 50px;*/
+    /*    height: 50px;*/
+    /*    border: none;*/
+    /*    background: url('/images/unable_stop.png') no-repeat center;*/
+    /*    background-size: contain;*/
+    /*    cursor: pointer;*/
+    /*}*/
+</style>
+<div id="back_ground">
+
+    <!-- 오디오 전송 폼 -->
+    <form id="audio_input" class="container" action="/teacher/upload" method="post" enctype="multipart/form-data"
+          style="background-color: white; padding: 30px; width: 50%; border-bottom-left-radius: 8px; border-radius: 8px; height: 60%; position: relative; overflow-y: auto; box-sizing: border-box; margin: 0; flex-direction: column; justify-content: flex-start;">
+        <div class="mb-3">
+            <label class="form-label" style="font-weight: bold;">음성 파일</label>
+            <label class="form-label" for="audioFile" id="audioFileLabel" style="display:none;">녹음 완료</label>
+            <input id="audioFile" type="file" class="form-control" name="file" accept="audio/mp3" style="display:none;">
+        </div>
+        <div class="mb-3" style="height: 10%">
+            <button id="startBtn" type="button">녹음</button>
+            <button id="stopBtn"  type="button" disabled>중지</button>
+        </div>
+        <div style="margin-top: 48px; padding-top: 10px;">
+            <button id="submit2" type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 10px;">분석 시작</button>
+        </div>
+    </form>
+</div>
+<script>
+    let mediaRecorder;
+    let audioChunks = [];
+    const audioForm = document.getElementById("audio_input");
+    const startBtn = document.getElementById("startBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const audioFileInput = document.getElementById("audioFile");
+    const audioFileLabel = document.getElementById("audioFileLabel");
+    const buttons = document.querySelectorAll("#submit1, #submit2");
+
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const loading = document.getElementById("loading");
+            loading.style.display = "flex";
+        });
+    });
+    //
+    // const unableStart= "url('/images/unable_start.png')";
+    // const unableStop = "url('/images/unable_stop.png')";
+    // const Start= "url('/images/recording_start.jpg')";
+    // const Stop = "url('/images/recording_stop.jpg')";
+    startBtn.addEventListener("click", async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        // startBtn.style.backgroundImage = unableStart;
+        // stopBtn.style.backgroundImage = Stop;
+        mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+            const audioFile = new File([audioBlob], "recording.mp3", { type: "audio/mp3" });
+
+            // DataTransfer 객체를 사용하여 파일을 동적으로 추가
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(audioFile); // 녹음 파일을 추가
+            audioFileInput.files = dataTransfer.files; // input의 files 속성에 추가된 파일 설정
+
+            // 음성 파일이 추가된 것을 표시
+            audioFileLabel.style.display = "block";
+
+            // 초기화
+            audioChunks = [];
+        };
+
+        mediaRecorder.start();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+    });
+
+    stopBtn.addEventListener("click", () => {
+        mediaRecorder.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        // startBtn.style.backgroundImage = Start;
+        // stopBtn.style.backgroundImage = unableStop;
+    });
+</script>
+{{>footer}}

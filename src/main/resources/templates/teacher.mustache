@@ -1,0 +1,155 @@
+{{>header}}
+<style>
+    .main-container {
+        display: grid;
+        grid-template-columns: 1fr 5fr; /* 왼쪽은 class-info, 오른쪽은 grid */
+        gap: 100px;
+        padding: 20px;
+        width: 100%;
+        height: 80%;
+        align-items: start; /* 세로 정렬 상단 */
+    }
+
+    /* 반 정보 */
+    .class-info {
+        text-align: left;
+        background-color: #F6E1A0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .class-info h1 {
+        font-size: 2.5rem;
+        margin: 0;
+    }
+
+    .subject-change {
+        background-color: #FB9C1F;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    /* 그리드 레이아웃 */
+    .grid {
+        display: grid;
+        width: 85%;
+        height: 100%;
+        grid-template-columns: repeat(2, 1fr); /* 2열 레이아웃 */
+        gap: 50px;
+    }
+
+    /* 카드 스타일 */
+    .card {
+        background-color: #F6E1A0;
+        padding: 20px;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+        margin-top: 0;
+    }
+
+    .card ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .card li {
+        margin: 10px 0;
+    }
+
+    .card a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .card a:hover {
+        text-decoration: underline;
+    }
+    .add-button {
+        background-color: #FB9C1F;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    /* 수업 분석 */
+    .video-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150px;
+        background-color: #004D05;
+        border-radius: 10px;
+    }
+
+    .play-button {
+        background-color: #FB9C1F;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        padding: 10px 15px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+</style>
+<div id="back_ground">
+    <main class="main-container">
+        <div class="class-info">
+            <h1>1반</h1>
+            <p>내 과목: 수학</p>
+            <button class="subject-change">과목 변경</button>
+        </div>
+
+        <div class="grid">
+            <!-- 학생 상담 -->
+            <div class="card">
+                <h2>학생 상담</h2>
+                <ul>
+                    <li><a href="#">상담 분석</a></li>
+                    <li><a href="#">상담 기록</a></li>
+                    <li><a href="#">학생 생활기록부 등록</a></li>
+                </ul>
+            </div>
+
+            <!-- 시험 결과 확인 -->
+            <div class="card">
+                <h2>시험 결과 확인</h2>
+                <ul>
+                    <li><a href="#">yy.mm.dd 결과</a></li>
+                    <li><a href="#">yy.mm.dd 결과</a></li>
+                    <li><a href="#">yy.mm.dd 결과</a></li>
+                </ul>
+            </div>
+
+            <!-- 수업 분석 -->
+            <div class="card">
+                <h2>수업 분석</h2>
+                <div class="video-container">
+                    <a href = "/teacher/class" class="play-button" >▶</a>
+                </div>
+            </div>
+
+            <!-- 우리 반 관리 -->
+            <div class="card">
+                <h2>우리 반 관리</h2>
+                <ul>
+                    <li><a href="#">학생 관리</a></li>
+                    <li><a href="#">우리반 게시판</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</div>
+{{>footer}}
