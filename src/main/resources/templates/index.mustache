@@ -6,7 +6,7 @@
 -->
 <html>
 <head>
-    <title>Landed by HTML5 UP</title>
+    <title>에듀스마일</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="/css/main.css" />
@@ -17,7 +17,7 @@
 
     <!-- Header -->
     <header id="header">
-        <div style="background-image: url('/images/title.png');width: 215px;height: 47px"><a href="/" ></a></div>
+        <div style="background-image: url('/images/title.png');width: 215px;height: 47px; margin-top: 15px; margin-left: 40px"><a href="/" ></a></div>
         <nav id="nav">
             <ul>
 <!--                <li>-->
@@ -37,8 +37,23 @@
 <!--                        </li>-->
 <!--                    </ul>-->
 <!--                </li>-->
-                <li><a href="#" class="button primary">Log in</a></li>
-                <li><a href="#" class="button primary">Sign Up</a></li>
+                <li><a href="/user/login"
+                       style="
+                             display: inline-block; /* 버튼처럼 보이게 설정 */
+                             text-align: center;
+                             width: 80px; /* 버튼 너비 */
+                             margin-top: 15px;
+                             color: #4B4B4B;
+                             background-color: #FFE1B9;
+                             border: 7px solid #576096;
+                             border-radius: 20px; /* 양옆을 둥글게 */
+                             padding: 5px 0; /* 위아래 여백 설정 */
+                             font-size: 16px; /* 글자 크기 */
+                             line-height: 1; /* 텍스트 줄 간격 */
+                             text-decoration: none; /* 링크 밑줄 제거 */
+                           ">
+                    로그인
+                </a></li>
             </ul>
         </nav>
     </header>
@@ -50,147 +65,171 @@
             <header>
                 <h2 style="color: black">교사의 시간을 아끼고,<br />
                     교육의 본질을 되찾습니다.</h2>
-                <div style="background-image: url('/images/title.png');width: 215px;height: 47px"></div>
-                <p style="color: black">에듀스마일은 AI 기술로<br />
+
+                <div style="margin-top: 5px;margin-bottom: 20px">
+                    <p style="font-size: 80px; display: inline-block;color:#576096">에듀</p>
+                    <p style="font-size: 80px; display: inline-block;color:#F19B2A">스마일</p>
+                </div>
+                <p style="color: black;margin-left: 5px">에듀스마일은 AI 기술로<br />
                     교사의 업무를 간소화하고,<br />
                     학생 맞춤형 교육을 지원하는<br />
                     스마트한 교육 도우미입니다.</p>
+                <a href="/home"
+                   style="
+                             display: inline-block; /* 버튼처럼 보이게 설정 */
+                             text-align: center;
+                             margin-top: 15px;
+                             color: #FFFFFF;
+                             padding: 8px 13px;
+                             background-color: #FB9C1F;
+                             border: 7px solid #576096;
+                             border-radius: 20px; /* 양옆을 둥글게 */
+                             font-size: 16px; /* 글자 크기 */
+                             line-height: 1; /* 텍스트 줄 간격 */
+                             text-decoration: none; /* 링크 밑줄 제거 */
+                           ">서비스 시작하기</a>
             </header>
             <span class="image"><img src="/images/_1.png" alt="" /></span>
-            <!-- 버튼 추가 -->
-            <div class="button-container">
-                <a href="/home" class="button">서비스 시작하기</a>
-            </div>
         </div>
         <a href="#one" class="goto-next scrolly">Next</a>
     </section>
 
     <!-- One -->
-    <section id="one" class="spotlight style1 bottom">
-        <span class="image fit main"><img src="/images/index_background.png" alt="" /></span>
+    <section id="one" class="spotlight style2 left">
+    <!-- 배경 이미지 -->
+    <span class="image fit main">
+        <img src="/images/index_background.png" alt="Background Image" />
+    </span>
+
+    <!-- SVG 이미지 -->
+    <img
+            src="/images/index_one.svg"
+            alt="SVG 이미지"
+            style="width: 40%; height: 85%; z-index: 999; position: absolute; top: 10%; right: 5%;"
+    />
+
+    <!-- 내용 -->
         <div class="content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-4 col-12-medium">
-                        <header>
-                            <h2>Odio faucibus ipsum integer consequat</h2>
-                            <p>Nascetur eu nibh vestibulum amet gravida nascetur praesent</p>
-                        </header>
-                    </div>
-                    <div class="col-4 col-12-medium">
-                        <p>Feugiat accumsan lorem eu ac lorem amet sed accumsan donec.
-                            Blandit orci porttitor semper. Arcu phasellus tortor enim mi
-                            nisi praesent dolor adipiscing. Integer mi sed nascetur cep aliquet
-                            augue varius tempus lobortis porttitor accumsan consequat
-                            adipiscing lorem dolor.</p>
-                    </div>
-                    <div class="col-4 col-12-medium">
-                        <p>Morbi enim nascetur et placerat lorem sed iaculis neque ante
-                            adipiscing adipiscing metus massa. Blandit orci porttitor semper.
-                            Arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer
-                            mi sed nascetur cep aliquet augue varius tempus. Feugiat lorem
-                            ipsum dolor nullam.</p>
-                    </div>
+            <header style="display: flex; flex-direction: column; align-items: flex-start; padding: 2em;">
+                <div style="margin-bottom: 1em;">
+                    <p style="font-size: 70px; color: #576096; margin: 0; line-height: 1.2; word-break: keep-all;">업무의 부담을</p>
+                    <p style="font-size: 70px; color: #F19B2A; margin: 0; line-height: 1.2; word-break: keep-all;">이제는 줄이세요.</p>
                 </div>
-            </div>
+                <h2 style="color: white; margin: 1em 0 0.5em 0;"> 교사를 위한 AI 도우미</h2>
+                <p style="color: white; margin: 0; line-height: 1.5;">
+                    반복적인 행정 업무는 AI에게 맡기고,<br/>
+                    수업과 학생 상담에 집중하세요.
+                </p>
+            </header>
         </div>
-        <a href="#two" class="goto-next scrolly">Next</a>
-    </section>
+    <!-- 다음 섹션으로 이동 버튼 -->
+    <a href="#two" class="goto-next scrolly">Next</a>
+</section>
 
     <!-- Two -->
-    <section id="two" class="spotlight style2 right">
-        <span class="image fit main"><img src="/images/pic03.jpg" alt="" /></span>
+    <section id="two" class="spotlight style3 right">
+       <span class="image fit main">
+        <img src="/images/index_background.png" alt="Background Image" />
+        </span>
+
+        <!-- SVG 이미지 -->
+        <img
+                src="/images/index_two.svg"
+                alt="SVG 이미지"
+                style="width: 40%; height: 85%; z-index: 999; position: absolute; top: 10%; left: 5%;"
+        />
+
+        <!-- 내용 -->
         <div class="content">
-            <header>
-                <h2>Interdum amet non magna accumsan</h2>
-                <p>Nunc commodo accumsan eget id nisi eu col volutpat magna</p>
+            <header style="display: flex; flex-direction: column; align-items: flex-start; padding: 2em;">
+                <div style="margin-bottom: 1em;">
+                    <p style="font-size: 70px; color: #576096; margin: 0; line-height: 1.2; word-break: keep-all;">학생들의 진로 고민,</p>
+                    <p style="font-size: 70px; color: #F19B2A; margin: 0; line-height: 1.2; word-break: keep-all;">한눈에 보게 해드릴게요.</p>
+                </div>
+                <h2 style="color: white; margin: 1em 0 0.5em 0;"> 학생 맞춤형 피드백 강화</h2>
+                <p style="color: white; margin: 0; line-height: 1.5;">
+                    생활기록부 분석과 AI 상담 요약으로<br/>
+                    학생 한 명, 한 명에게<br/>
+                    최적화된 지원을 제공합니다.
+                </p>
             </header>
-            <p>Feugiat accumsan lorem eu ac lorem amet ac arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer mi sed nascetur cep aliquet augue varius tempus lobortis porttitor lorem et accumsan consequat adipiscing lorem.</p>
-            <ul class="actions">
-                <li><a href="#" class="button">Learn More</a></li>
-            </ul>
         </div>
+
         <a href="#three" class="goto-next scrolly">Next</a>
     </section>
 
     <!-- Three -->
-    <section id="three" class="spotlight style3 left">
-        <span class="image fit main bottom"><img src="/images/pic04.jpg" alt="" /></span>
+    <section id="three" class="spotlight style2 left">
+       <span class="image fit main">
+        <img src="/images/index_background.png" alt="Background Image" />
+        </span>
+
+        <!-- SVG 이미지 -->
+        <img
+                src="/images/index_three.svg"
+                alt="SVG 이미지"
+                style="width: 40%; height: 85%; z-index: 999; position: absolute; top: 10%; right: 5%;"
+        />
+
+        <!-- 내용 -->
         <div class="content">
-            <header>
-                <h2>Interdum felis blandit praesent sed augue</h2>
-                <p>Accumsan integer ultricies aliquam vel massa sapien phasellus</p>
+            <header style="display: flex; flex-direction: column; align-items: flex-start; padding: 2em;">
+                <div style="margin-bottom: 1em;">
+                    <p style="font-size: 70px; color: #576096; margin: 0; line-height: 1.2; word-break: keep-all;">긴 수업도 문제없어요.</p>
+                    <p style="font-size: 70px; color: #F19B2A; margin: 0; line-height: 1.2; word-break: keep-all;">이보다 효율적인 수업은 없죠!</p>
+                </div>
+                <h2 style="color: white; margin: 1em 0 0.5em 0;"> 효율적인 수업 관리</h2>
+                <p style="color: white; margin: 0; line-height: 1.5;">
+                    실시간 수업 분석과 자동 문제 생성으로<br/>
+                    준비 시간을 단축하고<br/>
+                    수업의 질을 높입니다.
+                </p>
             </header>
-            <p>Feugiat accumsan lorem eu ac lorem amet ac arcu phasellus tortor enim mi mi nisi praesent adipiscing. Integer mi sed nascetur cep aliquet augue varius tempus lobortis porttitor lorem et accumsan consequat adipiscing lorem.</p>
-            <ul class="actions">
-                <li><a href="#" class="button">Learn More</a></li>
-            </ul>
         </div>
         <a href="#four" class="goto-next scrolly">Next</a>
     </section>
 
     <!-- Four -->
-    <section id="four" class="wrapper style1 special fade-up">
+    <section id="four" class="wrapper style1 special fade-up"  style="background-image: url('/images/index_background.png')">
         <div class="container">
             <header class="major">
-                <h2>Accumsan sed tempus adipiscing blandit</h2>
-                <p>Iaculis ac volutpat vis non enim gravida nisi faucibus posuere arcu consequat</p>
-            </header>
-            <div class="box alt">
-                <div class="row gtr-uniform">
-                    <section class="col-4 col-6-medium col-12-xsmall">
-                        <span class="icon solid alt major fa-chart-area"></span>
-                        <h3>Ipsum sed commodo</h3>
-                        <p>Feugiat accumsan lorem eu ac lorem amet accumsan donec. Blandit orci porttitor.</p>
-                    </section>
-                    <section class="col-4 col-6-medium col-12-xsmall">
-                        <span class="icon solid alt major fa-comment"></span>
-                        <h3>Eleifend lorem ornare</h3>
-                        <p>Feugiat accumsan lorem eu ac lorem amet accumsan donec. Blandit orci porttitor.</p>
-                    </section>
-                    <section class="col-4 col-6-medium col-12-xsmall">
-                        <span class="icon solid alt major fa-flask"></span>
-                        <h3>Cubilia cep lobortis</h3>
-                        <p>Feugiat accumsan lorem eu ac lorem amet accumsan donec. Blandit orci porttitor.</p>
-                    </section>
-                    <section class="col-4 col-6-medium col-12-xsmall">
-                        <span class="icon solid alt major fa-paper-plane"></span>
-                        <h3>Non semper interdum</h3>
-                        <p>Feugiat accumsan lorem eu ac lorem amet accumsan donec. Blandit orci porttitor.</p>
-                    </section>
-                    <section class="col-4 col-6-medium col-12-xsmall">
-                        <span class="icon solid alt major fa-file"></span>
-                        <h3>Odio laoreet accumsan</h3>
-                        <p>Feugiat accumsan lorem eu ac lorem amet accumsan donec. Blandit orci porttitor.</p>
-                    </section>
-                    <section class="col-4 col-6-medium col-12-xsmall">
-                        <span class="icon solid alt major fa-lock"></span>
-                        <h3>Massa arcu accumsan</h3>
-                        <p>Feugiat accumsan lorem eu ac lorem amet accumsan donec. Blandit orci porttitor.</p>
-                    </section>
-                </div>
-            </div>
-            <footer class="major">
+                <h2 style="color: #4B4B4B">에듀스마일과 함께하는 매일은 든든합니다.</h2>
+                <p style="color: #576096">에듀스마일은 교육 현장의 부담을 덜고, <br>
+                    교사와 학생 모두가 더 행복한 환경을 만드는 것을 목표로 합니다.
+                </p>
+                <p style="color: #ED9118">우리의 비전과 함께 희망찬 교육을 만들어 봅시다.</p>
                 <ul class="actions special">
-                    <li><a href="#" class="button">Magna sed feugiat</a></li>
+                    <li><a href="/home"
+                           style="
+                             display: inline-block; /* 버튼처럼 보이게 설정 */
+                             text-align: center;
+                             margin-top: 15px;
+                             color: #FFFFFF;
+                             padding: 8px 30px;
+                             background-color: #FB9C1F;
+                             border: 7px solid #576096;
+                             border-radius: 20px; /* 양옆을 둥글게 */
+                             font-size: 16px; /* 글자 크기 */
+                             line-height: 1; /* 텍스트 줄 간격 */
+                             text-decoration: none; /* 링크 밑줄 제거 */
+                           ">지금 바로 에듀스마일 시작하기</a></li>
                 </ul>
-            </footer>
+            </header>
         </div>
     </section>
 
     <!-- Five -->
-    <section id="five" class="wrapper style2 special fade">
+    <section id="five" class="wrapper style2 special fade" style="background-image: url('/images/index_background.png')">
         <div class="container">
             <header>
-                <h2>Magna faucibus lorem diam</h2>
-                <p>Ante metus praesent faucibus ante integer id accumsan eleifend</p>
-            </header>
-            <form method="post" action="#" class="cta">
-                <div class="row gtr-uniform gtr-50">
-                    <div class="col-8 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Your Email Address" /></div>
-                    <div class="col-4 col-12-xsmall"><input type="submit" value="Get Started" class="fit primary" /></div>
+                <div style="margin-top: 5px;margin-bottom: 20px">
+                    <p style="display: inline-block;color:#4B4B4B">지금 바로</p>
+                    <p style="display: inline-block;color:#576096">에듀</p>
+                    <p style="display: inline-block;color:#F19B2A">스마일</p>
+                    <p style="display: inline-block;color:#4B4B4B">과 함께하세요.</p>
                 </div>
-            </form>
+                <p style="color:#4B4B4B">교육의 미래가 여러분을 기다립니다.</p>
+            </header>
         </div>
     </section>
 

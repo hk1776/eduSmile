@@ -2186,7 +2186,7 @@ input, select, textarea {
 	}
 
 		header.major:after {
-			background: #e44c65;
+			background: #FB9C1F;
 			content: '';
 			display: inline-block;
 			height: 0.2em;
@@ -2523,7 +2523,6 @@ input, select, textarea {
 			position: absolute;
 			left: 0;
 			top: 0;
-			background-image: url("images/overlay.png");
 			width: 100%;
 			height: 100%;
 			z-index: 1;
@@ -3083,7 +3082,7 @@ input, select, textarea {
 			-webkit-transition: -webkit-transform 1s ease, opacity 1s ease;
 			-ms-transition: -ms-transform 1s ease, opacity 1s ease;
 			transition: transform 1s ease, opacity 1s ease;
-			background: rgba(23, 24, 32, 0.95);
+			background: rgba(23, 24, 32, 0.85);
 			border-style: solid;
 			opacity: 1;
 			position: absolute;
@@ -3125,7 +3124,14 @@ input, select, textarea {
 			height: 101%;
 			padding: 6em 3em;
 			top: 0;
-			width: 28em;
+			width: 40em;
+			display: flex;
+			flex-direction: column; /* 요소를 세로로 정렬 */
+			justify-content: center; /* 수직 중앙 정렬 */
+			align-items: center; /* 수평 중앙 정렬 */
+			text-align: left; /* 텍스트 정렬 */
+			height: 100%; /* 부모 요소의 전체 높이를 차지 */
+			padding: 2em; /* 적절한 내부 여백 추가 */
 		}
 
 		.spotlight.left .content {
@@ -3139,15 +3145,15 @@ input, select, textarea {
 		}
 
 		.spotlight.style1 .content {
-			border-color: #e44c65;
+			border-color: transparent;
 		}
 
 		.spotlight.style2 .content {
-			border-color: #5480f1;
+			border-color: transparent;
 		}
 
 		.spotlight.style3 .content {
-			border-color: #39c088;
+			border-color: transparent;
 		}
 
 		.spotlight.inactive .content {
@@ -3246,7 +3252,7 @@ input, select, textarea {
 				.wrapper.style2 input[type="button"].primary:active,
 				.wrapper.style2 .button.primary:hover,
 				.wrapper.style2 .button.primary:active {
-					background-color: rgba(255, 255, 255, 0.075) !important;
+					background-color: rgba(206, 53, 53, 0.07) !important;
 					box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5) !important;
 					color: #ffffff !important;
 				}
@@ -3507,7 +3513,7 @@ input, select, textarea {
 			max-width: 95%;
 			padding: 6em;
 			position: relative;
-			text-align: right;
+			text-align: left;
 			vertical-align: middle;
 			z-index: 1;
 		}
@@ -3638,7 +3644,7 @@ input, select, textarea {
 
 			.spotlight.left .content, .spotlight.right .content {
 				padding: 4.5em 2.5em;
-				width: 25em;
+				width: 5em;
 			}
 
 		/* Wrapper */
