@@ -71,7 +71,46 @@ input, select, textarea {
 	-ms-appearance: none;
 	appearance: none;
 }
-
+@font-face {
+	font-family: 'Hakgyo';
+	src: url("../fonts/HakgyoansimDunggeunmisoTTFB.ttf") format('truetype');
+}
+@font-face {
+	font-family: 'Score1';
+	src: url("../fonts/SCDream1.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score2';
+	src: url("../fonts/SCDream2.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score3';
+	src: url("../fonts/SCDream3.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score4';
+	src: url("../fonts/SCDream4.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score5';
+	src: url("../fonts/SCDream5.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score6';
+	src: url("../fonts/SCDream6.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score7';
+	src: url("../fonts/SCDream7.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score8';
+	src: url("../fonts/SCDream8.otf") format('truetype');
+}
+@font-face {
+	font-family: 'Score9';
+	src: url("../fonts/SCDream9.otf") format('truetype');
+}
 /* Basic */
 
 	html {
@@ -3480,7 +3519,7 @@ input, select, textarea {
 
 	#banner {
 		background-attachment: fixed;
-		background-image: url('/images/index_background.png');
+		background-image: url('../images/index_background.png');
 		background-position: center center;
 		background-size: cover;
 		min-height: 100vh;
