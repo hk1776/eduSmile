@@ -61,48 +61,45 @@
         <div class="full">
             <div class="div">개인정보 보호 동의서</div>
             <div class="div2">
-    <span>
-      <span class="div-2-span">동의합니다</span>
-      <span class="div-2-span2">.</span>
-    </span>
+
             </div>
             {{#duplication}}
-                <div class="text-danger" role="alert">
+                <div class="duplication-danger" role="alert">
                     이미 존재하는 ID 입니다.
                 </div>
             {{/duplication}}
             <div class="id">
-                ID<input type="text" class="form-control-signup" id="LoginId" name="loginId" maxlength='30' required>
+                ID<input type="text" class="form-control-id" id="LoginId" name="loginId" maxlength='30' required>
 
-                <div id="idError" class="text-danger" style="display: none;">아이디는 6-12자의 영문, 숫자, 기호(-, _)만 사용 가능합니다.</div>
+                <div id="idError" class="text-danger" style="font-size: 1vw; display: none;">아이디는 6-12자의 영문, 숫자, 기호(-, _)만 사용 가능합니다.</div>
             </div>
 
             <div class="div3">
-                비밀번호<input type="password" class="form-control-signup" id="password" name="password" maxlength='30' required>
-                <div id="passwordError" class="text-danger" style="display: none;">비밀번호는 6-15자의 영문, 숫자, 특수문자가 하나 이상 필요합니다.(숫자로 시작 불가)</div>
+                비밀번호<input type="password" class="form-control-pw" id="password" name="password" maxlength='30' required>
+                <div id="passwordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호는 6-15자의 영문, 숫자, 특수문자가 하나 이상 필요합니다.</div>
             </div>
 
             <div class="div4">
-                비밀번호 확인<input type="password" class="form-control-signup" id="samepassword" name="samepassword" maxlength='30' required>
-                <div id="SamepasswordError" class="text-danger" style="display: none;">비밀번호가 일치 하지 않습니다</div>
+                비밀번호 확인<input type="password" class="form-control-pwcheck" id="samepassword" name="samepassword" maxlength='30' required>
+                <div id="SamepasswordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호가 일치 하지 않습니다</div>
             </div>
+
 
             <div class="div8">
-                이름<input type="text" class="form-control-signup" id="name" name="name" maxlength='30' required>
-                <div id="nameError" class="text-danger" style="display: none;">이름은 한글 또는 영어로만 입력 가능합니다.</div>
+                이름<input type="text" class="form-control-name" id="name" name="name" maxlength='30' required>
+                <div id="nameError" class="text-danger" style="font-size: 1vw;  display: none;">이름은 한글 또는 영어로만 입력 가능합니다.</div>
             </div>
             <div class="div9">
-                전화 번호<input type="tel" class="form-control-signup" id="phoneNumber" name="phoneNumber" maxlength='11' required>
-                <div id="phoneError" class="text-danger" style="display: none;">전화번호는 숫자만 입력 가능합니다.</div>
+                전화 번호<input type="tel" class="form-control-pnumber" id="phoneNumber" name="phoneNumber" maxlength='11' required>
+                <div id="phoneError" class="text-danger" style="font-size: 1vw; display: none;">전화번호는 숫자만 입력 가능합니다.</div>
             </div>
-
-            <div class="tcode">
-                교사 코드(5자리)<input type="text" class="form-control-signup" id="teacherCode" name="teacherCode" maxlength='13' required>
-                {{#not_exist_teacherCode}}
-                    <div class="text-danger" role="alert">
-                        존재하지 않는 교사 코드입니다.
-                    </div>
-                {{/not_exist_teacherCode}}
+            {{#not_exist_teacherCode}}
+            <div class="teacnercode-danger" role="alert">
+                존재하지 않는 학급코드입니다.
+            </div>
+            {{/not_exist_teacherCode}}
+             <div class="t-code">
+                 학급코드<input type="text" class="form-control-tcode" id="teacherCode" name="teacherCode" maxlength='5' placeholder="5자리" required>
             </div>
 
             <div class="frame-12">
@@ -111,16 +108,50 @@
                 <div class="div12">학생 회원가입</div>
             </div>
             <div class="rectangle-1062">개인정보 어쩌구 저쩌구</div>
+            <input type="hidden" id="role" name="role" value="student">
+
         </div>
-        <input type="hidden" id="role" name="role" value="student">
         <button type="submit" id="submitButton" class="signup-btn" disabled>회원가입</button>
     </form>
+    <div class="tcode-text" id="tcode-response"></div>
+    <button type="button" id="backtologin-btn" class="back-btn">
+        <a target="_self" id="btlogin" class="btlogin"  href="/user/login"><< 로그인으로 돌아가기</a>
+    </button>
+    <button type="button" id="tcode-btn" onclick="sendtcode()" class="tcode-btn">등록하기</button>
+    <img class="line-31" src="/images/line-31.svg" />
+    <div class="main-box"></div>
+    <div class="line1"></div>
 </div>
 
 
 <script>
 
-    function validateForm() {
+    async function sendtcode(){                                   //학급코드 유효성 찾기
+        const tcode_input = document.getElementById("teacherCode");
+        const tcode = tcode_input.value;
+
+        try {
+            const response = await fetch("http://localhost:8080/user/tcode", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain",
+                },
+                body: tcode
+            });
+
+            if (response.ok) {
+                const data = await response.text(); // 서버에서 문자열 응답 받기
+                document.getElementById("tcode-response").textContent = `${data}`;
+            } else {
+                document.getElementById("response").textContent = "Error: Failed to send data.";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById("response").textContent = "Error: Unable to connect to the server.";
+        }
+    }
+
+    function validateForm() {    //회원가입 입력값 유효성 검사
 
         //아이디 유효성
         var id = document.getElementById("LoginId").value;
@@ -154,7 +185,7 @@
 
         var SamepassworderrorMessage = document.getElementById("SamepasswordError");
 
-        if (password != samepassword) {
+        if (password == samepassword) {
             SamepassworderrorMessage.style.display = "block"; // 에러
             document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
             return false;

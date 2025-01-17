@@ -2,6 +2,7 @@ package com.example.edusmile.Service;
 
 
 import com.example.edusmile.Dto.MemberDto;
+import com.example.edusmile.Dto.ResetPWDto;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Repository.MemberRepository;
 import lombok.Getter;
@@ -74,5 +75,20 @@ public class LoginService {
             return true;
         }
         return false;
+    }
+
+    public void reset_pw(ResetPWDto resetPWDto)
+    {
+        System.out.println(resetPWDto.getLoginId());
+        if(resetPWDto.getLoginId() == null || resetPWDto.getPassword()==null)
+            return ;
+        Optional<MemberEntity> member_op = memberRepository.findByloginId(resetPWDto.getLoginId());
+        if(member_op.isPresent()) {
+            MemberEntity member = member_op.get();
+            member.setPassword(encoder.encode(resetPWDto.getPassword()));
+            memberRepository.save(member);
+        }
+
+
     }
 }

@@ -1,0 +1,510 @@
+._006,
+._006 * {
+    box-sizing: border-box;
+}
+._006 {
+    background: #fffefd;
+    height: 55vw;
+    position: relative;
+    overflow: hidden;
+}
+.rectangle-111 {
+    background: #f9f1d8;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #e6b750;
+    border-width: 3px;
+    width: 60vw;
+    height: 30vw;
+    position: absolute;
+    left: 20vw;
+    top: 13vw;
+    z-index: 1;
+}
+.id {
+    color: #4b4b4b;
+    text-align: center;
+    font-family: "SCore5", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    position: absolute;
+    left: 395px;
+    top: 344px;
+}
+.rectangle-116 {
+    background: #f6e1a0;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #eb6319;
+    border-width: 3px;
+    width: 294px;
+    height: 64px;
+    position: absolute;
+    left: 305px;
+    top: 390px;
+}
+.div {
+    color: #4b4b4b;
+    text-align: center;
+    font-family: "HakgyoB", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    position: absolute;
+    left: 935px;
+    top: 344px;
+}
+.rectangle-117 {
+    background: #f6e1a0;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #eb6319;
+    border-width: 3px;
+    width: 294px;
+    height: 64px;
+    position: absolute;
+    left: 840px;
+    top: 390px;
+}
+._2025-01-02 {
+    color: #4b4b4b;
+    text-align: center;
+    font-family: "SCoreDream-4Regular", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    position: absolute;
+    left: 881px;
+    top: 401px;
+}
+.rectangle-118 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 294px;
+    height: 64px;
+    position: absolute;
+    left: 305px;
+    top: 465px;
+}
+.rectangle-119 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 294px;
+    height: 64px;
+    position: absolute;
+    left: 840px;
+    top: 465px;
+}
+.rectangle-120 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 294px;
+    height: 64px;
+    position: absolute;
+    left: 305px;
+    top: 540px;
+}
+.rectangle-121 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 294px;
+    height: 64px;
+    position: absolute;
+    left: 840px;
+    top: 540px;
+}
+
+.members-loginid {
+    position: relative; /* 부모 요소에 relative를 설정하여 절대 위치 지정이 이 부모 기준으로 되도록 함 */
+    left: 27vw;
+    top:20vw;
+    z-index: 3;
+}
+.member-loginid {
+    position: absolute;
+    text-align: center;
+    border : 0.2vw solid #576096;
+    font-size: 2vw;
+    border-radius: 15px;
+    width: 20vw;
+    font-family: "SCore4", sans-serif;
+    font-weight: 400;
+    margin-bottom: 1vw;
+}
+.members-date {
+    position: relative; /* 부모 요소에 relative를 설정하여 절대 위치 지정이 이 부모 기준으로 되도록 함 */
+    left: 54vw;
+    top:20vw;
+    z-index: 3;
+}
+.member-date {
+    position: absolute;
+    text-align: center;
+    font-size: 2vw;
+    border-radius: 15px;
+    border : 0.2vw solid #576096;
+    width: 20vw;
+    font-family: "SCore4", sans-serif;
+    font-weight: 400;
+    margin-bottom: 1vw;
+}
+.id-text{
+    position: absolute;
+    font-size: 2vw;
+    color: #4B4B4B;
+    font-family: "SCore5", sans-serif;
+    font-weight: 400;
+    margin-bottom: 1vw;
+    left: 34vw;
+    top:15vw;
+    z-index: 3;
+}
+
+.date-text{
+    position: absolute;
+    font-size: 2vw;
+    color: #4B4B4B;
+    font-family: "SCore5", sans-serif;
+    font-weight: 400;
+    margin-bottom: 1vw;
+    left: 61vw;
+    top:15vw;
+    z-index: 3;
+}
+.div2 {
+    color: #4b4b4b;
+    text-align: center;
+    font-family: "SCore5", sans-serif;
+    font-size: 2vw;
+    font-weight: 400;
+    position: absolute;
+    left: 2vw;
+    top: 7vw;
+}
+.div3 {
+    color: #fff9f9;
+    text-align: center;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 33px;
+    font-weight: 400;
+    position: absolute;
+    left: 507px;
+    top: 757px;
+    width: 108px;
+    height: 45px;
+}
+.back-login{
+    padding: 0vw 1vw;
+    position: absolute;
+    font-size: 1.5vw;
+
+    font-family: "SCore5", sans-serif;
+    background-color: #576096;
+    color: white;
+    border: 3px solid #FB9C1F; /* 주황색 테두리 설정 */
+    border-radius: 15px;       /* 둥근 테두리 설정 */
+    cursor: pointer;
+    margin-top: 0.5vw; /* 버튼 위에 간격 추가 */
+    transition: background-color 0.3s ease;
+    width: 12vw;
+    height: 3vw;
+    left: 31vw;
+
+    top: 45vw;
+    z-index: 3;
+}
+.find-PW{
+    padding: 0vw 1vw;
+    position: absolute;
+    font-size: 1.5vw;
+
+    font-family: "SCore5", sans-serif;
+    background-color: #576096;
+    color: white;
+    border: 3px solid #FB9C1F; /* 주황색 테두리 설정 */
+    border-radius: 15px;       /* 둥근 테두리 설정 */
+    cursor: pointer;
+    margin-top: 0.5vw; /* 버튼 위에 간격 추가 */
+    transition: background-color 0.3s ease;
+    width: 12vw;
+    height: 3vw;
+    left: 56vw;
+
+    top: 45vw;
+    z-index: 3;
+}
+.btlogin
+{
+    font-size: 1.5vw;
+    text-decoration: none; /* 밑줄 없애기 */
+    color: inherit;        /* 텍스트 색상을 부모 요소의 색상으로 상속 */
+    left: 17vw;
+    top: 53vw;
+}
+
+.ellipse-8 {
+    background: #ffffff;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #eb6319;
+    border-width: 3px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 266px;
+    top: 407px;
+}
+.ellipse-10 {
+    background: #ffffff;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 266px;
+    top: 482px;
+}
+.ellipse-11 {
+    background: #ffffff;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    left: 266px;
+    top: 560px;
+}
+.ellipse-9 {
+    background: #eb6319;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 273px;
+    top: 414px;
+}
+.qwer-1234 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCoreDream-4Regular", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    position: absolute;
+    left: 379px;
+    top: 404px;
+}
+.frame-12 {
+    background: #f2bc65;
+    width: 100vw;
+    height: 6vw;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+}
+.polygon-2 {
+    width: 32px;
+    height: 16px;
+    position: absolute;
+    left: 1086px;
+    top: 32px;
+    overflow: visible;
+}
+.div4 {
+    color: #576096;
+    text-align: left;
+    font-family: "HakgyoB", sans-serif;
+    font-size: 3vw;
+    font-weight: 400;
+    position: absolute;
+    left: 28px;
+    top: 6px;
+}
+.rectangle-123 {
+    background: #576096;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #fb9c1f;
+    border-width: 3px;
+    width: 217px;
+    height: 62px;
+    position: absolute;
+    left: 417px;
+    top: 757px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.div5 {
+    color: #ffffff;
+    text-align: left;
+    font-family: "SCoreDream-6Bold", sans-serif;
+    font-size: 32px;
+    font-weight: 400;
+    position: absolute;
+    left: 479px;
+    top: 769px;
+}
+.rectangle-124 {
+    background: #576096;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #fb9c1f;
+    border-width: 3px;
+    width: 217px;
+    height: 62px;
+    position: absolute;
+    left: 772px;
+    top: 758px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.div6 {
+    color: #ffffff;
+    text-align: left;
+    font-family: "SCoreDream-6Bold", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    position: absolute;
+    left: 791px;
+    top: 770px;
+}
+.rectangle-11 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 15vw;
+    height: 3vw;
+    position: absolute;
+    left: 30vw;
+    top: 20vw;
+    z-index: 2;
+}
+.rectangle-12 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 15vw;
+    height: 3vw;
+    position: absolute;
+    left: 52.2vw;
+    top: 20vw;
+    z-index: 2;
+}
+.rectangle-21 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 15vw;
+    height: 3vw;
+    position: absolute;
+    left: 30vw;
+    top: 20vw;
+    z-index: 2;
+}
+.rectangle-22 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 15vw;
+    height: 3vw;
+    position: absolute;
+    left: 30vw;
+    top: 20vw;
+    z-index: 2;
+}
+.rectangle-31 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 15vw;
+    height: 3vw;
+    position: absolute;
+    left: 30vw;
+    top: 20vw;
+    z-index: 2;
+}
+.rectangle-32 {
+    background: #fffefd;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 2px;
+    width: 15vw;
+    height: 3vw;
+    position: absolute;
+    left: 30vw;
+    top: 20vw;
+    z-index: 2;
+}
+
+
+@font-face {
+    font-family: 'Hakgyo';
+    src: url("../fonts/HakgyoansimDunggeunmisoTTFB.ttf") format('truetype');
+}
+@font-face {
+    font-family: 'HakgyoR';
+    src: url("../fonts/Hakgyoansim Dunggeunmiso OTF R.otf") format('truetype');
+}
+@font-face {
+    font-family: 'HakgyoB';
+    src: url("../fonts/Hakgyoansim Dunggeunmiso OTF B.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score1';
+    src: url("../fonts/SCDream1.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score2';
+    src: url("../fonts/SCDream2.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score3';
+    src: url("../fonts/SCDream3.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score4';
+    src: url("../fonts/SCDream4.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score5';
+    src: url("../fonts/SCDream5.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score6';
+    src: url("../fonts/SCDream6.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score7';
+    src: url("../fonts/SCDream7.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score8';
+    src: url("../fonts/SCDream8.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score9';
+    src: url("../fonts/SCDream9.otf") format('truetype');
+}

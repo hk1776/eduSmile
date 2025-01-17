@@ -57,10 +57,7 @@
     <div class="full">
     <div class="div">개인정보 보호 동의서</div>
     <div class="div2">
-    <span>
-      <span class="div-2-span">동의합니다</span>
-      <span class="div-2-span2">.</span>
-    </span>
+
     </div>
         {{#duplication}}
             <div class="duplication-danger" role="alert">
@@ -68,37 +65,37 @@
             </div>
         {{/duplication}}
     <div class="id">
-        ID<input type="text" class="form-control-signup" id="LoginId" name="loginId" maxlength='30' required>
+        ID<input type="text" class="form-control-id" id="LoginId" name="loginId" maxlength='30' required>
 
-        <div id="idError" class="text-danger" style="display: none;">아이디는 6-12자의 영문, 숫자, 기호(-, _)만 사용 가능합니다.</div>
+        <div id="idError" class="text-danger" style="font-size: 1vw; display: none;">아이디는 6-12자의 영문, 숫자, 기호(-, _)만 사용 가능합니다.</div>
     </div>
 
     <div class="div3">
-        비밀번호<input type="password" class="form-control-signup" id="password" name="password" maxlength='30' required>
-        <div id="passwordError" class="text-danger" style="display: none;">비밀번호는 6-15자의 영문, 숫자, 특수문자가 하나 이상 필요합니다.(숫자로 시작 불가)</div>
+        비밀번호<input type="password" class="form-control-pw" id="password" name="password" maxlength='30' required>
+        <div id="passwordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호는 6-15자의 영문, 숫자, 특수문자가 하나 이상 필요합니다.</div>
     </div>
 
     <div class="div4">
-        비밀번호 확인<input type="password" class="form-control-signup" id="samepassword" name="samepassword" maxlength='30' required>
-        <div id="SamepasswordError" class="text-danger" style="display: none;">비밀번호가 일치 하지 않습니다</div>
+        비밀번호 확인<input type="password" class="form-control-pwcheck" id="samepassword" name="samepassword" maxlength='30' required>
+        <div id="SamepasswordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호가 일치 하지 않습니다</div>
     </div>
     <div class="div5">교사 인증</div>
 
     <div class="div8">
-        이름<input type="text" class="form-control-signup" id="name" name="name" maxlength='30' required>
-        <div id="nameError" class="text-danger" style="display: none;">이름은 한글 또는 영어로만 입력 가능합니다.</div>
+        이름<input type="text" class="form-control-name" id="name" name="name" maxlength='30' required>
+        <div id="nameError" class="text-danger" style="font-size: 1vw;  display: none;">이름은 한글 또는 영어로만 입력 가능합니다.</div>
     </div>
     <div class="div9">
-        전화 번호<input type="tel" class="form-control-signup" id="phoneNumber" name="phoneNumber" maxlength='11' required>
-        <div id="phoneError" class="text-danger" style="display: none;">전화번호는 숫자만 입력 가능합니다.</div>
+        전화 번호<input type="tel" class="form-control-pnumber" id="phoneNumber" name="phoneNumber" maxlength='11' required>
+        <div id="phoneError" class="text-danger" style="font-size: 1vw; display: none;">전화번호는 숫자만 입력 가능합니다.</div>
     </div>
     <div class="div10">
-        학교 이름<input type="text" class="form-control-signup" id="school" name="school" maxlength='20' required>
+        학교 이름<input type="text" class="form-control-school" id="school" name="school" maxlength='20' required>
     </div>
 
         <div class="class">
             <label for="반번호" class="form-label">반</label>
-            <input type="number" class="form-control-signup" id="schoolClass" name="schoolClass" maxlength='2' required>
+            <input type="number" class="form-control-class" id="schoolClass" name="schoolClass" maxlength='2' required>
         </div>
 
     <div class="frame-12">
@@ -112,6 +109,12 @@
     </div>
         <button type="submit" id="submitButton" class="signup-btn" disabled>회원가입</button>
     </form>
+    <button type="submit" id="backtologin-btn" class="back-btn">
+        <a target="_self" id="btlogin" class="btlogin"  href="/user/login"><< 로그인으로 돌아가기</a>
+    </button>
+    <img class="line-31" src="/images/line-31.svg" />
+    <div class="main-box"></div>
+    <div class="line1"></div>
 </div>
 
 
@@ -153,7 +156,7 @@
 
         var SamepassworderrorMessage = document.getElementById("SamepasswordError");
 
-        if (password != samepassword) {
+        if (password == samepassword) {
             SamepassworderrorMessage.style.display = "block"; // 에러
             document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
             return false;

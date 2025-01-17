@@ -4,18 +4,86 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>login</title>
+    <link rel="stylesheet" href="/css/findLoginIdShow.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
 
-    <div class="container text-center">
-        <div class="row row-cols-4">
-            {{#members}}
-            <div class="col">{{loginId}}</div>
-            {{/members}}
-        </div>
+<div class="_006">
+    <div class="rectangle-111"></div>
+    <div class="div2">고객님의 정보와 일치하는 아이디 목록입니다</div>
+    <div class="members-loginid">
+       {{#members}}
+            <input type="text" class="member-loginid" value="{{LoginId}}" readonly />
+        {{/members}}
     </div>
-    <a target="_blank" href="/user/login" id="tologin" class="find_text">뒤로가기(로그인)</a>
-    <a target="_blank" href="#" id="findpassword" class="find_text">비밀번호 찾기</a>
+
+    <div class="members-date">
+        {{#members}}
+            <input type="text" class="member-date" value="{{createdDate}}" readonly />
+        {{/members}}
+    </div>
+    <div class="frame-12">
+        <img class="polygon-2" src="polygon-20.svg" />
+        <div class="div4">아이디 찾기</div>
+    </div>
+    <p class="id-text">등록 ID</p>
+    <p class="date-text">가입일</p>
+
+    <button type="button" class="back-login">
+        <a target="_self" id="btlogin" class="btlogin"  href="/user/login">로그인</a>
+    </button>
+    <button type="button" class="find-PW">
+        <a target="_self" id="btlogin" class="btlogin"  href="/user/reset_password">비밀번호 찾기</a>
+    </button>
+
+
+
+
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {                //로그인 데이터 위아래로 위치하기
+        const memberLoginIdElements = document.querySelectorAll('.member-loginid');
+        const memberDateElements = document.querySelectorAll(".member-date");
+
+        function updatePositions() {
+            const windowHeight = window.innerHeight;  // 화면 높이 가져오기
+
+            memberLoginIdElements.forEach((element, index) => {
+                // 화면 높이를 기준으로 비례적인 값을 계산 (40px 기준으로)
+                const topValue = (index * 0.12) * windowHeight;  // 5%씩 증가하도록 계산 (조정 가능)
+
+                element.style.top = `${topValue}px`;
+                element.style.position = 'absolute';  // position을 절대값으로 설정
+            });
+
+            memberDateElements.forEach((element, index) => {
+                // 화면 높이를 기준으로 비례적인 값을 계산 (40px 기준으로)
+                const topValue = (index * 0.12) * windowHeight;  // 5%씩 증가하도록 계산 (조정 가능)
+
+                element.style.top = `${topValue}px`;
+                element.style.position = 'absolute';  // position을 절대값으로 설정
+            });
+
+            memberDateElements.forEach((element) => {      //date 를 10자리 즉, 년 월 일 만 나오게
+                const originalValue = element.value;
+                // 10자리로 잘라서 값 설정
+                element.value = originalValue.substring(0, 10);
+            });
+
+        }
+
+        // 처음 로드 시와 화면 크기가 변경될 때마다 업데이트
+        updatePositions();
+
+        window.addEventListener('resize', function() {
+            updatePositions();  // 화면 크기 조정 시 위치 업데이트
+        });
+    });
+
+</script>
+
 </body>
 </html>

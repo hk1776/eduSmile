@@ -41,14 +41,19 @@
                 사용자ID 또는 비밀번호를 확인해 주세요.
             </div>
         {{/error}}
+        {{#pw_changed}}
+            <div class="alert alert-success" role="alert">
+                비밀번호가 성공적으로 변경되었습니다
+            </div>
+        {{/pw_changed}}
         <form action="/user/login" method="post">
         <div class="frame-11">
-            <div class="div"><a target="_blank" href="/findLoginId" id="findLoginId" class="find-ID">아이디 찾기</a></div>
-            <div class="div2"><a target="_blank" href="#" id="findLoginId" class="find-PW">비밀번호 찾기</a></div>
+            <div class="div"><a target="_self" href="/user/findLoginId" id="findLoginId" class="find-ID">아이디 찾기</a></div>
+            <div class="div2"><a target="_self" href="/user/reset_password" id="findLoginPW" class="find-PW">비밀번호 찾기</a></div>
             <div class="id">ID<input type="text" name="username" id="username" class="form-control-id"></div>
             <div class="pw">PW<input type="password" name="password" id="password" class="form-control-pw"></div>
-            <div class="div3"><a target="_blank" href="/user/ssignup" id="student_signup" class="student-signup">학생 회원가입</a></div>
-            <div class="div4"><a target="_blank" href="/user/tsignup" id="teacher_signup" class="teacher-signup">교사 회원가입</a></div>
+            <div class="div3"><a target="_self" href="/user/ssignup" id="student_signup" class="student-signup">학생 회원가입</a></div>
+            <div class="div4"><a target="_self" href="/user/tsignup" id="teacher_signup" class="teacher-signup">교사 회원가입</a></div>
             <img class="_4" src="/images/_40.png" />
             <div class="ai">
                 <span>
@@ -79,7 +84,6 @@
 
 
 
-<script src="/js/scriptmain.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

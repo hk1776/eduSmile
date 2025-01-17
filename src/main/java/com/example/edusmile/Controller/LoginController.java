@@ -1,10 +1,13 @@
 package com.example.edusmile.Controller;
 
 import com.example.edusmile.Dto.FindIdDto;
+import com.example.edusmile.Dto.FindPWDto;
 import com.example.edusmile.Dto.MemberDto;
+import com.example.edusmile.Dto.ResetPWDto;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Service.LoginService;
+import com.example.edusmile.Service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,7 @@ public class LoginController {
 
     private final LoginService loginService;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @GetMapping("/user/login")
     public String login(@RequestParam(value = "error", required = false) String error, Model model) {
@@ -76,13 +80,13 @@ public class LoginController {
     }
 
 
-    @GetMapping("/findLoginId")
+    @GetMapping("/user/findLoginId")
     public String findLoginId() {
 
         return "findLoginId";
     }
 
-    @PostMapping("/findLoginId/find")
+    @PostMapping("/user/findLoginId/find")
     public String findLoginId(@ModelAttribute FindIdDto findIdDto, RedirectAttributes rttr) {
 
         List<MemberEntity> members = memberRepository.findByNameAndPhoneNumber(findIdDto.getName(), findIdDto.getPhoneNumber());
@@ -91,19 +95,61 @@ public class LoginController {
         if(members.isEmpty())
         {
             rttr.addFlashAttribute("NotExist", true);
-            return "redirect:/findLoginId";
+            return "redirect:/user/findLoginId";
         }
 
-        return "redirect:/findLoginId/show";
+        return "redirect:/user/findLoginId/show";
     }
 
-    @GetMapping("/findLoginId/show")
+    @GetMapping("/user/findLoginId/show")
     public String findLoginIdShow() {
 
 
         return "findLoginIdShow";
     }
 
+    @GetMapping("/user/reset_password")
+    public String reset_password() {
+
+
+        return "reset_password";
+    }
+
+
+    @PostMapping("/user/reset_password/find")
+    public String reset_password(@ModelAttribute FindPWDto findPWDto, RedirectAttributes rttr) {
+
+        List<MemberEntity> members = memberRepository.findByIDAndNameAndPhoneNumber(findPWDto.getLoginId(), findPWDto.getName(), findPWDto.getPhoneNumber());
+        rttr.addFlashAttribute("members", members);
+
+        if(members.isEmpty())
+        {
+            rttr.addFlashAttribute("NotExist", true);
+            return "redirect:/user/reset_password";
+        }
+
+        return "redirect:/user/reset_password/reset";
+
+    }
+
+
+    @GetMapping("/user/reset_password/reset")
+    public String reset_password_reset() {
+
+
+        return "reset_password_reset";
+
+    }
+
+    @PostMapping("/user/reset_password/reset/post")
+    public String reset_password_post(@ModelAttribute ResetPWDto resetPWDto,RedirectAttributes rttr) {
+        System.out.println(resetPWDto.getLoginId());
+        loginService.reset_pw(resetPWDto);
+
+        rttr.addFlashAttribute("pw_changed", true);
+        return "redirect:/user/login";
+
+    }
 
 
 
