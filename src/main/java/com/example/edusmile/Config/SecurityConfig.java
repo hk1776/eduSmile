@@ -31,7 +31,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/user/login", "/user/signup", "/user/**", "/h2-console/**","/").permitAll()  // 특정 URL 접근 허용
+                                .requestMatchers("/user/login", "/user/signup", "/user/**", "/h2-console/**","/","/fonts/**").permitAll()  // 특정 URL 접근 허용
                                 .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
                 .csrf((csrf) -> csrf.ignoringRequestMatchers((new AntPathRequestMatcher("/h2-console/**"))))

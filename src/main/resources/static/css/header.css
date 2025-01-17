@@ -1,0 +1,154 @@
+#back_ground {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FCF2D4;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* 스크롤 방지 */
+    background-size: cover;
+    background-position: center;
+    margin: 0; /* 불필요한 여백 제거 */
+    padding: 0; /* 불필요한 여백 제거 */
+    box-sizing: border-box; /* 너비 계산에서 패딩 포함 */
+}
+.user-info {
+    position: relative;
+    display: inline-block;
+}
+
+.user-info-button {
+    display: inline-block; /* 버튼처럼 보이게 설정 */
+    text-align: center;
+    color: #4B4B4B;
+    height: 100%;
+    background-color: #F19B2A;
+    border-radius: 20px; /* 양옆을 둥글게 */
+    padding: 10px 20px;
+    font-size: 16px; /* 글자 크기 */
+    line-height: 1; /* 텍스트 줄 간격 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    font-family: 'Hakgyo', sans-serif;
+    cursor: pointer; /* 마우스 커서 표시 */
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 및 애니메이션 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* 그림자 추가 */
+}
+
+.user-info-button:hover {
+    background-color: #E58E26;
+    color: #FFFFFF;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-info-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #FFFEFD;
+    opacity: 0.9;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 300px;
+    border-radius: 5px;
+    font-family: 'Score5', sans-serif;
+}
+
+.user-info-menu.active {
+    display: flex;
+}
+.user-info-left-column{
+    padding: 10px;
+    border-right: 2px solid #576096;
+}
+.user-info-menu,
+.user-info-menu .user-info-right-column {
+    padding: 10px;
+}
+
+.user-info-menu .user-info-left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-info-menu .user-info-left-column button {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: left;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.user-info-menu .user-info-left-column button:hover {
+    background-color: #e2e6ea;
+    color: #000000;
+}
+
+.user-info-menu .user-info-right-column {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-info-menu .user-info-right-column img {
+    width: 80px;
+    height: 80px;
+    background-color: #F2BC65;
+    border-radius: 50%;
+    border: 4px solid #576096;
+}
+
+.user-info-menu {
+    display: none;
+    flex-direction: row;
+}
+
+@font-face {
+    font-family: 'Hakgyo';
+    src: url("../fonts/HakgyoansimDunggeunmisoTTFB.ttf") format('truetype');
+}
+@font-face {
+    font-family: 'Score1';
+    src: url("../fonts/SCDream1.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score2';
+    src: url("../fonts/SCDream2.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score3';
+    src: url("../fonts/SCDream3.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score4';
+    src: url("../fonts/SCDream4.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score5';
+    src: url("../fonts/SCDream5.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score6';
+    src: url("../fonts/SCDream6.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score7';
+    src: url("../fonts/SCDream7.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score8';
+    src: url("../fonts/SCDream8.otf") format('truetype');
+}
+@font-face {
+    font-family: 'Score9';
+    src: url("../fonts/SCDream9.otf") format('truetype');
+}
