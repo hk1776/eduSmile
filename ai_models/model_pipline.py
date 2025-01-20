@@ -207,12 +207,11 @@ class EduContentProcessor:
         original_name = Path(original_filename).stem
         return f"{prefix}_{original_name}_{date_str}"
     
-    def process_content(self, text_path: Path) -> Dict:
+    def process_content_path(self, text_path: Path) -> Dict:
         """텍스트 컨텐츠를 처리하고 결과물을 생성합니다."""
         try:
             with open(text_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
             results = {}
             filename = text_path.name
             
@@ -224,10 +223,7 @@ class EduContentProcessor:
             수업 내용:
             {content}
             """)
-            notice_path = self.results_folder / '공지사항' / f"{self._generate_filename('공지', filename)}.txt"
-            with open(notice_path, 'w', encoding='utf-8') as f:
-                f.write(notice)
-            results['Notice'] = {'text': notice}
+            results['notice'] = notice
             
             # 수업내용 요약
             summary = self.get_claude_response(f"""
@@ -237,16 +233,60 @@ class EduContentProcessor:
             수업 내용:
             {content}
             """)
-            summary_path = self.results_folder / '수업내용' / f"{self._generate_filename('수업요약', filename)}.txt"
-            with open(summary_path, 'w', encoding='utf-8') as f:
-                f.write(summary)
-            results['Class_summary'] = {'text': summary}
+            results['class_summary'] = summary
             
             # 객관식 문제 생성
             quiz = self.generate_quiz(content)
-            quiz_path = self.results_folder / '문제' / f"{self._generate_filename('객관식문제', filename)}.json"
-            with open(quiz_path, 'w', encoding='utf-8') as f:
-                json.dump(quiz, f, ensure_ascii=False, indent=2)
+            results['quiz'] = quiz
+            
+            # 해설 생성
+            explanations = {
+                "quiz_commentary": [
+                    {
+                        "quiz_number": i + 1,
+                        "quiz": q["question"],
+                        "answer": f"{int(q['correct_answer']) + 1}번",
+                        "commentary": q["explanation"]
+                    }
+                    for i, q in enumerate(quiz["questions"])
+                ]
+            }
+            results['quiz_commentary'] = explanations
+            
+            return results
+        except Exception as e:
+            print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
+            return {'오류': {'내용': str(e), '파일명': str(text_path)}}
+    def process_content(self, text_path: Path) -> Dict:
+        """텍스트 컨텐츠를 처리하고 결과물을 생성합니다."""
+        try:
+            with open(text_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+            results = {}
+            filename = text_path.name
+            
+            # 공지사항 추출
+            notice = self.get_claude_response(f"""
+            다음 수업 내용에서 공지사항만을 추출해주세요. 
+            공지사항이 없다면 "공지사항이 없습니다."라고 답변해주세요.
+            
+            수업 내용:
+            {content}
+            """)
+            results['notice'] = {'text': notice}
+            
+            # 수업내용 요약
+            summary = self.get_claude_response(f"""
+            다음 수업 내용을 핵심 개념과 중요 포인트 위주로 요약해주세요.
+            각 개념에 대해 구체적인 예시를 포함해주세요.
+            
+            수업 내용:
+            {content}
+            """)
+            results['class_summary'] = {'text': summary}
+            
+            # 객관식 문제 생성
+            quiz = self.generate_quiz(content)
             results['quiz'] = {'text': quiz}
             
             # 해설 생성
@@ -261,16 +301,12 @@ class EduContentProcessor:
                     for i, q in enumerate(quiz["questions"])
                 ]
             }
-            explanations_path = self.results_folder / '해설' / f"{self._generate_filename('문제해설', filename)}.json"
-            with open(explanations_path, 'w', encoding='utf-8') as f:
-                json.dump(explanations, f, ensure_ascii=False, indent=2)
             results['quiz_commentary'] = {'data': explanations}
             
             return results
-            
         except Exception as e:
             print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
-            return {'오류': {'내용': str(e), '파일명': str(text_path)}}
+            return {'오류': {'내용': str(e)}}
 
 def load_api_keys(base_path: str) -> Dict[str, str]:
     """API 키들을 텍스트 파일에서 로드합니다."""
@@ -302,13 +338,23 @@ def process_audio_file(processor: EduContentProcessor, audio_path: Path):
         text_path = processor.transcribe_audio(audio_path)
         
         print("\n2. 컨텐츠 처리 단계")
-        results = processor.process_content(Path(text_path))
+        results = processor.process_content_path(Path(text_path))
         
         return results
-        
+
     except Exception as e:
         print(f"\n오디오 파일 처리 중 오류 발생: {str(e)}")
         return {'오류': {'내용': str(e), '파일': str(audio_path)}}
+    
+def process_text_file(processor: EduContentProcessor, text_path: Path):
+    """단일 텍스트 파일을 처리합니다."""
+    try:
+        print("\n2. 컨텐츠 처리 단계")
+        results = processor.process_content(Path(text_path))
+        return results
+    except Exception as e:
+        print(f"\텍스트 파일 처리 중 오류 발생: {str(e)}")
+        return {'오류': {'내용': str(e), '파일': str(text_path)}}
 
 def process_all_files(base_folder: str):
     """모든 오디오 파일을 처리합니다."""
@@ -373,6 +419,7 @@ def process_all_files(base_folder: str):
     except Exception as e:
         print(f"\n실행 중 오류가 발생했습니다: {str(e)}")
         return {'오류': {'내용': str(e)}}
+
 
 if __name__ == "__main__":
     base_folder = os.path.dirname(os.path.abspath(__file__))
