@@ -227,7 +227,7 @@ class EduContentProcessor:
             notice_path = self.results_folder / '공지사항' / f"{self._generate_filename('공지', filename)}.txt"
             with open(notice_path, 'w', encoding='utf-8') as f:
                 f.write(notice)
-            results['공지사항'] = {'내용': notice, '저장경로': str(notice_path)}
+            results['Notice'] = {'text': notice}
             
             # 수업내용 요약
             summary = self.get_claude_response(f"""
@@ -240,23 +240,23 @@ class EduContentProcessor:
             summary_path = self.results_folder / '수업내용' / f"{self._generate_filename('수업요약', filename)}.txt"
             with open(summary_path, 'w', encoding='utf-8') as f:
                 f.write(summary)
-            results['수업요약'] = {'내용': summary, '저장경로': str(summary_path)}
+            results['Class_summary'] = {'text': summary}
             
             # 객관식 문제 생성
             quiz = self.generate_quiz(content)
             quiz_path = self.results_folder / '문제' / f"{self._generate_filename('객관식문제', filename)}.json"
             with open(quiz_path, 'w', encoding='utf-8') as f:
                 json.dump(quiz, f, ensure_ascii=False, indent=2)
-            results['객관식문제'] = {'내용': quiz, '저장경로': str(quiz_path)}
+            results['quiz'] = {'text': quiz}
             
             # 해설 생성
             explanations = {
-                "문제해설": [
+                "quiz_commentary": [
                     {
-                        "문제번호": i + 1,
-                        "문제": q["question"],
-                        "정답": f"{int(q['correct_answer']) + 1}번",
-                        "해설": q["explanation"]
+                        "quiz_number": i + 1,
+                        "quiz": q["question"],
+                        "answer": f"{int(q['correct_answer']) + 1}번",
+                        "commentary": q["explanation"]
                     }
                     for i, q in enumerate(quiz["questions"])
                 ]
@@ -264,7 +264,7 @@ class EduContentProcessor:
             explanations_path = self.results_folder / '해설' / f"{self._generate_filename('문제해설', filename)}.json"
             with open(explanations_path, 'w', encoding='utf-8') as f:
                 json.dump(explanations, f, ensure_ascii=False, indent=2)
-            results['문제해설'] = {'내용': explanations, '저장경로': str(explanations_path)}
+            results['quiz_commentary'] = {'data': explanations}
             
             return results
             
