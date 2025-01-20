@@ -4,6 +4,7 @@ package com.example.edusmile.Controller;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,4 +35,7 @@ public class LoginRestController {
         }
 
     }
+
+
+
 }
