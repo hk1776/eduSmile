@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import os
 from pathlib import Path
 from typing import Dict
-from ai_models.model_pipline import EduContentProcessor, process_audio_file, load_api_keys
+from ai_models.model_pipline import EduContentProcessor, process_audio_file,process_text_file, load_api_keys
 
 app = FastAPI()
 
@@ -41,6 +41,8 @@ def validate_pdf_file(file: UploadFile):
     # 파일 확장자가 허용된 pdf 형식인지 확인
     if file_extension not in ALLOWED_EXTENSIONS2:
         raise HTTPException(status_code=400, detail="Uploaded file is not a valid pdf file")
+class TextRequest(BaseModel):
+    text: str
     
 @app.post("/process_audio/")
 async def process_audio(file: UploadFile = File(...)):
@@ -64,28 +66,19 @@ async def process_audio(file: UploadFile = File(...)):
         
     except Exception as e:
         return {"error": str(e)}
-@app.post("/process_text/")
-async def process_text(file: UploadFile = File(...)):
-    """업로드된 오디오 파일을 처리하여 공지사항, 수업 내용, 해설을 반환합니다."""
     
+@app.post("/process_text/")
+async def process_text(request: TextRequest):
+    """
+    업로드된 오디오 파일을 처리하여 공지사항, 수업 내용, 해설을 반환합니다.
+    """
     try:
-        validate_audio_file(file)
-
-        # 임시 파일로 오디오 저장
-        audio_path = Path(base_folder) / "temp_audio.wav"
-        with open(audio_path, "wb") as buffer:
-            buffer.write(await file.read())
-        
         # 오디오 파일 처리
-        results = process_audio_file(processor, audio_path)
-        
-        # 임시 파일 삭제
-        os.remove(audio_path)
-        
+        results = process_text_file(processor, request.text)
         return results
-        
     except Exception as e:
         return {"error": str(e)}
+        
 @app.post("/process_pdf/")
 async def process_audio(file: UploadFile = File(...)):
     """업로드된 PDF파일을 처리합니다다."""

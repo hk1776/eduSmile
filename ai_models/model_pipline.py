@@ -257,13 +257,11 @@ class EduContentProcessor:
         except Exception as e:
             print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
             return {'오류': {'내용': str(e), '파일명': str(text_path)}}
-    def process_content(self, text_path: Path) -> Dict:
+    def process_content(self, text) -> Dict:
         """텍스트 컨텐츠를 처리하고 결과물을 생성합니다."""
         try:
-            with open(text_path, 'r', encoding='utf-8') as f:
-                content = f.read()
             results = {}
-            filename = text_path.name
+            content = text
             
             # 공지사항 추출
             notice = self.get_claude_response(f"""
@@ -346,15 +344,15 @@ def process_audio_file(processor: EduContentProcessor, audio_path: Path):
         print(f"\n오디오 파일 처리 중 오류 발생: {str(e)}")
         return {'오류': {'내용': str(e), '파일': str(audio_path)}}
     
-def process_text_file(processor: EduContentProcessor, text_path: Path):
+def process_text_file(processor: EduContentProcessor, text):
     """단일 텍스트 파일을 처리합니다."""
     try:
         print("\n2. 컨텐츠 처리 단계")
-        results = processor.process_content(Path(text_path))
+        results = processor.process_content(text)
         return results
     except Exception as e:
         print(f"\텍스트 파일 처리 중 오류 발생: {str(e)}")
-        return {'오류': {'내용': str(e), '파일': str(text_path)}}
+        return {'오류': {'내용': str(e)}}
 
 def process_all_files(base_folder: str):
     """모든 오디오 파일을 처리합니다."""
