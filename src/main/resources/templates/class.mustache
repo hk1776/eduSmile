@@ -19,18 +19,19 @@
     /*}*/
 </style>
 <div id="back_ground">
-
-    <!-- 오디오 전송 폼 -->
     <form id="audio_input" class="container" action="/teacher/upload" method="post" enctype="multipart/form-data"
           style="background-color: white; padding: 30px; width: 50%; border-bottom-left-radius: 8px; border-radius: 8px; height: 60%; position: relative; overflow-y: auto; box-sizing: border-box; margin: 0; flex-direction: column; justify-content: flex-start;">
         <div class="mb-3">
             <label class="form-label" style="font-weight: bold;">음성 파일</label>
             <label class="form-label" for="audioFile" id="audioFileLabel" style="display:none;">녹음 완료</label>
-            <input id="audioFile" type="file" class="form-control" name="file" accept="audio/mp3" style="display:none;">
+            <input id="audioFile" type="file" class="form-control" name="file" accept="audio/*" style="display:block;">
         </div>
         <div class="mb-3" style="height: 10%">
             <button id="startBtn" type="button">녹음</button>
             <button id="stopBtn"  type="button" disabled>중지</button>
+        </div>
+        <div id="audioPlayerContainer" style="display:none;">
+            <audio id="audioPlayer" controls></audio>
         </div>
         <div style="margin-top: 48px; padding-top: 10px;">
             <button id="submit2" type="submit" class="btn btn-primary"
@@ -38,6 +39,7 @@
         </div>
     </form>
 </div>
+
 <script>
     let mediaRecorder;
     let audioChunks = [];
@@ -46,56 +48,125 @@
     const stopBtn = document.getElementById("stopBtn");
     const audioFileInput = document.getElementById("audioFile");
     const audioFileLabel = document.getElementById("audioFileLabel");
-    const buttons = document.querySelectorAll("#submit1, #submit2");
+    const audioPlayer = document.getElementById("audioPlayer");
+    const audioPlayerContainer = document.getElementById("audioPlayerContainer");
 
-
-    buttons.forEach((button) => {
-        button.addEventListener("click", (event) => {
-            const loading = document.getElementById("loading");
-            loading.style.display = "flex";
-        });
-    });
-    //
-    // const unableStart= "url('/images/unable_start.png')";
-    // const unableStop = "url('/images/unable_stop.png')";
-    // const Start= "url('/images/recording_start.jpg')";
-    // const Stop = "url('/images/recording_stop.jpg')";
     startBtn.addEventListener("click", async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        // startBtn.style.backgroundImage = unableStart;
-        // stopBtn.style.backgroundImage = Stop;
-        mediaRecorder.ondataavailable = (event) => {
-            audioChunks.push(event.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-            const audioFile = new File([audioBlob], "recording.mp3", { type: "audio/mp3" });
-
-            // DataTransfer 객체를 사용하여 파일을 동적으로 추가
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(audioFile); // 녹음 파일을 추가
-            audioFileInput.files = dataTransfer.files; // input의 files 속성에 추가된 파일 설정
-
-            // 음성 파일이 추가된 것을 표시
-            audioFileLabel.style.display = "block";
-
-            // 초기화
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            console.log("Microphone access successful");
+            mediaRecorder = new MediaRecorder(stream);
             audioChunks = [];
-        };
 
-        mediaRecorder.start();
-        startBtn.disabled = true;
-        stopBtn.disabled = false;
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = async () => {
+                console.log("Recording stopped");
+                if (audioChunks.length > 0) {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    console.log("Audio Blob created:", audioBlob.size);
+
+                    // WAV로 변환
+                    const wavBlob = await convertToWav(audioBlob);
+                    console.log("WAV Blob created:", wavBlob.size);
+
+                    // File 객체 생성
+                    const wavFile = new File([wavBlob], "recording.wav", { type: "audio/wav" });
+                    console.log("WAV File created:", wavFile.size);
+
+                    // 파일을 FormData에 추가
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(wavFile);
+                    audioFileInput.files = dataTransfer.files;
+
+                    audioFileLabel.style.display = "block";
+
+                    // 녹음된 내용을 재생
+                    const wavURL = URL.createObjectURL(wavBlob);
+                    audioPlayer.src = wavURL;
+                    audioPlayerContainer.style.display = "block";
+
+                    startBtn.disabled = false;
+                    stopBtn.disabled = true;
+
+                    audioChunks = [];
+                } else {
+                    console.error("No audio data recorded");
+                }
+            };
+
+            mediaRecorder.start();
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            audioPlayerContainer.style.display = "none";
+        } catch (error) {
+            console.error("Error initializing recording:", error);
+        }
     });
 
     stopBtn.addEventListener("click", () => {
-        mediaRecorder.stop();
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-        // startBtn.style.backgroundImage = Start;
-        // stopBtn.style.backgroundImage = unableStop;
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.stop();
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
     });
+
+    async function convertToWav(audioBlob) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const arrayBuffer = await audioBlob.arrayBuffer();
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+        const numberOfChannels = audioBuffer.numberOfChannels;
+        const length = audioBuffer.length * numberOfChannels;
+        const sampleRate = audioBuffer.sampleRate;
+        const buffer = audioContext.createBuffer(numberOfChannels, length, sampleRate);
+
+        for (let channel = 0; channel < numberOfChannels; channel++) {
+            buffer.copyToChannel(audioBuffer.getChannelData(channel), channel);
+        }
+
+        const wavBuffer = encodeWAV(buffer.getChannelData(0), sampleRate);
+        return new Blob([wavBuffer], { type: 'audio/wav' });
+    }
+
+    function encodeWAV(samples, sampleRate) {
+        const buffer = new ArrayBuffer(44 + samples.length * 2);
+        const view = new DataView(buffer);
+
+        writeString(view, 0, 'RIFF');
+        view.setUint32(4, 36 + samples.length * 2, true);
+        writeString(view, 8, 'WAVE');
+        writeString(view, 12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, 1, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * 2, true);
+        view.setUint16(32, 2, true);
+        view.setUint16(34, 16, true);
+        writeString(view, 36, 'data');
+        view.setUint32(40, samples.length * 2, true);
+
+        floatTo16BitPCM(view, 44, samples);
+
+        return buffer;
+    }
+
+    function writeString(view, offset, string) {
+        for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
+        }
+    }
+
+    function floatTo16BitPCM(output, offset, input) {
+        for (let i = 0; i < input.length; i++, offset += 2) {
+            const s = Math.max(-1, Math.min(1, input[i]));
+            output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+        }
+    }
 </script>
+
 {{>footer}}

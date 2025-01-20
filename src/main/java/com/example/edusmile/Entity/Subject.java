@@ -6,8 +6,10 @@ import lombok.Data;
 @Data
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private Long memberId;
     private String subject;
+    private int grade;
+    @Column(name = "CLASS")
+    private String divClass;
 }
