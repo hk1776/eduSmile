@@ -126,8 +126,9 @@
 
 
 <script>
+    let isTcodeClicked = false; // tcode-btn이 클릭되었는지 여부를 저장하는 플래그
 
-    async function sendtcode(){                                   //학급코드 유효성 찾기
+    async function sendtcode() { // 학급코드 유효성 찾기
         const tcode_input = document.getElementById("teacherCode");
         const tcode = tcode_input.value;
 
@@ -143,90 +144,98 @@
             if (response.ok) {
                 const data = await response.text(); // 서버에서 문자열 응답 받기
                 document.getElementById("tcode-response").textContent = `${data}`;
+
+                if (data === "등록 실패") {
+                    document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
+                    isTcodeClicked = false; // 실패 시 플래그를 false로 유지
+                    return false;
+                } else {
+                    isTcodeClicked = true; // 성공 시 플래그 true로 설정
+                    validateForm(); // 입력값 다시 확인
+                }
             } else {
-                document.getElementById("response").textContent = "Error: Failed to send data.";
+                document.getElementById("tcode-response").textContent = "Error: Failed to send data.";
             }
         } catch (error) {
             console.error("Error:", error);
-            document.getElementById("response").textContent = "Error: Unable to connect to the server.";
+            document.getElementById("tcode-response").textContent = "Error: Unable to connect to the server.";
         }
     }
 
-    function validateForm() {    //회원가입 입력값 유효성 검사
+    function validateForm() { // 회원가입 입력값 유효성 검사
+        let isValid = true;
 
-        //아이디 유효성
-        var id = document.getElementById("LoginId").value;
-        var idregex = /^(?![0-9]{6,12}$)[a-zA-Z0-9-_]{6,14}$/; //정규식 // 6-14자 영문, 숫자, 기호(-, _)만 허용 //숫자만은 불가
-        var iderrorMessage = document.getElementById("idError");
+        // 아이디 유효성
+        const id = document.getElementById("LoginId").value;
+        const idregex = /^(?![0-9]{6,12}$)[a-zA-Z0-9-_]{6,14}$/; // 6-14자 영문, 숫자, 기호(-, _)만 허용
+        const iderrorMessage = document.getElementById("idError");
 
         if (!idregex.test(id)) {
-            iderrorMessage.style.display = "block"; // 에러
-            document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
-            return false;
+            iderrorMessage.style.display = "block";
+            isValid = false;
         } else {
-            iderrorMessage.style.display = "none"; // 에러 x
+            iderrorMessage.style.display = "none";
         }
 
-
-        //비번 유효성
-        var password = document.getElementById("password").value;
-        var passwordregex = /^(?!\d)(?=[a-zA-Z0-9~․!@#$%^&*()_\-+=\[\]{}|\\;:'"<>,.?/]*[~․!@#$%^&*()_\-+=\[\]{}|\\;:'"<>,.?/])[a-zA-Z0-9~․!@#$%^&*()_\-+=\[\]{}|\\;:'"<>,.?/]{6,15}$/ ; //비밀번호는 6-15자의 영문, 숫자, 특수문자만 사용 가능합니다.(숫자로 시작 불가) //
-
-        var passworderrorMessage = document.getElementById("passwordError");
+        // 비밀번호 유효성
+        const password = document.getElementById("password").value;
+        const passwordregex = /^(?!\d)(?=[a-zA-Z0-9~․!@#$%^&*()_\-+=\[\]{}|\\;:'"<>,.?/]*[~․!@#$%^&*()_\-+=\[\]{}|\\;:'"<>,.?/])[a-zA-Z0-9~․!@#$%^&*()_\-+=\[\]{}|\\;:'"<>,.?/]{6,15}$/;
+        const passworderrorMessage = document.getElementById("passwordError");
 
         if (!passwordregex.test(password)) {
-            passworderrorMessage.style.display = "block"; // 에러
-            document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
-            return false;
+            passworderrorMessage.style.display = "block";
+            isValid = false;
         } else {
-            passworderrorMessage.style.display = "none"; // 에러 x
+            passworderrorMessage.style.display = "none";
         }
 
-        var samepassword = document.getElementById("samepassword").value;
+        // 비밀번호 확인
+        const samepassword = document.getElementById("samepassword").value;
+        const SamepassworderrorMessage = document.getElementById("SamepasswordError");
 
-        var SamepassworderrorMessage = document.getElementById("SamepasswordError");
-
-        if (password == samepassword) {
-            SamepassworderrorMessage.style.display = "block"; // 에러
-            document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
-            return false;
+        if (password !== samepassword) {
+            SamepassworderrorMessage.style.display = "block";
+            isValid = false;
         } else {
-            SamepassworderrorMessage.style.display = "none"; // 에러 x
+            SamepassworderrorMessage.style.display = "none";
         }
 
-        //이름 유효성
-        var name = document.getElementById("name").value;
-        var nameregex =/^[a-zA-Z]+$|^[가-힣]+$/; //한글로만 또는 영어로만 // 숫자 x
-        var nameerrorMessage = document.getElementById("nameError");
+        // 이름 유효성
+        const name = document.getElementById("name").value;
+        const nameregex = /^[a-zA-Z]+$|^[가-힣]+$/; // 한글 또는 영어만 허용
+        const nameerrorMessage = document.getElementById("nameError");
 
         if (!nameregex.test(name)) {
-            nameerrorMessage.style.display = "block"; // 에러
-            document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
-            return false;
+            nameerrorMessage.style.display = "block";
+            isValid = false;
         } else {
-            nameerrorMessage.style.display = "none"; // 에러 x
+            nameerrorMessage.style.display = "none";
         }
 
-        //전화번호 유효성
-        var phone = document.getElementById("phoneNumber").value;
-        var phoneregex =/^\d*$/; // 숫자와 - 만 사용 - 연속이나 맨앞 불가
-        var phoneerrorMessage = document.getElementById("phoneError");
+        // 전화번호 유효성
+        const phone = document.getElementById("phoneNumber").value;
+        const phoneregex = /^\d*$/; // 숫자만 허용
+        const phoneerrorMessage = document.getElementById("phoneError");
 
         if (!phoneregex.test(phone)) {
-            phoneerrorMessage.style.display = "block"; // 에러
-            document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
-            return false;
+            phoneerrorMessage.style.display = "block";
+            isValid = false;
         } else {
-            phoneerrorMessage.style.display = "none"; // 에러 x
+            phoneerrorMessage.style.display = "none";
         }
 
-        // 모든 검사를 통과해야 제출 가능
-        document.getElementById("submitButton").disabled = false;
-        return true;
+        // 학급코드 확인
+        const tcode_response = document.getElementById("tcode-response").textContent;
+
+        if (tcode_response === "" || !isTcodeClicked) {
+            isValid = false;
+        }
+
+        // 모든 조건을 통과해야 제출 버튼 활성화
+        document.getElementById("submitButton").disabled = !isValid;
+        return isValid;
     }
-
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

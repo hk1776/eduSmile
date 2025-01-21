@@ -1,0 +1,276 @@
+{{>header}}
+<style>
+    .ai-020,
+    .ai-020 * {
+        box-sizing: border-box;
+    }
+    .ai-020 {
+        background: #fcf2d4;
+        height: 50vw;
+        position: relative;
+        overflow: hidden;
+        z-index:1;
+    }
+    .left-box {
+        width: 15vw; /* 가로 길이 */
+        height: 47vw; /* 세로 길이 */
+        background-color: #F6E1A0; /* 배경색 (임의 지정) */
+        border-radius: 15px; /* 모서리를 둥글게 */
+        margin-top: 1.5vw; /* 위쪽 마진 */
+        margin-bottom: 1.5vw; /* 아래쪽 마진 */
+        margin-left: 1vw; /* 왼쪽 마진 0으로 설정 */
+        margin-right: 0; /* 오른쪽 마진 0으로 설정 */
+        box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+    .teacher-button
+    {
+        background: #576096;
+        border-radius: 30px;
+        font-family: "Score6", sans-serif;
+        font-size:1.3vw;
+        color:#FFFFFF;
+        border-style: solid;
+        border-color: #f19b2a;
+        border-width: 0.5vw;
+        width: 10vw;
+        height: 5vw;
+        left:3.5vw;
+        top:5vw;
+        position: absolute;
+        box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+    .main-box {
+        border-radius: 30px;
+        background: #F6E1A0;
+        font-family: "Score6", sans-serif;
+        font-size: 1.3vw;
+        border-width: 0.2vw;
+        width: 78vw;  /* 너비를 vw로 설정 */
+        height: 12vw;  /* 높이를 vh로 설정 */
+        left: 18vw;  /* 좌측 위치를 vw로 설정 */
+        top: 1.5vw;    /* 상단 위치를 vh로 설정 */
+        position: absolute;
+        display: flex;
+        flex-direction: column; /* 세로로 정렬 */
+        justify-content: flex-start;  /* 위에서부터 정렬 */
+        align-items: center;  /* 가로 중앙 정렬 */
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        overflow-y: auto;
+        padding-top: 2vh; /* 상단 여백을 vh로 설정 */
+    }
+    .btlogin
+    {
+        font-size: 1.3vw;
+        text-decoration: none; /* 밑줄 없애기 */
+        color: inherit;        /* 텍스트 색상을 부모 요소의 색상으로 상속 */
+        left: 17vw;
+        top: 53vw;
+    }
+    .blank_profile
+    {
+        height: 10vw;
+        width: 10vw;
+        border: 0.3vw solid #1E2D84;
+        left:5vw;
+        top:1vw;
+        position:absolute;
+        border-radius: 50%;
+    }
+    .name{
+        font-family: "Score6", sans-serif;
+        font-size:2.5vw;
+        color: #1E2D84;
+        left:20vw;
+        top: 3.8vw;
+        position:absolute;
+    }
+    .back-btn{
+        color:#908282;
+        font-size: 1.3vw;
+        text-decoration: none; /* 밑줄 없애기 */
+        left: 2vw;
+        top: 46vw;
+        position: absolute;
+    }
+    .file_drag {
+        border: 0.5vw solid #ccc;
+        border-radius: 15px;
+        padding: 1vw;
+        text-align: center;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        font-size: 3vw;
+        width: 78vw;
+        height: 33.5vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:18vw;
+        top:14vw;
+        transition: background-color 0.3s;
+        overflow-y:auto;
+    }
+
+    .file_drag.dragover {
+        background-color: #e0ffe0;
+        border-color: #2ecc71;
+
+    }
+
+    .file_list_header {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 10px;
+        background-color: #f0f0f0;
+        border-bottom: 1px solid #ccc;
+    }
+    .plz_drag
+    {
+        display: flex;             /* Flexbox 사용 */
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        text-align: center;        /* 텍스트 중앙 정렬 */
+        font-family: "SCore5", sans-serif;
+        font-size:2vw;
+        margin-top: 13vw;
+    }
+    .file_list_header_task button {
+        background: none;
+        border: none;
+        font-size: 16px;
+        color: #f00;
+        cursor: pointer;
+    }
+
+    .file_list_header_title, .file_list_header_volume {
+        display: inline-block;
+    }
+
+    #fileList {
+        list-style: none;
+        padding: 0;
+        overflow-y:auto;
+        margin: 10px 0 0 0;
+    }
+
+    #fileList li {
+        padding: 5px 10px;
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+
+<div class="ai-020">
+    <div class="left-box" >
+        <button class="teacher-button" type="button" >
+            <a target="_self" id="btlogin" class="btlogin"  href="/teacher">교사페이지</a>
+        </button>
+        <a target="_self" id="back-btn" class="back-btn"  href="/teacher/student_recode"><<< 뒤로가기</a>
+    </div>
+
+    {{#member}}
+    <div class="main-box" >
+        <img class="blank_profile" src="/images/blank_profile.svg" />
+        <div class="name">{{name}} | 학생</div>
+    </div>
+    {{/member}}
+
+    <div class="file_drag" id="file_drag">
+        <div id="plz_drag" class="plz_drag">파일을 끌어 올리고 제출하면 AI가 자동으로 학생 정보를 분석후 업로드 합니다.</div>
+        <div class="file_list_header" style="display: none;">
+            <div class="file_list_header_task">
+                <button type="button" id="removeAll_button"><span class="blind">X</span></button>
+            </div>
+            <div class="file_list_header_title"><span class="text">파일명</span></div>
+            <div class="file_list_header_volume"><span class="text">총용량 </span><span id="fileSize">0</span></div>
+        </div>
+
+        <ul id="fileList"></ul>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {                //로그인 데이터 위아래로 위치하기
+        const studentElement = document.querySelectorAll('.student-div');
+
+        function updatePositions() {
+            const windowHeight = window.innerHeight;  // 화면 높이 가져오기
+
+            studentElement.forEach((element, index) => {
+                // 화면 높이를 기준으로 비례적인 값을 계산 (40px 기준으로)
+                const topValue = (index * 0.17) * windowHeight;  // 5%씩 증가하도록 계산 (조정 가능)
+
+                element.style.top = `${topValue}px`;
+                element.style.position = 'absolute';  // position을 절대값으로 설정
+            });
+
+
+        }
+
+        // 처음 로드 시와 화면 크기가 변경될 때마다 업데이트
+        updatePositions();
+
+        window.addEventListener('resize', function() {
+            updatePositions();  // 화면 크기 조정 시 위치 업데이트
+        });
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {   //드래그 앤 드롭
+        const fileDrag = document.getElementById("file_drag");
+        const fileList = document.getElementById("fileList");
+        const fileSizeDisplay = document.getElementById("fileSize");
+        const removeAllButton = document.getElementById("removeAll_button");
+        const fileListHeader = document.querySelector(".file_list_header");
+
+        let totalFileSize = 0;
+
+        // 드래그 오버 이벤트
+        fileDrag.addEventListener("dragover", function (event) {
+            event.preventDefault();
+            fileDrag.classList.add("dragover");
+        });
+
+        // 드래그 아웃 이벤트
+        fileDrag.addEventListener("dragleave", function (event) {
+            fileDrag.classList.remove("dragover");
+        });
+
+        // 파일 드롭 이벤트
+        fileDrag.addEventListener("drop", function (event) {
+            event.preventDefault();
+            fileDrag.classList.remove("dragover");
+
+            const files = event.dataTransfer.files;
+
+            if (files.length > 0) {
+                fileListHeader.style.display = "flex";
+            }
+
+            for (const file of files) {
+                const li = document.createElement("li");
+                li.textContent = file.name + ` (${(file.size / 1024).toFixed(2)} KB)`;
+                fileList.appendChild(li);
+
+                totalFileSize += file.size;
+            }
+
+            fileSizeDisplay.textContent = (totalFileSize / 1024).toFixed(2) + " KB";
+        });
+
+        // "전체 삭제" 버튼 클릭 이벤트
+        removeAllButton.addEventListener("click", function () {
+            fileList.innerHTML = "";
+            totalFileSize = 0;
+            fileSizeDisplay.textContent = "0 KB";
+            fileListHeader.style.display = "none";
+        });
+    });
+</script>
+
+{{>footer}}

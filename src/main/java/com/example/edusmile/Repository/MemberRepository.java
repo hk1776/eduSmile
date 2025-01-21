@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<MemberEntity, Integer> {
+public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
         Optional<MemberEntity> findByloginId(String loginId);
 
         @Query(value = "select member from MemberEntity member " +
@@ -28,6 +28,9 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Integer> {
                 "where member.loginId = :LoginId and member.name =:name and member.phoneNumber= :phoneNumber ")
         List<MemberEntity> findByIDAndNameAndPhoneNumber(@Param("LoginId") String LoginId,@Param("name") String name , @Param("phoneNumber") String phoneNumber );
 
+        @Query(value = "select member from MemberEntity member " +
+                "where member.role = :role and member.teacherCode =:teacherCode")
+        List<MemberEntity> findByRoleAndTeacherCode(@Param("role") String Role,@Param("teacherCode") String TeacherCode);
 
         @Modifying          //update, delete 시 사용
         @Transactional      // 원자성 유지

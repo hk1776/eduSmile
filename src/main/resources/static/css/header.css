@@ -134,6 +134,10 @@
     src: url("../fonts/HakgyoansimDunggeunmisoTTFB.ttf") format('truetype');
 }
 @font-face {
+    font-family: 'HakgyoB';
+    src: url("../fonts/HakgyoansimDunggeunmisoOTFB.otf") format('truetype');
+}
+@font-face {
     font-family: 'Score1';
     src: url("../fonts/SCDream1.otf") format('truetype');
 }

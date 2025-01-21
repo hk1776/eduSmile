@@ -156,7 +156,7 @@
 
         var SamepassworderrorMessage = document.getElementById("SamepasswordError");
 
-        if (password == samepassword) {
+        if (password != samepassword) {
             SamepassworderrorMessage.style.display = "block"; // 에러
             document.getElementById("submitButton").disabled = true; // 제출 버튼 비활성화
             return false;
