@@ -1,6 +1,5 @@
 package com.example.edusmile.Service;
 
-import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +16,8 @@ public class SubjectService {
 
     public List<Subject> teacherSubject(Long id) {
         return subjectRepository.findByMemberId(id);
+    }
+    public Optional<Subject> findById(String id) {
+        return subjectRepository.findById(id);
     }
 }

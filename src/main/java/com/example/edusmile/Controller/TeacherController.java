@@ -77,6 +77,7 @@ public class TeacherController {
             }
 //            log.info("파일 이름 = {} 파일 정보 = {} 파일 사이즈 = {} 파일 타입 = {}",file.getOriginalFilename(), file.getContentType(), file.getSize(),file.getContentType());
 //            String projectDir = System.getProperty("user.dir");
+//            projectDir = Paths.get(projectDir, "file", "audio").toString();
 //            File convert = new File(projectDir, Objects.requireNonNull(file.getOriginalFilename()));
 //            log.info(convert.getPath());
 //            file.transferTo(convert);

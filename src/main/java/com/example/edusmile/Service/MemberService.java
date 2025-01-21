@@ -18,4 +18,7 @@ public class MemberService {
         Optional<MemberEntity> member = memberRepository.findByloginId(loginId);
         return member.orElse(null);
     }
+    public Optional<MemberEntity> findById(Long loginId) {
+        return memberRepository.findById(loginId);
+    }
 }
