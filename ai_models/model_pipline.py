@@ -218,7 +218,7 @@ class EduContentProcessor:
             # 공지사항 추출
             notice = self.get_claude_response(f"""
             다음 수업 내용에서 공지사항만을 추출해주세요. 
-            공지사항이 없다면 "공지사항이 없습니다."라고 답변해주세요.
+            공지사항이 없다면 "공지사항이 없습니다."라고만만 답변해주세요.
             
             수업 내용:
             {content}
@@ -228,6 +228,7 @@ class EduContentProcessor:
             # 수업내용 요약
             summary = self.get_claude_response(f"""
             다음 수업 내용을 핵심 개념과 중요 포인트 위주로 요약해주세요.
+            다른 추가설명없이 수업내용에 대해서만
             각 개념에 대해 구체적인 예시를 포함해주세요.
             
             수업 내용:
