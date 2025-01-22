@@ -49,18 +49,20 @@ async def process_audio(file: UploadFile = File(...)):
     """업로드된 오디오 파일을 처리하여 공지사항, 수업 내용, 해설을 반환합니다."""
     
     try:
-        validate_audio_file(file)
-
+        base_folder_path = Path(base_folder)
+        if not base_folder_path.exists():
+            return {"error": f"Base folder '{base_folder}' does not exist."}
         # 임시 파일로 오디오 저장
-        audio_path = Path(base_folder) / "temp_audio.wav"
+        audio_path = base_folder_path / "temp_audio.wav"
+        print(f"Saving file to: {audio_path}")
         with open(audio_path, "wb") as buffer:
             buffer.write(await file.read())
-        
         # 오디오 파일 처리
         results = process_audio_file(processor, audio_path)
         
         # 임시 파일 삭제
-        os.remove(audio_path)
+        if os.path.exists(audio_path):
+            os.remove(audio_path)
         
         return results
         
@@ -92,6 +94,5 @@ async def process_audio(file: UploadFile = File(...)):
         
     except Exception as e:
         return {"error": str(e)}
-
 # 실행 방법: 
 # uvicorn ai_models.fastapi:app --reload
