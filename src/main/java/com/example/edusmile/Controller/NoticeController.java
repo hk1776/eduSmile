@@ -96,33 +96,4 @@ public class NoticeController {
 
         return "notice"; // notice.mustache 템플릿
     }
-
-    // 공지사항 상세 페이지
-    @GetMapping("/{id}")
-    public String getNoticeDetail(@PathVariable("id") int id,
-                                  @AuthenticationPrincipal UserDetails user,
-                                  Model model) {
-        // 사용자 정보 확인
-        MemberEntity member = memberService.memberInfo(user.getUsername());
-        model.addAttribute("member", member);
-        model.addAttribute("teacher", member.getRole().equals("teacher"));
-
-        // 교사가 아닌 경우 메인 페이지로 이동
-        if (!member.getRole().equals("teacher")) {
-            return "main";
-        }
-
-        // 특정 공지사항 예시 데이터
-        Map<String, Object> notice = Map.of(
-                "id", id,
-                "title", "공지사항 제목 " + id,
-                "content", "이 공지사항은 공지사항 ID " + id + "의 세부 내용입니다.",
-                "author", "최**",
-                "date", "2024-12-09",
-                "views", 42
-        );
-
-        model.addAttribute("notice", notice);
-        return "notice-detail"; // notice-detail.mustache 템플릿
-    }
 }

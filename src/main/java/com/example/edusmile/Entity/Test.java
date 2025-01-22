@@ -1,9 +1,6 @@
 package com.example.edusmile.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -15,9 +12,9 @@ public class Test {
     private String title;
     private String author;
     private int views;
+    @Column(length = 10000)
     private String exam;
     private String created;
     private String updated;
-    private String file;
     private String classId;
 }

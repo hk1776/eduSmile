@@ -100,6 +100,7 @@
         width: 100%;
         border-collapse: separate; /* 분리된 셀 스타일을 위한 설정 */
         border-spacing: 0 40px; /* 행 간 간격 추가 */
+        table-layout: fixed; /* 열 너비 고정을 위해 추가 */
     }
 
     table.notice-table th {
@@ -110,6 +111,8 @@
         text-align: center;
         padding: 15px;
         font-size: 24px;
+        overflow: hidden; /* 넘치는 내용 숨김 */
+        white-space: nowrap; /* 텍스트 줄바꿈 방지 (필요시 제거 가능) */
     }
 
     table.notice-table td {
@@ -117,6 +120,8 @@
         color: #000000;
         padding: 15px;
         font-size: 18px;
+        overflow: hidden; /* 넘치는 내용 숨김 */
+        white-space: nowrap; /* 텍스트 줄바꿈 방지 (필요시 제거 가능) */
     }
 
     table.notice-table tr {
@@ -127,6 +132,27 @@
     table.notice-table tr:hover {
         background-color: #FB9C1F; /* 호버 시 행 배경색 */
         cursor: pointer;
+    }
+
+    /* 열 별로 고정 너비 설정 */
+    table.notice-table th:nth-child(1),
+    table.notice-table td:nth-child(1) {
+        width: 50%; /* 제목 */
+    }
+
+    table.notice-table th:nth-child(2),
+    table.notice-table td:nth-child(2) {
+        width: 15%; /* 작성자 */
+    }
+
+    table.notice-table th:nth-child(3),
+    table.notice-table td:nth-child(3) {
+        width: 20%; /* 작성일 */
+    }
+
+    table.notice-table th:nth-child(4),
+    table.notice-table td:nth-child(4) {
+        width: 15%; /* 조회수 */
     }
 
     .pagination {
