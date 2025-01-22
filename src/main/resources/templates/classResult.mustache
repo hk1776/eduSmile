@@ -181,50 +181,55 @@
             <textarea style="height: 100%" placeholder="음성 텍스트 변환 결과입니다.">{{stt}}</textarea>
         </div>
         {{#response}}
-        <div class="card" id = "noticeCard">
-            <div class="content-wrapper">
-                <h2 class="resultTitle">공지사항</h2>
-                <button class="btnOne" onclick="submitData('notice')">등록</button>
-            </div>
-            <textarea style="height: 100%" placeholder="공지사항 내역입니다.">{{notice}}</textarea>
-            <input id="file" type="file" class="form-control" name="file">
-        </div>
-
-        <div class="card" id="summaryCard">
-            <div class="content-wrapper">
-                <h2 class="resultTitle">수업 요약</h2>
-                <button class="btnOne" onclick="submitData('summary')">등록</button>
-            </div>
-
-            <textarea style="height: 100%" placeholder="요약된 수업 내용입니다.">{{class_summary}}</textarea>
-        </div>
-
-        <div class="card" id="testCard">
-            <div class="content-wrapper">
-                <h2 class="resultTitle">시험</h2>
-                <button class="btnOne" onclick="submitData('test')">등록</button>
-            </div>
-            {{#quiz}}
-                <div class="testCard" style="height: 100%">
-                    {{#questions}}
-                        <div class="question">
-                            <p style="font-weight: bold">문제: {{question}}</p>
-                            <div class="choices">
-                                {{#choices}}
-                                    <label>
-                                        <input type="radio" name="answer_{{question}}" value="{{.}}" />
-                                        {{.}}
-                                    </label>
-                                {{/choices}}
-                                <p>정답: <span class="correct-answer" data-answer="{{correct_answer}}"></span></p>
-                                {{explanation}}
-                            </div>
-                        </div>
-                    {{/questions}}
+            <div class="card" id = "noticeCard">
+                <div class="content-wrapper">
+                    <h2 class="resultTitle">공지사항</h2>
+                    <button class="btnOne" onclick="submitData('notice')">등록</button>
                 </div>
+                {{#notice}}
+                <textarea style="height: 100%" placeholder="공지사항 내역입니다.">{{text}}</textarea>
+                {{/notice}}
+                <input id="file" type="file" class="form-control" name="file">
+            </div>
 
-            {{/quiz}}
-        </div>
+            <div class="card" id="summaryCard">
+                <div class="content-wrapper">
+                    <h2 class="resultTitle">수업 요약</h2>
+                    <button class="btnOne" onclick="submitData('summary')">등록</button>
+                </div>
+                {{#class_summary}}
+                <textarea style="height: 100%" placeholder="요약된 수업 내용입니다.">{{text}}</textarea>
+                {{/class_summary}}
+            </div>
+
+            <div class="card" id="testCard">
+                <div class="content-wrapper">
+                    <h2 class="resultTitle">시험</h2>
+                    <button class="btnOne" onclick="submitData('test')">등록</button>
+                </div>
+                {{#quiz}}
+                    <div class="testCard" style="height: 100%">
+                    {{#text}}
+                        {{#questions}}
+                            <div class="question">
+                                <p style="font-weight: bold">문제: {{question}}</p>
+                                <div class="choices">
+                                    {{#choices}}
+                                        <label>
+                                            <input type="radio" name="answer_{{question}}" value="{{.}}" />
+                                            {{.}}
+                                        </label>
+                                    {{/choices}}
+                                    <p>정답: <span class="correct-answer" data-answer="{{correct_answer}}"></span></p>
+                                    {{explanation}}
+                                </div>
+                            </div>
+                        {{/questions}}
+                    {{/text}}
+                    </div>
+
+                {{/quiz}}
+            </div>
         {{/response}}
     </div>
     <div class="analyzeEnd">
@@ -248,67 +253,65 @@
     });
 
     function submitData(type) {
-        let formData = new FormData();
+        if (type === 'test') {
+            submitTest();
+        } else {
+            let formData = new FormData();
 
-        // 공지사항일 때
-        if (type === 'notice') {
-            const content = document.querySelector('.grid .card textarea[placeholder="공지사항 내역입니다."]').value;
-            const subjectId = document.querySelector('select').value;
-            const fileInput = document.querySelector('#noticeCard input[type="file"]');
-            const files = fileInput.files;
+            if (type === 'notice') {
+                const content = document.querySelector('.grid .card textarea[placeholder="공지사항 내역입니다."]').value;
+                const subjectId = document.querySelector('select').value;
+                const fileInput = document.querySelector('#noticeCard input[type="file"]');
+                const files = fileInput.files;
 
-            formData.append('content', content);
-            formData.append('subjectId', subjectId);
+                formData.append('content', content);
+                formData.append('subjectId', subjectId);
 
-            if (files.length > 0) {
-                for (let i = 0; i < files.length; i++) {
-                    formData.append('files', files[i]);
+                if (files.length > 0) {
+                    for (let i = 0; i < files.length; i++) {
+                        formData.append('files', files[i]);
+                    }
                 }
+            } else if (type === 'summary') {
+                const content = document.querySelector('.grid .card textarea[placeholder="요약된 수업 내용입니다."]').value;
+                const subjectId = document.querySelector('select').value;
+                formData.append('content', content);
+                formData.append('subjectId', subjectId);
             }
-        }
-        // 수업요약일 때
-        else if (type === 'summary') {
-            const content = document.querySelector('.grid .card textarea[placeholder="요약된 수업 내용입니다."]').value;
-            const subjectId = document.querySelector('select').value;
 
-            formData.append('content', content);
-            formData.append('subjectId', subjectId);
+            sendRequest(type, formData);
         }
-        // 시험일 때
-        else if (type === 'test') {
-            const subjectId = document.querySelector('select').value;
-            let questions = [];
-            document.querySelectorAll('.testCard .question').forEach(questionElem => {
-                let questionText = questionElem.querySelector('p').innerText.replace('문제: ', '');
-                let selectedAnswer = questionElem.querySelector('input:checked') ? questionElem.querySelector('input:checked').value : null;
-                questions.push({ question: questionText, selectedAnswer: selectedAnswer });
-            });
+    }
 
-            formData.append('subjectId', subjectId);
-            formData.append('questions', JSON.stringify(questions));
-        }
+    function submitTest() {
+        const subjectId = document.querySelector('select').value;
+        let questions = [];
+        document.querySelectorAll('.testCard .question').forEach(questionElem => {
+            let questionText = questionElem.querySelector('p').innerText.replace('문제: ', '');
+            let selectedAnswer = questionElem.querySelector('input:checked') ? questionElem.querySelector('input:checked').value : null;
+            questions.push({ question: questionText, selectedAnswer: selectedAnswer });
+        });
 
-        const confirmed = confirm(`${type === 'notice' ? '공지사항' : type === 'summary' ? '수업 요약' : '시험'}을 등록하시겠습니까?`);
+        const testData = {
+            subjectId: subjectId,
+            questions: questions
+        };
+
+        const confirmed = confirm('시험을 등록하시겠습니까?');
         if (confirmed) {
-            // POST 요청
-            fetch(`/board/${type}`, {
+            fetch('/board/test', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(testData)
             })
                     .then(response => {
                         if (response.ok) {
-                            if (type === 'notice') {
-                                alert("공지사항이 성공적으로 등록되었습니다!");
-                                document.getElementById('noticeCard').classList.add('disabled');
-                            } else if (type === 'summary') {
-                                alert("수업요약이 성공적으로 등록되었습니다!");
-                                document.getElementById('summaryCard').classList.add('disabled');
-                            } else if (type === 'test') {
-                                alert("시험이 성공적으로 등록되었습니다!");
-                                document.getElementById('testCard').classList.add('disabled');
-                            }
+                            alert("시험이 성공적으로 등록되었습니다!");
+                            document.getElementById('testCard').classList.add('disabled');
                         } else {
-                            alert(`${type === 'notice' ? '공지사항' : type === 'summary' ? '수업 요약' : '시험'} 등록에 실패했습니다.`);
+                            alert('시험 등록에 실패했습니다.');
                         }
                     })
                     .catch(error => {
@@ -318,83 +321,37 @@
         }
     }
 
-    function clickAll() {
-        let urls = {
-            notice: '/board/notice',
-            summary: '/board/summary',
-            test: '/board/test'
-        };
-
-        let formDataList = [];
-
-        // 공지사항 데이터 추가
-        if (!document.getElementById('noticeCard').classList.contains('disabled')) {
-            let formData = new FormData();
-            const content = document.querySelector('#noticeCard textarea').value;
-            const subjectId = document.querySelector('select').value;
-            const fileInput = document.querySelector('#noticeCard input[type="file"]');
-            const files = fileInput.files;
-
-            formData.append('content', content);
-            formData.append('subjectId', subjectId);
-
-            if (files.length > 0) {
-                for (let i = 0; i < files.length; i++) {
-                    formData.append('files', files[i]);
-                }
-            }
-
-            formDataList.push({ url: urls.notice, data: formData, cardId: 'noticeCard' });
-        }
-
-        // 수업 요약 데이터 추가
-        if (!document.getElementById('summaryCard').classList.contains('disabled')) {
-            let formData = new FormData();
-            const content = document.querySelector('#summaryCard textarea').value;
-            const subjectId = document.querySelector('select').value;
-
-            formData.append('content', content);
-            formData.append('subjectId', subjectId);
-
-            formDataList.push({ url: urls.summary, data: formData, cardId: 'summaryCard' });
-        }
-
-        // 시험 데이터 추가
-        if (!document.getElementById('testCard').classList.contains('disabled')) {
-            let formData = new FormData();
-            const subjectId = document.querySelector('select').value;
-            let questions = [];
-            document.querySelectorAll('#testCard .question').forEach(questionElem => {
-                let questionText = questionElem.querySelector('p').innerText.replace('문제: ', '');
-                let selectedAnswer = questionElem.querySelector('input:checked') ? questionElem.querySelector('input:checked').value : null;
-                questions.push({ question: questionText, selectedAnswer: selectedAnswer });
-            });
-
-            formData.append('subjectId', subjectId);
-            formData.append('questions', JSON.stringify(questions));
-
-            formDataList.push({ url: urls.test, data: formData, cardId: 'testCard' });
-        }
-
-        // 각 데이터 POST 요청 처리
-        formDataList.forEach(item => {
-            fetch(item.url, {
+    function sendRequest(type, formData) {
+        const confirmed = confirm(`${type === 'notice' ? '공지사항' : '수업 요약'}을 등록하시겠습니까?`);
+        if (confirmed) {
+            fetch(`/board/${type}`, {
                 method: 'POST',
-                body: item.data
+                body: formData
             })
                     .then(response => {
                         if (response.ok) {
-                            alert(`${item.url === urls.notice ? '공지사항' : item.url === urls.summary ? '수업 요약' : '시험'}이 성공적으로 등록되었습니다!`);
-                            document.getElementById(item.cardId).classList.add('disabled');
+                            alert(`${type === 'notice' ? '공지사항' : '수업 요약'}이 성공적으로 등록되었습니다!`);
+                            document.getElementById(`${type}Card`).classList.add('disabled');
                         } else {
-                            alert(`${item.url === urls.notice ? '공지사항' : item.url === urls.summary ? '수업 요약' : '시험'} 등록에 실패했습니다.`);
+                            alert(`${type === 'notice' ? '공지사항' : '수업 요약'} 등록에 실패했습니다.`);
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         alert('오류가 발생했습니다. 다시 시도해주세요.');
                     });
-        });
+        }
+    }
+    function clickAll() {
+        if (!document.getElementById('noticeCard').classList.contains('disabled')) {
+            submitData('notice');
+        }
+        if (!document.getElementById('summaryCard').classList.contains('disabled')) {
+            submitData('summary');
+        }
+        if (!document.getElementById('testCard').classList.contains('disabled')) {
+            submitTest();
+        }
     }
 </script>
 {{>footer}}
