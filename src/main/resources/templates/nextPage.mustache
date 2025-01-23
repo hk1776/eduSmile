@@ -1,0 +1,20 @@
+{{>header}}
+<div id="back_ground">
+    <div style="width: 70%;height:65%">
+        <div style="display: flex; justify-content: flex-start; width: 100%; padding: 0; margin: 0;">
+            {{#subject}}
+                {{subject}} | {{Grade}}학년 {{divClass}}분반
+            {{/subject}}
+            {{#notice}}
+                <button class="btn" style="background-color: gray;" disabled>공지사항</button>
+            {{/notice}}
+            {{#summary}}
+                <button class="btn" style="background-color: gray;" disabled>수업 요약</button>
+            {{/summary}}
+            {{#test}}
+                <button class="btn" style="background-color: gray;" disabled>시험</button>
+            {{/test}}
+        </div>
+    </div>
+</div>
+{{>footer}}

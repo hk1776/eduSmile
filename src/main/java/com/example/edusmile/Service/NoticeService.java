@@ -23,7 +23,7 @@ public class NoticeService {
     private final SubjectService subjectService;
     private final MemberService memberService;
 
-    public Notice save(String classId, String notice, Long memberId, boolean fileCheck) {
+    public Notice save(String classId, String notice, Long memberId, String uuid) {
         Optional<Subject> subject = subjectService.findById(classId);
         Optional<MemberEntity> member = memberService.findById(memberId);
         String title = "["+subject.get().getSubject()+"] "+subject.get().getGrade()+"학년 "+subject.get().getDivClass()+"분반 공지사항";
@@ -32,11 +32,6 @@ public class NoticeService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String time = now.format(formatter);
 
-        String file = "NO";
-
-        if(fileCheck) {
-            file = "Yes";
-        }
         Notice input = new Notice();
         input.setTitle(title);
         input.setAuthor(member.get().getName());
@@ -44,7 +39,7 @@ public class NoticeService {
         input.setNotice(notice);
         input.setCreated(time);
         input.setUpdated(time);
-        input.setFile(file);
+        input.setFile(uuid);
         input.setClassId(classId);
         return noticeRepository.save(input);
     }

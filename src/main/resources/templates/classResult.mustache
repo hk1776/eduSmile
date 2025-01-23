@@ -232,8 +232,15 @@
             </div>
         {{/response}}
     </div>
+    <form id="nextForm" action="/board/next" method="POST">
+        <input type="hidden" name="classId" id="classId" />
+        <input type="hidden" name="notice" id="noticeStatus" />
+        <input type="hidden" name="summary" id="summaryStatus" />
+        <input type="hidden" name="test" id="testStatus" />
+    </form>
     <div class="analyzeEnd">
         <button class="btnAll" onclick="clickAll()">한 번에 등록</button>
+        <button class="btnAll" onclick="proceedNext()" style="margin-left: 15px">다음으로</button>
     </div>
 
     <div class="analyzeEnd2">
@@ -353,5 +360,29 @@
             submitTest();
         }
     }
+    function proceedNext() {
+        // 폼 요소 참조
+        const form = document.getElementById("nextForm");
+        const classIdInput = document.getElementById("classId");
+        const noticeStatusInput = document.getElementById("noticeStatus");
+        const summaryStatusInput = document.getElementById("summaryStatus");
+        const testStatusInput = document.getElementById("testStatus");
+
+        // 현재 선택된 클래스 ID 설정
+        classIdInput.value = document.querySelector("select").value;
+
+        // 카드 상태 확인
+        const disabledCards = Array.from(document.querySelectorAll('.card.disabled h2.resultTitle'))
+                .map(card => card.textContent.trim());
+
+        // 상태 값 업데이트
+        noticeStatusInput.value = disabledCards.includes("공지사항") ? "true" : "false";
+        summaryStatusInput.value = disabledCards.includes("수업 요약") ? "true" : "false";
+        testStatusInput.value = disabledCards.includes("시험") ? "true" : "false";
+
+        // 폼 제출
+        form.submit();
+    }
+
 </script>
 {{>footer}}

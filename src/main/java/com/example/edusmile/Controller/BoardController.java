@@ -1,13 +1,11 @@
 package com.example.edusmile.Controller;
 
+import com.example.edusmile.Dto.BoardNextDTO;
 import com.example.edusmile.Dto.Classification;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Notice;
-import com.example.edusmile.Service.MemberService;
-import com.example.edusmile.Service.NoticeService;
-import com.example.edusmile.Service.SummaryService;
-import com.example.edusmile.Service.TestService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.edusmile.Entity.Subject;
+import com.example.edusmile.Service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,8 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -36,6 +33,7 @@ public class BoardController {
     private final SummaryService summaryService;
     private final TestService testService;
     private final MemberService memberService;
+    private final SubjectService subjectService;
 
     @PostMapping("/notice")
     public ResponseEntity<?> submitNotice(
@@ -49,15 +47,19 @@ public class BoardController {
         if (files != null && !files.isEmpty()) {
           fileCheck = true;
         }
-        Notice save = noticeService.save(subjectId, content, member.getId(), fileCheck);
+        UUID uuid = UUID.randomUUID();
+        if(fileCheck){
+            Notice save = noticeService.save(subjectId, content, member.getId(), uuid.toString());
+        }else{
+            Notice save = noticeService.save(subjectId, content, member.getId(), "No");
+        }
+
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board").toString();
         if(fileCheck) {
             files.forEach(file -> {
                 try {
-                    String newFilename = save.getId().toString();
-                    String originalFilename = file.getOriginalFilename();
-                    String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                    String savePath = Paths.get(projectDir, newFilename+extension).toString();
+                    String originalFilename = file.getOriginalFilename();;
+                    String savePath = Paths.get(projectDir, uuid+originalFilename).toString();
                     file.transferTo(new File(savePath));
                     System.out.println("파일 저장 완료: " + savePath);
                 } catch (IOException e) {
@@ -84,18 +86,6 @@ public class BoardController {
         return ResponseEntity.ok("수업요약 등록 성공");
     }
 
-//    @PostMapping("/test")
-//    public ResponseEntity<?> submitTest( @AuthenticationPrincipal UserDetails user,
-//                                         @RequestPart(value = "files", required = false) List<MultipartFile> files,
-//                                         @RequestParam("content") String questions,
-//                                         @RequestParam("subjectId") String subjectId) {
-//        MemberEntity member  = memberService.memberInfo(user.getUsername());
-//        summaryService.save(subjectId,questions.toString(),member.getId());
-//        log.info(questions.toString());
-//        log.info(subjectId);
-//        return ResponseEntity.ok("시험 등록 성공");
-//    }
-
     @PostMapping("/test")
     public ResponseEntity<?> submitTest(@AuthenticationPrincipal UserDetails user
                                         ,@RequestBody Map<String, Object> request) {
@@ -107,4 +97,28 @@ public class BoardController {
         log.info(subjectId);
         return ResponseEntity.ok("시험 등록 성공");
     }
+
+    @PostMapping("/next")
+    public String nextPage(@RequestParam Map<String, String> formData,@AuthenticationPrincipal UserDetails user, Model model) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        String classId = formData.get("classId");
+        boolean notice = Boolean.parseBoolean(formData.get("notice"));
+        boolean summary = Boolean.parseBoolean(formData.get("summary"));
+        boolean test = Boolean.parseBoolean(formData.get("test"));
+        log.info("notice = {}, summary = {}, test={}, id={}",notice, summary, test,classId);
+
+        Optional<Subject> subject = subjectService.findById(classId);
+
+
+        model.addAttribute("member", member);
+        model.addAttribute("notice", notice);
+        model.addAttribute("summary",summary);
+        model.addAttribute("test", test);
+        model.addAttribute("subject", subject.get());
+
+        return "nextPage";
+    }
+
+
 }
