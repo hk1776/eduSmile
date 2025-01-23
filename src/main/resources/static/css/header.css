@@ -14,6 +14,22 @@
     padding: 0; /* 불필요한 여백 제거 */
     box-sizing: border-box; /* 너비 계산에서 패딩 포함 */
 }
+.teacher-image{
+    position : absolute;
+    height:1.5vw;
+    width:1.5vw;
+    left:12.7vw;
+    top:2vw;
+}
+.teacher-info{
+    position:absolute;
+    height:5vw;
+    width:5vw;
+    left:11.7vw;
+    font-family: "SCore5", sans-serif;
+    font-size: 1vw;
+    top:5vw;
+}
 
 #back_ground2 {
     display: flex;
@@ -31,6 +47,7 @@
     padding: 0; /* 불필요한 여백 제거 */
     box-sizing: border-box; /* 너비 계산에서 패딩 포함 */
 }
+
 .user-info {
     position: relative;
     display: inline-block;
@@ -70,11 +87,18 @@
     border: 1px solid #ddd;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    width: 300px;
+    width: 23vw;
+    height:12vw;
+    font-size: 1.3vw;
     border-radius: 5px;
     font-family: 'Score5', sans-serif;
 }
+.logout-btn{
+    position:absolute;
+    left:2vw;
+    top:8vw;
 
+}
 .user-info-menu.active {
     display: flex;
 }
@@ -82,6 +106,7 @@
     padding: 10px;
     border-right: 2px solid #576096;
 }
+
 .user-info-menu,
 .user-info-menu .user-info-right-column {
     padding: 10px;

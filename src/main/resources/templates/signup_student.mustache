@@ -94,12 +94,12 @@
                 <div id="phoneError" class="text-danger" style="font-size: 1vw; display: none;">전화번호는 숫자만 입력 가능합니다.</div>
             </div>
             {{#not_exist_teacherCode}}
-            <div class="teacnercode-danger" role="alert">
-                존재하지 않는 학급코드입니다.
-            </div>
+                <div class="teacnercode-danger" role="alert">
+                    존재하지 않는 학급코드입니다.
+                </div>
             {{/not_exist_teacherCode}}
-             <div class="t-code">
-                 학급코드<input type="text" class="form-control-tcode" id="teacherCode" name="teacherCode" maxlength='5' placeholder="5자리" required>
+            <div class="t-code">
+                학급코드<input type="text" class="form-control-tcode" id="teacherCode" name="teacherCode" maxlength='5' placeholder="5자리" required>
             </div>
 
             <div class="frame-12">
@@ -130,7 +130,14 @@
 
     async function sendtcode() { // 학급코드 유효성 찾기
         const tcode_input = document.getElementById("teacherCode");
-        const tcode = tcode_input.value;
+
+        const tcode = tcode_input.value.trim(); // 공백 제거
+
+        // 입력값이 비어있을 경우
+        if (!tcode) {
+            document.getElementById("tcode-response").textContent = "학급코드를 입력하세요.";
+            return; // 함수 종료
+        }
 
         try {
             const response = await fetch("http://localhost:8080/user/tcode", {

@@ -30,3 +30,9 @@ spring:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false

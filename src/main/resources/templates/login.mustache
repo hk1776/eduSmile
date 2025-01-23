@@ -35,18 +35,18 @@
 
 <!-- Mustache 템플릿 -->
 
-    <div class="_008">
-        {{#error}}
-            <div class="alert alert-danger" role="alert">
-                사용자ID 또는 비밀번호를 확인해 주세요.
-            </div>
-        {{/error}}
-        {{#pw_changed}}
-            <div class="alert alert-success" role="alert">
-                비밀번호가 성공적으로 변경되었습니다
-            </div>
-        {{/pw_changed}}
-        <form action="/user/login" method="post">
+<div class="_008">
+    {{#error}}
+        <div class="alert alert-danger" role="alert">
+            사용자ID 또는 비밀번호를 확인해 주세요.
+        </div>
+    {{/error}}
+    {{#pw_changed}}
+        <div class="alert alert-success" role="alert">
+            비밀번호가 성공적으로 변경되었습니다
+        </div>
+    {{/pw_changed}}
+    <form action="/user/login" method="post">
         <div class="frame-11">
             <div class="div"><a target="_self" href="/user/findLoginId" id="findLoginId" class="find-ID">아이디 찾기</a></div>
             <div class="div2"><a target="_self" href="/user/reset_password" id="findLoginPW" class="find-PW">비밀번호 찾기</a></div>
@@ -70,13 +70,13 @@
 
         </div>
 
-        </form>
-        <img
-                class="image-10-removebg-preview-2"
-                src="/images/image-10-removebg-preview-20.png"
-        />
+    </form>
+    <img
+            class="image-10-removebg-preview-2"
+            src="/images/image-10-removebg-preview-20.png"
+    />
 
-    </div>
+</div>
 
 
 

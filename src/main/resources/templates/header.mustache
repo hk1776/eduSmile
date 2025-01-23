@@ -46,21 +46,26 @@
                         <button class="user-info-button" onclick="toggleDropdown()">{{name}}님</button>
                         <div class="user-info-menu" id="user-info-menu">
                             <div class="user-info-left-column">
-                                <a href="/member/change" style="text-decoration: none; color: black;">마이 페이지</a>
+
+                                <a href="/member/mypage" style="text-decoration: none; color: black;">마이 페이지</a>
                                 {{#teacher}}
                                     <a href="/teacher" style="text-decoration: none; color: black;">교사 페이지</a>
                                 {{/teacher}}
                                 <form id="data_input" action="/logout" method="post" style="margin-top: 40%">
-                                    <button type="submit" class="btn btn-link" style="text-decoration: none; color: red; padding: 0; background: none; border: none;">
+                                    <button type="submit" class="logout-btn" style="text-decoration: none; color: red; padding: 0; background: none; border: none;">
                                         로그아웃
                                     </button>
                                 </form>
                             </div>
                             <div class="user-info-right-column">
                                 <div style="text-align: center;">
-                                    <img src="/images/user.svg" alt="사용자 이미지" style="width: 60px; height: 60px; border-radius: 50%;">
-                                    <p style="margin-bottom: 5px;margin-top: 10px;">교사 정보</p>
-                                    <p>교사 연락처</p>
+                                    {{#class-teacher}}
+                                        <img  class="teacher-image" src="/profile_img/{{img_path}}" alt="사용자 이미지" style="width: 60px; height: 60px; border-radius: 50%;">
+                                        <div class="teacher-info">
+                                            <p style="margin-bottom: 5px;margin-top: 10px;">{{name}}</p>
+                                            <p>0{{phoneNumber}}</p>
+                                        </div>
+                                    {{/class-teacher}}
                                 </div>
 
                             </div>
@@ -85,4 +90,5 @@
             menu.classList.remove('active');
         }
     });
+
 </script>

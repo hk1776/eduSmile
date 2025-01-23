@@ -41,28 +41,31 @@ public class LoginService {
             }
 
             memberDto.setTeacherCode(result.toString());
-
-            memberRepository.save(memberDto.toEntity());
+            MemberEntity member = memberDto.toEntity();
+            member.setImg_path("blank_profile.svg");
+            memberRepository.save(member);
             return true;
 
         }
         else if(memberDto.getRole().equals("student")) {
-                List<MemberEntity> members = memberRepository.findByTeacherCodeTeacher(memberDto.getTeacherCode() , "teacher");
+            List<MemberEntity> members = memberRepository.findByTeacherCodeTeacher(memberDto.getTeacherCode() , "teacher");
 
-                if(members.isEmpty())
-                {
-                    return false;
-                }
-                else
-                {
-                    MemberEntity teacher = members.get(0);
+            if(members.isEmpty())
+            {
+                return false;
+            }
+            else
+            {
+                MemberEntity teacher = members.get(0);
 
-                    memberDto.setSchoolClass(teacher.getSchoolClass());
-                    memberDto.setSchool(teacher.getSchool());
+                memberDto.setSchoolClass(teacher.getSchoolClass());
+                memberDto.setSchool(teacher.getSchool());
 
-                    memberRepository.save(memberDto.toEntity());
-                    return true;
-                }
+                MemberEntity member = memberDto.toEntity();
+                member.setImg_path("blank_profile.svg");
+                memberRepository.save(member);
+                return true;
+            }
 
         }
         return false;

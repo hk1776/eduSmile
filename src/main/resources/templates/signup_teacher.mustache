@@ -54,59 +54,59 @@
 
 <div class="_002">
     <form action="/user/signupsave" method="post" oninput="return validateForm()">
-    <div class="full">
-    <div class="div">개인정보 보호 동의서</div>
-    <div class="div2">
+        <div class="full">
+            <div class="div">개인정보 보호 동의서</div>
+            <div class="div2">
 
-    </div>
-        {{#duplication}}
-            <div class="duplication-danger" role="alert">
-                이미 존재하는 ID 입니다.
             </div>
-        {{/duplication}}
-    <div class="id">
-        ID<input type="text" class="form-control-id" id="LoginId" name="loginId" maxlength='30' required>
+            {{#duplication}}
+                <div class="duplication-danger" role="alert">
+                    이미 존재하는 ID 입니다.
+                </div>
+            {{/duplication}}
+            <div class="id">
+                ID<input type="text" class="form-control-id" id="LoginId" name="loginId" maxlength='30' required>
 
-        <div id="idError" class="text-danger" style="font-size: 1vw; display: none;">아이디는 6-12자의 영문, 숫자, 기호(-, _)만 사용 가능합니다.</div>
-    </div>
+                <div id="idError" class="text-danger" style="font-size: 1vw; display: none;">아이디는 6-12자의 영문, 숫자, 기호(-, _)만 사용 가능합니다.</div>
+            </div>
 
-    <div class="div3">
-        비밀번호<input type="password" class="form-control-pw" id="password" name="password" maxlength='30' required>
-        <div id="passwordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호는 6-15자의 영문, 숫자, 특수문자가 하나 이상 필요합니다.</div>
-    </div>
+            <div class="div3">
+                비밀번호<input type="password" class="form-control-pw" id="password" name="password" maxlength='30' required>
+                <div id="passwordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호는 6-15자의 영문, 숫자, 특수문자가 하나 이상 필요합니다.</div>
+            </div>
 
-    <div class="div4">
-        비밀번호 확인<input type="password" class="form-control-pwcheck" id="samepassword" name="samepassword" maxlength='30' required>
-        <div id="SamepasswordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호가 일치 하지 않습니다</div>
-    </div>
-    <div class="div5">교사 인증</div>
+            <div class="div4">
+                비밀번호 확인<input type="password" class="form-control-pwcheck" id="samepassword" name="samepassword" maxlength='30' required>
+                <div id="SamepasswordError" class="text-danger" style="font-size: 1vw; display: none;">비밀번호가 일치 하지 않습니다</div>
+            </div>
+            <div class="div5">교사 인증</div>
 
-    <div class="div8">
-        이름<input type="text" class="form-control-name" id="name" name="name" maxlength='30' required>
-        <div id="nameError" class="text-danger" style="font-size: 1vw;  display: none;">이름은 한글 또는 영어로만 입력 가능합니다.</div>
-    </div>
-    <div class="div9">
-        전화 번호<input type="tel" class="form-control-pnumber" id="phoneNumber" name="phoneNumber" maxlength='11' required>
-        <div id="phoneError" class="text-danger" style="font-size: 1vw; display: none;">전화번호는 숫자만 입력 가능합니다.</div>
-    </div>
-    <div class="div10">
-        학교 이름<input type="text" class="form-control-school" id="school" name="school" maxlength='20' required>
-    </div>
+            <div class="div8">
+                이름<input type="text" class="form-control-name" id="name" name="name" maxlength='30' required>
+                <div id="nameError" class="text-danger" style="font-size: 1vw;  display: none;">이름은 한글 또는 영어로만 입력 가능합니다.</div>
+            </div>
+            <div class="div9">
+                전화 번호<input type="tel" class="form-control-pnumber" id="phoneNumber" name="phoneNumber" maxlength='11' required>
+                <div id="phoneError" class="text-danger" style="font-size: 1vw; display: none;">전화번호는 숫자만 입력 가능합니다.</div>
+            </div>
+            <div class="div10">
+                학교 이름<input type="text" class="form-control-school" id="school" name="school" maxlength='20' required>
+            </div>
 
-        <div class="class">
-            <label for="반번호" class="form-label">반</label>
-            <input type="number" class="form-control-class" id="schoolClass" name="schoolClass" maxlength='2' required>
+            <div class="class">
+                <label for="반번호" class="form-label">반</label>
+                <input type="number" class="form-control-class" id="schoolClass" name="schoolClass" maxlength='2' required>
+            </div>
+
+            <div class="frame-12">
+                <img class="polygon-2" src="/css/images/polygon-20.svg" />
+                <img class="_3" src="/images/_30.png" />
+                <div class="div12">교사 회원가입</div>
+            </div>
+            <div class="rectangle-1062">개인정보 어쩌구 저쩌구</div>
+            <input type="hidden" id="role" name="role" value="teacher">
+
         </div>
-
-    <div class="frame-12">
-        <img class="polygon-2" src="/css/images/polygon-20.svg" />
-        <img class="_3" src="/images/_30.png" />
-        <div class="div12">교사 회원가입</div>
-    </div>
-        <div class="rectangle-1062">개인정보 어쩌구 저쩌구</div>
-        <input type="hidden" id="role" name="role" value="teacher">
-
-    </div>
         <button type="submit" id="submitButton" class="signup-btn" disabled>회원가입</button>
     </form>
     <button type="submit" id="backtologin-btn" class="back-btn">
