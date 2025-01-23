@@ -26,6 +26,6 @@ public class MemberDto {
 
     public MemberEntity toEntity() {
         return new MemberEntity(null,loginId,encoder.encode(password),name,phoneNumber,school,schoolClass,
-                role,teacherCode,null,null,null,null);
+                role,teacherCode,null,null,null);
     }
 }
