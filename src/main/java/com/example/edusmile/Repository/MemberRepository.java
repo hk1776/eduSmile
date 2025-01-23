@@ -37,6 +37,4 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
         @Query(value = "update MemberEntity member set member.password = :new_password " +
                 "where member.loginId = :LoginId")
         void reset_password(@Param("LoginId") String LoginId, @Param("new_password") String new_password);
-
-
 }

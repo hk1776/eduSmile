@@ -45,7 +45,7 @@ public class BoardController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         // 파일 처리
         if (files != null && !files.isEmpty()) {
-            fileCheck = true;
+          fileCheck = true;
         }
         UUID uuid = UUID.randomUUID();
         if(fileCheck){
@@ -88,7 +88,7 @@ public class BoardController {
 
     @PostMapping("/test")
     public ResponseEntity<?> submitTest(@AuthenticationPrincipal UserDetails user
-            ,@RequestBody Map<String, Object> request) {
+                                        ,@RequestBody Map<String, Object> request) {
         String subjectId = (String) request.get("subjectId");
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         List<Classification.AnalyzeDTO.Quiz> questions = (List<Classification.AnalyzeDTO.Quiz>) request.get("questions");
