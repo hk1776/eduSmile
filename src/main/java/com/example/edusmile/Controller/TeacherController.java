@@ -46,8 +46,15 @@ public class TeacherController {
     @GetMapping()
     public String home(@AuthenticationPrincipal UserDetails user, Model model) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
+        List<Subject> subjects = subjectService.teacherSubject(member.getId());
+        subjects.sort(Comparator
+                .comparing(Subject::getGrade) // 이름 기준 오름차순
+                .thenComparing(Subject::getDivClass));
+
         model.addAttribute("member", member);
+        model.addAttribute("subjects", subjects);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
+
         if(!member.getRole().equals("teacher")) {
             return "main";
         }else{
@@ -134,6 +141,17 @@ public class TeacherController {
             return "classResult";
         }
     }
+
+    @PostMapping("/classAdd")
+    public String addClass(@RequestParam("grade") String grade, @RequestParam("class") String divClass,
+                           @RequestParam("subject") String subject, Model model,@AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        int gradeId = Integer.parseInt(grade);
+        subjectService.save(member.getId(), subject,gradeId, divClass);
+        model.addAttribute("message", "수업이 성공적으로 추가되었습니다!");
+        return "redirect:/teacher"; // 리다이렉트할 URL
+    }
+
     public boolean isValidMp3(File file) {
         try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file)) {
             AudioFormat format = audioInputStream.getFormat();
