@@ -1,0 +1,235 @@
+{{>header}}
+<style>
+    .ai-020,
+    .ai-020 * {
+        box-sizing: border-box;
+    }
+    .ai-020 {
+        background: #fcf2d4;
+        height: 50vw;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .main-box {
+        border-radius: 30px;
+        background: #F6E1A0;
+        font-family: "Score6", sans-serif;
+        font-size: 1.3vw;
+        border-width: 0.2vw;
+        width: 80vw;  /* 너비를 vw로 설정 */
+        height: 26vw;  /* 높이를 vh로 설정 */
+        left: 10vw;  /* 좌측 위치를 vw로 설정 */
+        top: 5vw;    /* 상단 위치를 vh로 설정 */
+        position: absolute;
+        display: flex;
+        flex-direction: column; /* 세로로 정렬 */
+        justify-content: flex-start;  /* 위에서부터 정렬 */
+        align-items: center;  /* 가로 중앙 정렬 */
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        overflow-y: auto;
+        padding-top: 2vh; /* 상단 여백을 vh로 설정 */
+    }
+
+    .btlogin
+    {
+        font-size: 1.3vw;
+        text-decoration: none; /* 밑줄 없애기 */
+        color: inherit;        /* 텍스트 색상을 부모 요소의 색상으로 상속 */
+        left: 17vw;
+        top: 53vw;
+    }
+    .back-btn{
+        color:#908282;
+        font-size: 1.3vw;
+        text-decoration: none; /* 밑줄 없애기 */
+        left: 2vw;
+        top: 46vw;
+        position: absolute;
+    }
+    .profile
+    {
+        height: 20vw;
+        width: 20vw;
+        border: 0.3vw solid #1E2D84;
+        left:7vw;
+        top:3vw;
+        position:absolute;
+        border-radius: 50%;
+    }
+    .file-div
+    {
+        position:absolute;
+        left:0vw;
+        top:0vw;
+    }
+    .file-select{
+        position: absolute;
+        font-size: 1.5vw;
+        outline: none;
+        border: 1px solid #E68E1B;
+        font-family: "SCore5", sans-serif;
+        background-color: #E68E1B;
+        color: white;
+        border-radius: 50px;       /* 둥근 테두리 설정 */
+        width: 3.5vw;
+        height: 3.5vw;
+        left: 22vw;
+        top: 18vw;
+        z-index: 2;
+    }
+    .sub-box{
+        border-radius: 10px;
+        background: #FFFFFF;
+        font-family: "Score6", sans-serif;
+        color:#4B4B4B;
+        font-size: 1.3vw;
+        border-width: 0.2vw;
+        width: 30vw;  /* 너비를 vw로 설정 */
+        height: 13vw;  /* 높이를 vh로 설정 */
+        left: 40vw;  /* 좌측 위치를 vw로 설정 */
+        top: 10vw;    /* 상단 위치를 vh로 설정 */
+        position: absolute;
+        display: flex;
+        flex-direction: column; /* 세로로 정렬 */
+        justify-content: flex-start;  /* 위에서부터 정렬 */
+        align-items: center;  /* 가로 중앙 정렬 */
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        overflow-y: auto;
+        padding-top: 2vh; /* 상단 여백을 vh로 설정 */
+    }
+    .name{
+        position:absolute;
+        left:40vw;
+        color:#4B4B4B;
+        top:2vw;
+        font-family: "SCore5", sans-serif;
+        font-size:5vw;
+    }
+    .info{
+        position:absolute;
+        left: 5vw;
+        top:2.5vw;
+    }
+    .emo{
+        height:2vw;
+        width:2vw;
+    }
+</style>
+
+
+<div class="ai-020">
+
+        <a target="_self" id="back-btn" class="back-btn"  href="/teacher"><<< 뒤로가기</a>
+
+
+    <div class="main-box" >
+        {{#member}}
+            <img class="profile"
+                 src="/profile_img/{{img_path}}"
+            alt="이미지 설명"
+            onerror="this.src='/profile_img/blank_profile.svg';" />
+        <div class="sub-box" >
+            <div class="info">
+                <p class="school"><img class="emo" src="/images/school-emo.svg"> 학교 : {{school}}</p>
+                <p class="class"><img class="emo" src="/images/class-emo.svg"> 반 번호 : {{schoolClass}}반</p>
+                <p class="phone"><img class="emo" src="/images/phone-emo.svg"> 전화번호 : 0{{phoneNumber}}</p>
+            </div>
+        </div>
+        <div class="file-div">
+            <input type="file" id="fileInput" style="display: none;">
+            <button class="file-select" id="uploadButton1">+</button>
+        </div>
+        <div class="name">{{name}} 님</div>
+            <input type="hidden" value="{{id}}">
+        {{/member}}
+    </div>
+
+    </div>
+
+<script>
+    window.addEventListener('keydown', function(event) {
+        // F5 키를 누를 때 새로고침 방지
+        if (event.key === 'F5') {
+            event.preventDefault();
+        }
+        // Ctrl + R (새로고침) 방지
+        if (event.ctrlKey && event.key === 'r') {
+            event.preventDefault();
+        }
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const profileImage = document.querySelector('.profile');
+        const currentTimestamp = new Date().getTime(); // 현재 타임스탬프
+        const imgPath = profileImage.src.split('?')[0]; // 기존 이미지 URL에서 쿼리 파라미터 제거
+        profileImage.src = `${imgPath}?t=${currentTimestamp}`; // 새로운 타임스탬프 추가
+
+    });
+
+    const fileInput = document.getElementById('fileInput');
+    const uploadButton = document.getElementById('uploadButton1');
+    const profileImage = document.querySelector('.profile'); // 프로필 이미지 요소
+
+    // "+" 버튼 클릭 시 파일 선택 창 열기
+    uploadButton.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // 파일 선택 후 업로드 처리
+    fileInput.addEventListener('change', async () => {
+        if (fileInput.files.length === 0) {
+            alert('파일을 선택해주세요!');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+
+        // 확장자 검사
+        if (!allowedExtensions.includes(fileExtension)) {
+            alert('JPG 또는 PNG 형식의 파일만 업로드 가능합니다!');
+            fileInput.value = ''; // 파일 입력 초기화
+            return;
+        }
+
+        // FileReader를 사용하여 이미지를 로컬에서 바로 갱신
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            profileImage.src = event.target.result; // 이미지를 로컬에서 읽어 프로필 이미지 갱신
+        };
+        reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기
+
+        const idValue = document.querySelector('input[type="hidden"]').value;
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]); // 단일 파일 업로드
+        formData.append('id', idValue);
+
+        try {
+            const response = await fetch('/uploadsprofile', { // 스프링 백엔드의 업로드 엔드포인트
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                // 업로드 성공 후 이미지 갱신
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profileImage.src = event.target.result; // 이미지를 로컬에서 읽어 프로필 이미지 갱신
+                };
+                reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기
+
+                alert('프로필 사진 업로드 성공!');
+            } else {
+                alert('프로필 사진 업로드 실패!');
+            }
+        } catch (error) {
+            alert('업로드 중 오류 발생!');
+            console.error(error);
+        }
+    });
+</script>
+{{>footer}}

@@ -64,5 +64,7 @@ public class MemberEntity {
 
     private String subject;
 
+    private String img_path;
+
 
 }
