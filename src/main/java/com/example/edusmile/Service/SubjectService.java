@@ -16,6 +16,7 @@ import java.util.UUID;
 @Slf4j
 public class SubjectService {
     private final SubjectRepository subjectRepository;
+    private final MemberService memberService;
 
     public List<Subject> teacherSubject(Long id) {
         return subjectRepository.findByMemberId(id);
@@ -30,8 +31,22 @@ public class SubjectService {
         subject.setGrade(grade);
         subject.setDivClass(divClass);
         String uuid = UUID.randomUUID().toString();
-        String id = uuid.replace("-", "").substring(0, 10);
+        String id = uuid.replace("-", "").substring(0, 5);
         subject.setId(id);
+        memberService.saveSubject(memberId,id);
         return subjectRepository.save(subject);
+    }
+
+    public void delete(Long memberId, String subjectId) {
+        subjectRepository.deleteById(subjectId);
+        memberService.deleteSubject(memberId,subjectId);
+    }
+
+    public Subject update(String subjectId,String subjectInput,int grade,String divClass) {
+        Optional<Subject> subject = subjectRepository.findById(subjectId);
+        subject.get().setSubject(subjectInput);
+        subject.get().setGrade(grade);
+        subject.get().setDivClass(divClass);
+        return subjectRepository.save(subject.get());
     }
 }

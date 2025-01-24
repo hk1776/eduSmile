@@ -35,6 +35,14 @@ public class BoardController {
     private final MemberService memberService;
     private final SubjectService subjectService;
 
+    @GetMapping("/classList")
+    public String classList(Model model,@AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+
+        return "index";
+    }
+
     @PostMapping("/notice")
     public ResponseEntity<?> submitNotice(
             @AuthenticationPrincipal UserDetails user,

@@ -23,24 +23,9 @@
             <ul class="nav">
                 <li class="nav-item" style="display: flex; align-items: center; margin-right: 45px;">
                     <div class="dropdown">
-                        <a class="user-info-button"  style="margin-right: 15px" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="user-info-button"  style="margin-right: 15px" role="button" aria-expanded="false" href="board/classList">
                             게시판
                         </a>
-
-                        <ul class="dropdown-menu dropdown-menu-end" style="
-                                background-color: #FFFEFD;
-                                opacity: 0.9;
-                                border: 1px solid #ddd;
-                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                                width: 300px;
-                                border-radius: 5px;
-                                font-family: 'Score5', sans-serif;">
-                            <li><a class="dropdown-item" href="/notice">공지사항</a></li>
-                            <li><a class="dropdown-item" href="/assignments">과제/준비물</a></li>
-                            <li><a class="dropdown-item" href="/class-summary">수업요약</a></li>
-                            <li><a class="dropdown-item" href="/exams">시험</a></li>
-                            <li><a class="dropdown-item" href="/free-board">자유게시판</a></li>
-                        </ul>
                     </div>
                     <div class="user-info">
                         <button class="user-info-button" onclick="toggleDropdown()">{{name}}님</button>

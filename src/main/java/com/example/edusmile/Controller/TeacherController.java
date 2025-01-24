@@ -53,6 +53,7 @@ public class TeacherController {
 
         model.addAttribute("member", member);
         model.addAttribute("subjects", subjects);
+        model.addAttribute("subLen",subjects.size());
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         if(!member.getRole().equals("teacher")) {
@@ -149,6 +150,25 @@ public class TeacherController {
         int gradeId = Integer.parseInt(grade);
         subjectService.save(member.getId(), subject,gradeId, divClass);
         model.addAttribute("message", "수업이 성공적으로 추가되었습니다!");
+        return "redirect:/teacher"; // 리다이렉트할 URL
+    }
+
+    @PostMapping("/classUpdate")
+    public String updateClass(@RequestParam("updateCode") String code,@RequestParam("updateGrade") String grade, @RequestParam("updateClass") String divClass,
+                           @RequestParam("updateSubject") String subject, Model model,@AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        int gradeId = Integer.parseInt(grade);
+        subjectService.update(code, subject,gradeId, divClass);
+        model.addAttribute("message", "수업이 성공적으로 수정되었습니다!");
+        return "redirect:/teacher"; // 리다이렉트할 URL
+    }
+
+    @PostMapping("/classDelete")
+    public String deleteClass(@RequestParam("deleteCode") String code, Model model,@AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        subjectService.delete(member.getId(), code);
+        model.addAttribute("message", "수업이 성공적으로 수정되었습니다!");
         return "redirect:/teacher"; // 리다이렉트할 URL
     }
 
