@@ -3,6 +3,7 @@ import com.example.edusmile.Config.ClovaSpeechClient;
 import com.example.edusmile.Dto.Classification;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
+import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Service.MemberService;
 import com.example.edusmile.Service.PostService;
 import com.example.edusmile.Service.SubjectService;
@@ -42,6 +43,7 @@ public class TeacherController {
     private final MemberService memberService;
     private final PostService postService;
     private final SubjectService subjectService;
+    private final MemberRepository memberRepository;
 
     @GetMapping()
     public String home(@AuthenticationPrincipal UserDetails user, Model model) {
@@ -56,6 +58,12 @@ public class TeacherController {
         model.addAttribute("subLen",subjects.size());
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
         if(!member.getRole().equals("teacher")) {
             return "main";
         }else{
@@ -68,6 +76,13 @@ public class TeacherController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         model.addAttribute("member", member);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
         if(!member.getRole().equals("teacher")) {
             return "main";
         }else{
@@ -147,6 +162,13 @@ public class TeacherController {
     public String addClass(@RequestParam("grade") String grade, @RequestParam("class") String divClass,
                            @RequestParam("subject") String subject, Model model,@AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
         int gradeId = Integer.parseInt(grade);
         subjectService.save(member.getId(), subject,gradeId, divClass);
         model.addAttribute("message", "수업이 성공적으로 추가되었습니다!");

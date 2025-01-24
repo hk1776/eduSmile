@@ -115,6 +115,27 @@
         height:2vw;
         width:2vw;
     }
+    .Counsel-btn{
+        position: absolute;
+        left:70vw;
+        top:35vw;
+        background: #f19b2a;
+        border-radius: 30px;
+        border-style: solid;
+        border-color: #576096;
+        border-width: 7px;
+        width: 15vw;
+        height: 8vh;
+        font-family: "Score6", sans-serif;
+        font-size:1.5vw;
+        display: flex; /* 플렉스 박스 활성화 */
+        justify-content: center; /* 수평 중앙 정렬 */
+        align-items: center; /* 수직 중앙 정렬 */
+        text-decoration: none; /* 밑줄 제거 */
+        font-weight: bold;
+        color: white;
+
+    }
 </style>
 
 
@@ -127,7 +148,6 @@
         {{#member}}
             <img class="profile"
                  src="/profile_img/{{img_path}}"
-            alt="이미지 설명"
             onerror="this.src='/profile_img/blank_profile.svg';" />
         <div class="sub-box" >
             <div class="info">
@@ -144,6 +164,8 @@
             <input type="hidden" value="{{id}}">
         {{/member}}
     </div>
+
+        <a target="_self" href="/CounselList" class="Counsel-btn">상담내역 확인</a>
 
     </div>
 

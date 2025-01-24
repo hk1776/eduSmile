@@ -210,12 +210,13 @@
         <a target="_self" id="back-btn" class="back-btn"  href="/teacher/student_recode"><<< 뒤로가기</a>
     </div>
 
-    {{#member}}
+    {{#student}}
         <div class="main-box" >
-            <img class="blank_profile" src="/images/blank_profile.svg" />
+            <img class="blank_profile" src="/profile_img/{{img_path}}"
+                 onerror="this.src='/profile_img/blank_profile.svg';" />
             <div class="name">{{name}} | 학생</div>
         </div>
-    {{/member}}
+    {{/student}}
 
     <div class="file_drag" id="file_drag">
         <div id="plz_drag" class="plz_drag">파일을 끌어 올리고 제출하면 AI가 자동으로 학생 정보를 분석후 업로드 합니다.</div>

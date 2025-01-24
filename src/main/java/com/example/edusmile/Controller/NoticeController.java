@@ -1,6 +1,7 @@
 package com.example.edusmile.Controller;
 
 import com.example.edusmile.Entity.MemberEntity;
+import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ import java.util.Map;
 @RequestMapping("/notice") // 공지사항 관련 경로
 public class NoticeController {
     private final MemberService memberService;
-
+    private final MemberRepository memberRepository;
     // 공지사항 목록 페이지
     @GetMapping
     public String getNoticeList(
@@ -38,6 +39,12 @@ public class NoticeController {
         MemberEntity member = memberService.memberInfo(user.getUsername());
         model.addAttribute("member", member);
         model.addAttribute("teacher", member.getRole().equals("teacher"));
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
 
         // 교사가 아닌 경우 메인 페이지로 이동
         if (!member.getRole().equals("teacher")) {

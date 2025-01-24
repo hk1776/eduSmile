@@ -18,17 +18,17 @@
     position : absolute;
     height:1.5vw;
     width:1.5vw;
-    left:12.7vw;
+    left:14.7vw;
     top:2vw;
 }
 .teacher-info{
     position:absolute;
     height:5vw;
     width:5vw;
-    left:11.7vw;
+    left:13.7vw;
     font-family: "SCore5", sans-serif;
     font-size: 1vw;
-    top:5vw;
+    top:10vh;
 }
 
 #back_ground2 {
@@ -105,6 +105,7 @@
 .user-info-left-column{
     padding: 10px;
     border-right: 2px solid #576096;
+    left:10vw;
 }
 
 .user-info-menu,
