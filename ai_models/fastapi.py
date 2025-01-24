@@ -4,12 +4,15 @@ import os
 from pathlib import Path
 from typing import Dict
 from ai_models.model_pipline import EduContentProcessor, process_audio_file,process_text_file, load_api_keys
+from ai_models.pdf_ocr import PDFProcessor
 
 app = FastAPI()
 
 # API 키 파일 경로
 base_folder = os.path.dirname(os.path.abspath(__file__))
-
+pdf_json_folder=Path(base_folder) / "pdf2json"
+api_key_path=Path(base_folder)/"claude_api_key.txt"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=str(Path(base_folder)/"ocr_google_api_key.json")
 # API 키 로드
 config = load_api_keys(base_folder)
 
@@ -19,28 +22,8 @@ processor = EduContentProcessor(
     config['claude_api_key'],
     config['base_folder']
 )
-ALLOWED_EXTENSIONS1 = {"mp3", "wav", "flac"}
+processor2 = PDFProcessor(api_key_path,base_folder,pdf_json_folder)
 
-# 파일 확장자 검증 함수
-def validate_audio_file(file: UploadFile):
-    filename = file.filename
-    file_extension = filename.split(".")[-1].lower()
-    return file_extension
-    
-    # 파일 확장자가 허용된 오디오 형식인지 확인
-    if file_extension not in ALLOWED_EXTENSIONS1:
-        raise HTTPException(status_code=400, detail="Uploaded file is not a valid audio file")
-
-ALLOWED_EXTENSIONS2 = {"pdf"}
-
-# 파일 확장자 검증 함수
-def validate_pdf_file(file: UploadFile):
-    filename = file.filename
-    file_extension = filename.split(".")[-1].lower()
-    
-    # 파일 확장자가 허용된 pdf 형식인지 확인
-    if file_extension not in ALLOWED_EXTENSIONS2:
-        raise HTTPException(status_code=400, detail="Uploaded file is not a valid pdf file")
 class TextRequest(BaseModel):
     text: str
     
@@ -84,12 +67,15 @@ async def process_text(request: TextRequest):
 @app.post("/process_pdf/")
 async def process_audio(file: UploadFile = File(...)):
     """업로드된 PDF파일을 처리합니다다."""
-
     try:
-        validate_pdf_file(file)
-
-        results = 1
-        
+        base_folder_path = Path(base_folder)
+        pdf_path = base_folder_path / "temp_pdf.pdf"
+        print(f"Saving file to: {pdf_path}")
+        with open(pdf_path, "wb") as buffer:
+            buffer.write(await file.read())
+        results = processor2.process_pdf(pdf_path)
+        if os.path.exists(pdf_path):
+            os.remove(pdf_path)
         return results
         
     except Exception as e:
