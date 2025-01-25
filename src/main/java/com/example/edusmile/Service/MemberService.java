@@ -1,6 +1,7 @@
 package com.example.edusmile.Service;
 
 import com.example.edusmile.Entity.MemberEntity;
+import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final AttendService attendService;
 
     public MemberEntity memberInfo(String loginId) {
         Optional<MemberEntity> member = memberRepository.findByloginId(loginId);
@@ -24,30 +26,28 @@ public class MemberService {
     public Optional<MemberEntity> findById(Long id) {
         return memberRepository.findById(id);
     }
-    public void saveSubject(Long id, String subject) {
+    public void saveSubject(Long id, Subject subject) {
         Optional<MemberEntity> member = memberRepository.findById(id);
-        String memberSubject = member.get().getSubject();
-        if(memberSubject==null || memberSubject.isEmpty()) {
-            List<String>list = new ArrayList<String>();
-            list.add(subject);
-            member.get().setSubject(list.toString());
-        }else {
-            String trimmed = memberSubject.substring(1, memberSubject.length() - 1);
-            List<String> list = new ArrayList<> (Arrays.asList(trimmed.split(", ")));
-            list.add(subject);
-            member.get().setSubject(list.toString());
-        }
-        memberRepository.save(member.get());
+        attendService.save(member.get(), subject);
     }
-    public MemberEntity deleteSubject(Long id, String subject) {
-        Optional<MemberEntity> member = memberRepository.findById(id);
-        String memberSubject = member.get().getSubject();
-
-        String trimmed = memberSubject.substring(1, memberSubject.length() - 1);
-        List<String> list = new ArrayList<> (Arrays.asList(trimmed.split(", ")));
-        list.remove(subject);
-        member.get().setSubject(list.toString());
-
-        return memberRepository.save(member.get());
+    public void deleteOnlySubject(Long id, String subject) {
+        attendService.memberSubjectDelete(id, subject);
     }
+//    public void removeMemberFromSubject(Long memberId, String subjectId) {
+//        // Member와 Subject 조회
+//        MemberEntity member = memberRepository.findById(memberId)
+//                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+//        Subject subject = subjectRepository.findById(subjectId)
+//                .orElseThrow(() -> new IllegalArgumentException("Subject not found"));
+//
+//        // Attend 객체 조회 및 삭제
+//        Optional<Attend> attendToRemove = member.getAttends().stream()
+//                .filter(attend -> attend.getSubject().equals(subject))
+//                .findFirst();
+//
+//        attendToRemove.ifPresent(attend -> {
+//            member.getAttends().remove(attend); // Member의 attends에서 제거
+//            subject.removeAttend(attend);      // Subject의 attends에서 제거
+//        });
+//    }
 }

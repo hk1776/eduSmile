@@ -1,5 +1,6 @@
 package com.example.edusmile.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.security.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
@@ -27,7 +30,7 @@ public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(unique = true, nullable = false)
+    @Column(name = "member_id",unique = true, nullable = false)
     private Long id;
 
     @Column(name= "login_id" , updatable = false , nullable = false , unique = true )
@@ -62,7 +65,8 @@ public class MemberEntity {
     @Column(name = "last_modified_date", nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    private String subject;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private Set<Attend> attends = new HashSet<>();
 
     private String img_path;
 

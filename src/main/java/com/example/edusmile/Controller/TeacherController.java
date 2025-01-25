@@ -170,7 +170,7 @@ public class TeacherController {
         //여기 까지
 
         int gradeId = Integer.parseInt(grade);
-        subjectService.save(member.getId(), subject,gradeId, divClass);
+        subjectService.save(member, subject,gradeId, divClass);
         model.addAttribute("message", "수업이 성공적으로 추가되었습니다!");
         return "redirect:/teacher"; // 리다이렉트할 URL
     }
@@ -189,7 +189,7 @@ public class TeacherController {
     public String deleteClass(@RequestParam("deleteCode") String code, Model model,@AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
-        subjectService.delete(member.getId(), code);
+        subjectService.delete(code);
         model.addAttribute("message", "수업이 성공적으로 수정되었습니다!");
         return "redirect:/teacher"; // 리다이렉트할 URL
     }

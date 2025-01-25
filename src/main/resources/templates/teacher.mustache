@@ -293,7 +293,6 @@
                                 <button class="delete-btn" onclick="deleteClass(this)" style="font-family: Score6;background-color: #E55D5D;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white; padding: 5px 10px; border-radius: 15px; border: none; cursor: pointer;">삭제</button>
                             </div>
                         </div>
-
                     </div>
                 {{/subjects}}
             </div>
@@ -352,7 +351,6 @@
         document.getElementById('overlay').style.display = 'none';
     });
 
-    // Hide popup when overlay is clicked
     document.getElementById('overlay').addEventListener('click', function() {
         document.getElementById('popup').style.display = 'none';
         this.style.display = 'none';
@@ -368,22 +366,23 @@
     }
 
     function toggleButtons(item) {
-        const backDiv = document.getElementById('backDiv')
-        const hiddenButtons = item.querySelector('.hidden-buttons');
+        const hiddenButtons = item.querySelector('.hidden-buttons'); // 클릭한 아이템 내의 hidden-buttons 찾기
+        const backDiv = item; // 클릭한 아이템을 backDiv로 사용
 
         if (hiddenButtons.style.display === 'none' || hiddenButtons.style.display === '') {
             hiddenButtons.style.display = 'flex';
-            backDiv.style.backgroundColor = '#B0B7E2';
+            backDiv.style.backgroundColor = '#B0B7E2';  // 클릭한 아이템 배경색 변경
         } else {
             hiddenButtons.style.display = 'none';
-            backDiv.style.backgroundColor = '#ffffff';
+            backDiv.style.backgroundColor = '#ffffff';  // 다시 배경색 원래대로
         }
     }
 
     function update(element) {
         // 클릭된 아이템에서 값 추출
-        var textContent = element.closest('.item').querySelector('p').innerText;
-        var classCodeText = document.getElementById('classCode').innerText;
+        var item = element.closest('.item');  // 클릭된 item을 찾아서
+        var textContent = item.querySelector('p').innerText;
+        var classCodeText = item.querySelector('#classCode').innerText;  // 해당 아이템 내의 classCode를 참조
         var classCode = classCodeText.split(":")[1].trim();
         var subject = textContent.match(/\[([^\]]+)\]/)[1]; // [물리]에서 물리 추출
         var grade = textContent.match(/(\d+)학년/)[1]; // 1학년에서 1 추출
@@ -410,11 +409,11 @@
 
     function deleteClass(element) {
         // 클릭된 아이템에서 값 추출
-        var textContent = element.closest('.item').querySelector('p').innerText;
-        var classCodeText = document.getElementById('classCode').innerText;
-        var classCode = classCodeText.split(":")[1].trim();
-        // 팝업의 입력 필드에 디폴트 값 설정
+        var item = element.closest('.item');  // 클릭된 item을 찾아서
+        var classCodeText = item.querySelector('#classCode').innerText;  // 해당 아이템 내의 classCode를 참조
+        var classCode = classCodeText.split(":")[1].trim();  // 수업 코드를 추출
 
+        // 팝업의 입력 필드에 디폴트 값 설정
         document.getElementById('deleteCode').value = classCode;
 
         // 팝업 표시
