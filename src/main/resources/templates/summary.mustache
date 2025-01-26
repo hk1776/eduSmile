@@ -216,8 +216,8 @@
 <div class="layout">
     <!-- 사이드바 -->
     <aside class="sidebar">
-        <a href="/board/noticeList?id={{subjectId}}" class="active">공지사항</a>
-        <a href="/board/summaryList?id={{subjectId}}">수업요약</a>
+        <a href="/board/noticeList?id={{subjectId}}">공지사항</a>
+        <a href="/board/summaryList?id={{subjectId}}"class="active">수업요약</a>
         <a href="/board/testList?id={{subjectId}}">시험</a>
         <a href="/board/freeList?id={{subjectId}}">자유게시판</a>
     </aside>
@@ -225,7 +225,7 @@
     <div class="main-content">
         <div class="notice-container">
             <div class="notice-header">
-                <h1>공지사항</h1>
+                <h1>수업요약</h1>
             </div>
 
             <table class="notice-table">
@@ -238,29 +238,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#noticePage.content}}
-                    <tr onclick="navigateTo('/board/notice?id={{subjectId}}&num={{id}}')">
+                {{#summaryPage.content}}
+                    <tr onclick="navigateTo('/board/summary?id={{subjectId}}&num={{id}}')">
                         <td>{{title}}</a></td>
                         <td>{{author}}</td>
                         <td>{{created}}</td>
                         <td>{{views}}</td>
                     </tr>
-                {{/noticePage.content}}
-                {{^noticePage.content}}
+                {{/summaryPage.content}}
+                {{^summaryPage.content}}
                     <tr>
-                        <td colspan="4" style="text-align: center;">등록된 공지사항이 없습니다.</td>
+                        <td colspan="4" style="text-align: center;">등록된 수업요약이 없습니다.</td>
                     </tr>
-                {{/noticePage.content}}
+                {{/summaryPage.content}}
                 </tbody>
             </table>
 
             <div>
                 <ul class="pagination">
-                    {{#noticePage.hasPrevious}}
+                    {{#summaryPage.hasPrevious}}
                         <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{noticePage.number}}">이전</a>
+                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{summaryPage.number}}">이전</a>
                         </li>
-                    {{/noticePage.hasPrevious}}
+                    {{/summaryPage.hasPrevious}}
 
                     {{#pageNums}}
                         <li class="page-item">
@@ -270,11 +270,11 @@
                         </li>
                     {{/pageNums}}
 
-                    {{#noticePage.hasNext}}
+                    {{#summaryPage.hasNext}}
                         <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{noticePage.number + 2}}">다음</a>
+                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{summaryPage.number + 2}}">다음</a>
                         </li>
-                    {{/noticePage.hasNext}}
+                    {{/summaryPage.hasNext}}
                 </ul>
             </div>
         </div>

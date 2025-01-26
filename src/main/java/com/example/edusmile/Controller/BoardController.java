@@ -2,12 +2,16 @@ package com.example.edusmile.Controller;
 
 import com.example.edusmile.Dto.BoardNextDTO;
 import com.example.edusmile.Dto.Classification;
-import com.example.edusmile.Entity.MemberEntity;
-import com.example.edusmile.Entity.Notice;
-import com.example.edusmile.Entity.Subject;
+import com.example.edusmile.Entity.*;
 import com.example.edusmile.Service.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -38,9 +43,13 @@ public class BoardController {
     @GetMapping("/classList")
     public String classList(Model model,@AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-
-
-        return "index";
+        List<Subject> memberSubject = subjectService.getMemberSubject(member.getId());
+        memberSubject.sort(Comparator
+                .comparing(Subject::getGrade)
+                .thenComparing(Subject::getDivClass));
+        model.addAttribute("subjects", memberSubject);
+        model.addAttribute("member", member);
+        return "classList";
     }
 
     @PostMapping("/notice")
@@ -100,7 +109,9 @@ public class BoardController {
         String subjectId = (String) request.get("subjectId");
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         List<Classification.AnalyzeDTO.Quiz> questions = (List<Classification.AnalyzeDTO.Quiz>) request.get("questions");
-        testService.save(subjectId,questions.toString(),member.getId());
+        Gson gson = new Gson();
+        String json = gson.toJson(questions);
+        testService.save(subjectId,json,member.getId());
         log.info(questions.toString());
         log.info(subjectId);
         return ResponseEntity.ok("시험 등록 성공");
@@ -129,4 +140,150 @@ public class BoardController {
     }
 
 
+    @GetMapping("/noticeList")
+    public String noticeList(@RequestParam("id") String subjectId,
+                             @RequestParam(value = "page", defaultValue = "1") int page,
+                             Model model,
+                             @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+
+        Page<Notice> noticePage  = noticeService.findByClassId(subjectId, pageable);
+
+        log.info("page: " + noticePage.getContent().toString());
+
+        // 페이지 번호 리스트 계산
+        List<Integer> pageNums = new ArrayList<>();
+        for (int i = 1; i <= noticePage.getTotalPages(); i++) {
+            pageNums.add(i);
+        }
+
+        model.addAttribute("member", member);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("noticePage", noticePage);
+        model.addAttribute("pageNums", pageNums);
+
+        return "notice";
+    }
+    @GetMapping("/notice")
+    public String notice(@RequestParam("id") String subjectId,
+                         @RequestParam("num") Long id,
+                         Model model,
+                         @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        Notice notice = noticeService.findById(id);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("member", member);
+        model.addAttribute("notice", notice);
+        return "noticeDetail";
+    }
+
+    @GetMapping("/summaryList")
+    public String summaryList(@RequestParam("id") String subjectId,
+                             @RequestParam(value = "page", defaultValue = "1") int page,
+                             Model model,
+                             @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+
+        Page<Summary> summaryPage  = summaryService.findByClassId(subjectId, pageable);
+
+        // 페이지 번호 리스트 계산
+        List<Integer> pageNums = new ArrayList<>();
+        for (int i = 1; i <= summaryPage.getTotalPages(); i++) {
+            pageNums.add(i);
+        }
+
+        model.addAttribute("member", member);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("summaryPage", summaryPage);
+        model.addAttribute("pageNums", pageNums);
+
+        return "summary";
+    }
+    @GetMapping("/summary")
+    public String summary(@RequestParam("id") String subjectId,
+                         @RequestParam("num") Long id,
+                         Model model,
+                         @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        Summary summary = summaryService.findById(id);
+        log.info("summary= {}",summary.getSummary());
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("member", member);
+        model.addAttribute("summary", summary);
+        return "summaryDetail";
+    }
+
+    @GetMapping("/testList")
+    public String testList(@RequestParam("id") String subjectId,
+                              @RequestParam(value = "page", defaultValue = "1") int page,
+                              Model model,
+                              @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+
+        Page<Test>testPage  = testService.findByClassId(subjectId, pageable);
+
+        // 페이지 번호 리스트 계산
+        List<Integer> pageNums = new ArrayList<>();
+        for (int i = 1; i <= testPage.getTotalPages(); i++) {
+            pageNums.add(i);
+        }
+
+        model.addAttribute("member", member);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("testPage", testPage);
+        model.addAttribute("pageNums", pageNums);
+
+        return "test";
+    }
+    @GetMapping("/test")
+    public String test(@RequestParam("id") String subjectId,
+                       @RequestParam("num") Long id,
+                       Model model,
+                       @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        Test test = testService.findById(id);
+
+        Gson gson = new Gson();
+        List<Classification.AnalyzeDTO.Question> questions = new ArrayList<>();
+
+        try {
+            // test.getExam()이 반환하는 JSON 문자열을 List<Map<String, Object>>로 파싱
+            String examJson = test.getExam();
+
+            // JSON 문자열을 List<Map<String, Object>>로 변환
+            Type type = new TypeToken<List<Map<String, Object>>>() {}.getType();
+            List<Map<String, Object>> examData = gson.fromJson(examJson, type);
+
+            // 각 문제를 Question 객체로 변환
+            for (Map<String, Object> entry : examData) {
+                String questionText = (String) entry.get("question");  // questionText 대신 question 사용
+                List<String> choices = (List<String>) entry.get("choices");
+                int answer = Integer.parseInt((String) entry.get("answer"));  // answer를 String에서 Integer로 변환
+                String explanation = (String) entry.get("explanation");
+
+                // Question 객체 생성 후 리스트에 추가
+                Classification.AnalyzeDTO.Question question =
+                        new Classification.AnalyzeDTO.Question(questionText, choices, answer, explanation);
+                questions.add(question);
+            }
+        } catch (Exception e) {
+            log.error("Error parsing exam JSON: {}", e.getMessage());
+        }
+
+        // 로그로 test.exam 정보 출력 (디버그용)
+        log.info("test exam: {}", test.getExam());
+
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("member", member);
+        model.addAttribute("test", test);
+        model.addAttribute("questions", questions); // 문제 리스트 추가
+
+        // 'testDetail' 페이지로 이동
+        return "testDetail";
+    }
 }

@@ -62,7 +62,23 @@ public class Classification {
                     private List<String> choices;
                     private int correct_answer;
                     private String explanation;
+                    
                 }
+            }
+        }
+
+        @Data
+        public static class Question {
+            private String question;
+            private List<String> choices;
+            private int answer;
+            private String explanation;
+
+            public Question(String question, List<String> choices, int answer, String explanation) {
+                this.question = question;
+                this.choices = choices;
+                this.answer = answer;
+                this.explanation = explanation;
             }
         }
     }

@@ -8,6 +8,8 @@ import com.example.edusmile.Repository.NoticeRepository;
 import com.example.edusmile.Repository.SummaryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -42,5 +44,13 @@ public class SummaryService {
         input.setUpdated(time);
         input.setClassId(classId);
         return summaryRepository.save(input);
+    }
+
+    public Page<Summary> findByClassId(String classId, Pageable pageable) {
+        return summaryRepository.findByClassId(classId, pageable);
+    }
+
+    public Summary findById(Long id) {
+        return summaryRepository.findById(id).orElse(null);
     }
 }

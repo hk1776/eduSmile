@@ -6,6 +6,8 @@ import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.NoticeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +45,13 @@ public class NoticeService {
         input.setFile(uuid);
         input.setClassId(classId);
         return noticeRepository.save(input);
+    }
+
+    public Page<Notice> findByClassId(String classId, Pageable pageable) {
+        return noticeRepository.findByClassId(classId, pageable);
+    }
+
+    public Notice findById(Long id) {
+        return noticeRepository.findById(id).orElse(null);
     }
 }

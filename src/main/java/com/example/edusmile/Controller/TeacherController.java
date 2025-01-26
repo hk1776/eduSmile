@@ -1,5 +1,4 @@
 package com.example.edusmile.Controller;
-import com.example.edusmile.Config.ClovaSpeechClient;
 import com.example.edusmile.Dto.Classification;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
@@ -8,8 +7,6 @@ import com.example.edusmile.Service.MemberService;
 import com.example.edusmile.Service.PostService;
 import com.example.edusmile.Service.SubjectService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -48,7 +45,7 @@ public class TeacherController {
     @GetMapping()
     public String home(@AuthenticationPrincipal UserDetails user, Model model) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-        List<Subject> subjects = subjectService.teacherSubject(member.getId());
+        List<Subject> subjects = subjectService.getMemberSubject(member.getId());
         subjects.sort(Comparator
                 .comparing(Subject::getGrade) // 이름 기준 오름차순
                 .thenComparing(Subject::getDivClass));
@@ -143,7 +140,7 @@ public class TeacherController {
             log.info("FastAPI 응답 객체: {}", send);
 
             log.info("받아온 값 :"+response.toString());
-            List<Subject> subjects = subjectService.teacherSubject(member.getId());
+            List<Subject> subjects = subjectService.getMemberSubject(member.getId());
             subjects.sort(Comparator
                     .comparing(Subject::getGrade) // 이름 기준 오름차순
                     .thenComparing(Subject::getDivClass));

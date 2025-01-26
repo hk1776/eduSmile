@@ -214,14 +214,14 @@
                             <div class="question">
                                 <p style="font-weight: bold">문제: {{question}}</p>
                                 <div class="choices">
-                                    {{#choices}}
+
                                         <label>
-                                            <input type="radio" name="answer_{{question}}" value="{{.}}" />
+                                            <input type="radio" name="answer_{{choices}}" value="{{.}}" />
                                             {{.}}
                                         </label>
-                                    {{/choices}}
+
                                     <p>정답: <span class="correct-answer" data-answer="{{correct_answer}}"></span></p>
-                                    {{explanation}}
+                                    <div> 해설 : {{explanation}}</div>
                                 </div>
                             </div>
                         {{/questions}}
@@ -295,8 +295,28 @@
         let questions = [];
         document.querySelectorAll('.testCard .question').forEach(questionElem => {
             let questionText = questionElem.querySelector('p').innerText.replace('문제: ', '');
-            let selectedAnswer = questionElem.querySelector('input:checked') ? questionElem.querySelector('input:checked').value : null;
-            questions.push({ question: questionText, selectedAnswer: selectedAnswer });
+            let choices = [];
+            questionElem.querySelectorAll('input[type="radio"]').forEach(inputElem => {
+                choices.push(inputElem.value);
+            });
+            let answer = questionElem.querySelector('span').innerText.replace('정답: ', '');
+            // 해설 텍스트 추출
+            let explanation = questionElem.querySelector('.correct-answer').dataset.answer;
+            console.log(explanation)
+            // 해설 (HTML 텍스트)를 가져오기 (null 체크 추가)
+            let explanationText = '';
+            const explanationElem = questionElem.querySelector('div + div'); // div + div 선택자 변경
+            if (explanationElem) {
+                explanationText = explanationElem.innerText.replace(' 해설 : ', '');
+            } else {
+                explanationText = '해설이 없습니다'; // 해설이 없을 경우 기본값
+            }
+            questions.push({
+                question: questionText,
+                choices: choices,
+                answer: answer,
+                explanation: explanationText
+            });
         });
 
         const testData = {

@@ -20,15 +20,17 @@
     /* 왼쪽 네비게이션 스타일 */
     .sidebar {
         width: 200px;
-        height: 95vh;
+        height: 620px;
         background-color: #F6E1A0;
         margin: 20px 20px;
         padding: 20px;
         display: flex; /* 플렉스박스 활성화 */
         flex-direction: column; /* 자식 요소를 수직으로 정렬 */
+        justify-content: center; /* 위아래 기준으로 중앙 정렬 */
         align-items: center; /* 좌우 기준으로 중앙 정렬 */
         gap: 20px; /* 항목 간 간격 추가 */
         box-sizing: border-box;
+        position: fixed; /* 브라우저 창 기준으로 위치 설정 */
         border-radius: 30px;
     }
 
@@ -57,7 +59,7 @@
     /* 메인 콘텐츠 스타일 */
     .main-content {
         flex: 1;
-        height: 100vh;
+        margin-left: 220px;
         padding: 2px 20px;
         box-sizing: border-box;
         overflow-y: auto;
@@ -65,7 +67,7 @@
 
     .notice-container {
         weight: 100%;
-        height: 95vh;
+        min-height: 200px; /* 최소 높이 설정 */
         background-color: #F6E1A0;
         border-radius: 30px;
         box-shadow: 7px 7px 4px rgba(0, 0, 0, 0.25);
@@ -212,15 +214,18 @@
 
 </style>
 
+<body>
 <!-- 레이아웃 -->
 <div class="layout">
     <!-- 사이드바 -->
     <aside class="sidebar">
-        <a href="/board/noticeList?id={{subjectId}}" class="active">공지사항</a>
-        <a href="/board/summaryList?id={{subjectId}}">수업요약</a>
-        <a href="/board/testList?id={{subjectId}}">시험</a>
-        <a href="/board/freeList?id={{subjectId}}">자유게시판</a>
+        <a href="/notice" class="active">공지사항</a>
+        <a href="/assignments">과제/준비물</a>
+        <a href="/class-summary">수업요약</a>
+        <a href="/exams">시험</a>
+        <a href="/free-board">자유게시판</a>
     </aside>
+
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
         <div class="notice-container">
@@ -230,61 +235,47 @@
 
             <table class="notice-table">
                 <thead>
-                <tr>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                </tr>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>조회수</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {{#noticePage.content}}
-                    <tr onclick="navigateTo('/board/notice?id={{subjectId}}&num={{id}}')">
-                        <td>{{title}}</a></td>
+                    {{#notices}}
+                    <tr>
+                        <td><a href="/notice/{{id}}" style="text-decoration: none; color: inherit;">{{title}}</a></td>
                         <td>{{author}}</td>
-                        <td>{{created}}</td>
+                        <td>{{date}}</td>
                         <td>{{views}}</td>
                     </tr>
-                {{/noticePage.content}}
-                {{^noticePage.content}}
+                    {{/notices}}
+                    {{^notices}}
                     <tr>
                         <td colspan="4" style="text-align: center;">등록된 공지사항이 없습니다.</td>
                     </tr>
-                {{/noticePage.content}}
+                    {{/notices}}
                 </tbody>
             </table>
 
-            <div>
-                <ul class="pagination">
-                    {{#noticePage.hasPrevious}}
-                        <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{noticePage.number}}">이전</a>
-                        </li>
-                    {{/noticePage.hasPrevious}}
+            <!-- 페이지네이션 -->
+            <div class="pagination-container">
+                <div class="pagination-group">
+                    <a href="/notice?page={{prevPage}}" class="pagination">◀ 이전</a>
+                    {{#pages}}
+                        <a href="/notice?page={{page}}" class="pagination {{#isActive}}active{{/isActive}}">{{page}}</a>
+                    {{/pages}}
+                    <a href="/notice?page={{nextPage}}" class="pagination">다음 ▶</a>
+                </div>
 
-                    {{#pageNums}}
-                        <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{.}}">
-                            {{.}}
-                            </a>
-                        </li>
-                    {{/pageNums}}
-
-                    {{#noticePage.hasNext}}
-                        <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{noticePage.number + 2}}">다음</a>
-                        </li>
-                    {{/noticePage.hasNext}}
-                </ul>
+                <!-- 글쓰기 버튼 -->
+                <a href="/notice/write" class="write-button">글쓰기</a>
             </div>
         </div>
+        {{>footer}}
     </div>
 </div>
 
-<script>
-    function navigateTo(url) {
-        window.location.href = url; // 클릭 시 URL로 이동
-    }
-</script>
-{{>footer}}
+</body>
 

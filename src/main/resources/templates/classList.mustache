@@ -1,17 +1,100 @@
 {{>header}}
+<style>
+    .title {
+        background-color: #576096;
+        color: white;
+        border: 5px solid #F19B2A;
+        border-radius: 30px;
+        width: 15%;
+        margin-bottom: 15px;
+        padding: 5px;
+        text-align: center;
+        font-family: Score6;
+        font-size: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* 드롭다운 항목 스타일 */
+    #dropdown-menu li {
+        padding: 10px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        border-bottom: 1px solid #ddd;
+        transition: background-color 0.3s, color 0.3s; /* 부드러운 색상 변화 */
+    }
+
+    /* 첫 번째 항목에 둥근 상단 모서리 추가 */
+    #dropdown-menu li:first-child {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    /* 마지막 항목에 둥근 하단 모서리 추가 */
+    #dropdown-menu li:last-child {
+        border-bottom: none; /* 마지막 항목의 경계선 제거 */
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    /* 마우스를 올렸을 때 색상 변경 */
+    #dropdown-menu li:hover {
+        background-color: #F19B2A;
+        color: #000000;
+    }
+</style>
+
 <div id="back_ground">
-    <div style="width: 70%;height:65%">
+    <div style="width: 70%; height: 65%;">
         <div style="display: flex; justify-content: flex-start; width: 100%; padding: 0; margin: 0;">
-            <div id="text" type="button" class="btn btn-success"
-                    style="background-color: #576096; color: white;border-color:#FB9C1F; border-radius:30px ; width: 15%;margin-bottom: 15px">오늘의 할일</div>
+            <div id="text" class="title">과목별 게시판</div>
         </div>
         <div class="container"
-              style="background-color: #F6E1A0; padding: 30px; width: 100%;height:80%; border-radius:15px ; position: relative; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; justify-content: flex-start; overflow-y: auto;">
-            <div style="width: 100%;border-radius:15px; height: 50px;background-color: white ">
-                1교시 준비물
-            </div>
-
+             style="background-color: #F6E1A0; padding: 60px; width: 100%; height: 80%; border-radius: 15px; position: relative; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; justify-content: flex-start; overflow-y: auto;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);">
+            {{#subjects}}
+                <div class="text-button-container">
+                    <div id="backDiv" class="item" style="margin-top: 10px; width: 100%; background-color: #F19B2A; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); padding: 10px; cursor: pointer;" onclick="toggleDropdown(this)">
+                        <p style="font-family: Score5; text-align: center;font-size: 30px">[{{subject}}] {{grade}}학년 {{divClass}}분반</p>
+                        <p id="classCode" style="font-family: Score5; text-align: center;">수업 코드 : {{id}}</p>
+                    </div>
+                    <div id="hidden" class="hidden-dropdown" style="display: none;">
+                        <ul id="dropdown-menu"
+                            style="list-style: none; padding: 0; background-color: white; border-radius: 15px; border: 1px solid #ddd; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); width: 100%; z-index: 1000;">
+                            <li onclick="navigateTo('/board/noticeList?id={{id}}')" style="font-family: Hakgyo; font-size: 20px;padding-left: 3%">📢 공지사항</li>
+                            <li onclick="navigateTo('/board/summaryList?id={{id}}')" style="font-family: Hakgyo; font-size: 20px;padding-left: 3%">📕 수업요약</li>
+                            <li onclick="navigateTo('/board/testList?id={{id}}')" style="font-family: Hakgyo; font-size: 20px;padding-left: 3%">✏️ 시험</li>
+                            <li onclick="navigateTo('/board/freeList?id={{id}}')" style="font-family: Hakgyo; font-size: 20px;padding-left: 3%">🗣️ 자유게시판</li>
+                        </ul>
+                    </div>
+                </div>
+            {{/subjects}}
         </div>
     </div>
 </div>
+
+<script>
+    function toggleDropdown(item) {
+        const hiddenDropdown = item.nextElementSibling; // 클릭한 아이템의 바로 다음 형제 요소 가져오기
+        const backDiv = item; // 클릭한 아이템
+
+        if (hiddenDropdown && hiddenDropdown.classList.contains('hidden-dropdown')) {
+            if (hiddenDropdown.style.display === 'none' || hiddenDropdown.style.display === '') {
+                hiddenDropdown.style.display = 'block'; // 드롭다운 표시
+                backDiv.style.backgroundColor = '#576096'; // 배경색 변경
+                backDiv.style.color = '#F19B2A';
+            } else {
+                hiddenDropdown.style.display = 'none'; // 드롭다운 숨김
+                backDiv.style.backgroundColor = '#F19B2A'; // 배경색 복원
+                backDiv.style.color = '#000000';
+            }
+        } else {
+            console.error('Dropdown element not found.');
+        }
+    }
+
+    function navigateTo(url) {
+        window.location.href = url; // 클릭 시 URL로 이동
+    }
+</script>
+
 {{>footer}}

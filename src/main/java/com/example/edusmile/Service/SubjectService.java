@@ -5,12 +5,9 @@ import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.AttendRepository;
 import com.example.edusmile.Repository.SubjectRepository;
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +22,7 @@ public class SubjectService {
     private final AttendService attendService;
     private final AttendRepository attendRepository;
 
-    public List<Subject> teacherSubject(Long id) {
+    public List<Subject> getMemberSubject(Long id) {
         List<Attend>attends = attendService.findByMemberId(id);
         ArrayList<Subject> subjects = new ArrayList<>();
         for (Attend attend : attends) {

@@ -1,12 +1,11 @@
 package com.example.edusmile.Service;
 
-import com.example.edusmile.Entity.MemberEntity;
-import com.example.edusmile.Entity.Notice;
-import com.example.edusmile.Entity.Subject;
-import com.example.edusmile.Entity.Test;
+import com.example.edusmile.Entity.*;
 import com.example.edusmile.Repository.TestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -39,5 +38,13 @@ public class TestService {
         input.setUpdated(time);
         input.setClassId(classId);
         return testRepository.save(input);
+    }
+
+    public Page<Test> findByClassId(String classId, Pageable pageable) {
+        return testRepository.findByClassId(classId, pageable);
+    }
+
+    public Test findById(Long id) {
+        return testRepository.findById(id).orElse(null);
     }
 }
