@@ -163,6 +163,7 @@ class PDFProcessor:
         추천해준 직업에 관련된 학과를 추천해주세요
         추천해준 직업에 관련된 자격증을 추천해주세요
         추천해준 직업에 가지기위해 해야되는 노력을 각각 1줄이상 작성해주세요
+        수상경력은 Awards 자격증 및 인증 취득상황은 Certifications 진로희망사항은 CareerAspiration 창의적 체험활동상황은 CreativeExperienceActivities 과목 세부능력 및 특기사항은 SubjectSpecialtyAndNotes 독서활동상황은 ReadingActivities 행동특성 및 종합의견은 BehaviorCharacteristicsAndOverallComments로 추천직업은 RecommendedJobs로 바꿔서 만들어주세요
         JSON 형식 : 
         {{
             "수상경력": ["특기사항1",

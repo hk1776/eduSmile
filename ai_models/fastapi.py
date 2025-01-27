@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict
 from ai_models.model_pipline import EduContentProcessor, process_audio_file,process_text_file, load_api_keys
 from ai_models.pdf_ocr import PDFProcessor
+from ai_models.job_model_claude import CareerAdvisor
 
 app = FastAPI()
 
@@ -23,7 +24,8 @@ processor = EduContentProcessor(
     config['base_folder']
 )
 processor2 = PDFProcessor(api_key_path,base_folder,pdf_json_folder)
-
+anthro_api_key = "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"
+advisor = CareerAdvisor(anthro_api_key, base_folder)
 class TextRequest(BaseModel):
     text: str
     
@@ -76,6 +78,10 @@ async def process_audio(file: UploadFile = File(...)):
         results = processor2.process_pdf(pdf_path)
         if os.path.exists(pdf_path):
             os.remove(pdf_path)
+        job_recommendations = results.get("추출된_정보", {}).get("RecommendedJobs", {}).keys()
+        results["job_information"]={}
+        for desired_job in job_recommendations:
+            results["job_information"][desired_job]=advisor.process(desired_job)
         return results
         
     except Exception as e:
