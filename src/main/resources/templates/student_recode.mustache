@@ -150,8 +150,8 @@
     <div class="div-choice" >학생 선택하기</div>
     <div class="main-box" >
         {{#students}}
-            <div  class="student-div" id="student"><img class="blank_profile"  src="/profile_img/{{img_path}}"
-                                                        onerror="this.src='/profile_img/blank_profile.svg';" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0{{phoneNumber}}
+            <div  class="student-div" id="student"><img class="blank_profile"  src="{{img_path}}"
+                                                        onerror="this.src='/blank_profile/blank_profile.svg';" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0{{phoneNumber}}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{School}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{schoolClass}}반<a href="/teacher/student_recode/{{id}}" id="edit-button" class="edit-button">등록하기</a></div>
         {{/students}}
     </div>
