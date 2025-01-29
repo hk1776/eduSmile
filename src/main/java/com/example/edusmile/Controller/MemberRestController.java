@@ -22,6 +22,7 @@ public class MemberRestController {
 
     private final MemberRepository memberRepository;
 
+    private static final String UPLOAD_DIR = "C:/uploads/"; // 외부 폴더
 
     @PostMapping("/uploadsprofile")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
@@ -33,7 +34,7 @@ public class MemberRestController {
         try {
 
             // 실제 저장 경로
-            String basePath = System.getProperty("user.dir") + "/src/main/resources/static/profile_img";
+            String basePath = UPLOAD_DIR+"profile_img/";
             File directory = new File(basePath);
 
             // 디렉토리 존재 여부 확인 및 생성
@@ -46,8 +47,8 @@ public class MemberRestController {
             // 파일 저장 경로
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String filePath = basePath + File.separator + id+extension;
-
+            String filePath = basePath + id+extension;
+            System.out.println(filePath);
 
             File existFile = new File(filePath);
             if (existFile.exists()) {
@@ -64,7 +65,8 @@ public class MemberRestController {
 
 
             MemberEntity member = memberRepository.findById(id).orElse(null);
-            member.setImg_path(id+extension);
+
+            member.setImg_path("/profile_img/"+id+extension);
 
             memberRepository.save(member);
 

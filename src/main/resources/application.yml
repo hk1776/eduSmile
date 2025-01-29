@@ -30,3 +30,10 @@ spring:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
+
+
+  server:
+    error:
+      path: /error  # 오류 경로 설정
+      whitelabel:
+        enabled: false  # 기본 오류 페이지 비활성화

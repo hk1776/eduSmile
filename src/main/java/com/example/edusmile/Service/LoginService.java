@@ -41,8 +41,9 @@ public class LoginService {
             }
 
             memberDto.setTeacherCode(result.toString());
-
-            memberRepository.save(memberDto.toEntity());
+            MemberEntity tm = memberDto.toEntity();
+            tm.setImg_path("blank_profile.svg");
+            memberRepository.save(tm);
             return true;
 
         }
@@ -60,7 +61,9 @@ public class LoginService {
                     memberDto.setSchoolClass(teacher.getSchoolClass());
                     memberDto.setSchool(teacher.getSchool());
 
-                    memberRepository.save(memberDto.toEntity());
+                    MemberEntity tm = memberDto.toEntity();
+                    tm.setImg_path("blank_profile.svg");
+                    memberRepository.save(tm);
                     return true;
                 }
 

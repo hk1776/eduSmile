@@ -1,0 +1,70 @@
+<style>
+    ._404-036,
+    ._404-036 * {
+        box-sizing: border-box;
+    }
+
+    ._404-036 {
+        background: #fffefd;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    ._404-error-url {
+        margin-top: 20vh;
+        color: #000000;
+        text-align: left;
+        font-family: "SCoreDream-5Medium", sans-serif;
+        font-size: 3vw;  /* 화면 크기에 따라 글자 크기 조정 */
+        font-weight: 200;
+        max-width: 80%;  /* 화면 크기에 맞게 최대 너비 설정 */
+    }
+
+    .image-41 {
+        width: 15vw;   /* 화면 크기에 맞게 이미지 크기 조정 */
+        height: auto;
+        object-fit: cover;
+        margin-top: -15vh;  /* 이미지와 텍스트 간의 여백 조정 */
+        margin-left: 60vw;  /* 이미지를 왼쪽으로 밀기 (필요에 따라 값 조정) */
+    }
+
+    .back {
+        width: 15vw;     /* 화면 크기에 맞게 버튼 크기 조정 */
+        height: 8vh;     /* 화면 크기에 맞게 버튼 크기 조정 */
+
+        bottom: 10vh;    /* 페이지 하단에서 10vh 위치 */
+        background-color: #F19B2A;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+
+        border-radius: 4px;
+        margin-top: 20vh;
+        color: #ffffff;
+        font-family: "Inter-SemiBold", sans-serif;
+        font-size: 1vw;
+        font-weight: 600;
+        position: relative;
+    }
+</style>
+
+<div class="_404-036">
+    <div class="_404-error-url">
+        404 Error
+        <br />
+        <br />
+        죄송합니다.
+        <br />
+        해당 URL은 잘못된 접근입니다.
+        <br />
+        다시 한 번 확인해 주세요!
+    </div>
+    <button class="back" onclick="window.history.back()">이전 페이지로 돌아가기</button>
+    <img class="image-41" src="/images/image-410.png" />
+</div>
+{{>footer}}
