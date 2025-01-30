@@ -205,6 +205,7 @@
             <div class="card" id="testCard">
                 <div class="content-wrapper">
                     <h2 class="resultTitle">시험</h2>
+                    <input type="hidden" id="explain" value='{{explains}}'>
                     <button class="btnOne" onclick="submitData('test')">등록</button>
                 </div>
                 {{#quiz}}
@@ -214,15 +215,15 @@
                             <div class="question">
                                 <p style="font-weight: bold">문제: {{question}}</p>
                                 <div class="choices">
-
+                                    {{#choices}}
                                         <label>
-                                            <input type="radio" name="answer_{{choices}}" value="{{.}}" />
+                                            <input type="radio" name="answer_{{question}}" value="{{.}}" />
                                             {{.}}
                                         </label>
-
-                                    <p>정답: <span class="correct-answer" data-answer="{{correct_answer}}"></span></p>
-                                    <div> 해설 : {{explanation}}</div>
+                                    {{/choices}}
                                 </div>
+                                <p>정답: <span class="correct-answer" data-answer="{{correct_answer}}"></span></p>
+                                <div> 해설 : {{explanation}}</div>
                             </div>
                         {{/questions}}
                     {{/text}}
@@ -237,6 +238,9 @@
         <input type="hidden" name="notice" id="noticeStatus" />
         <input type="hidden" name="summary" id="summaryStatus" />
         <input type="hidden" name="test" id="testStatus" />
+        <input type="hidden" id="summaryId" name="summaryId">
+        <input type="hidden" id="testId" name="testId">
+        <input type="hidden" id="noticeId" name="noticeId">
     </form>
     <div class="analyzeEnd">
         <button class="btnAll" onclick="clickAll()">한 번에 등록</button>
@@ -251,6 +255,10 @@
     </div>
 </div>
 <script>
+    let summaryId = null;
+    let noticeId = null;
+    let testId = null;
+
     document.addEventListener("DOMContentLoaded", function () {
         const answers = document.querySelectorAll(".correct-answer");
         answers.forEach(answer => {
@@ -300,28 +308,20 @@
                 choices.push(inputElem.value);
             });
             let answer = questionElem.querySelector('span').innerText.replace('정답: ', '');
-            // 해설 텍스트 추출
             let explanation = questionElem.querySelector('.correct-answer').dataset.answer;
-            console.log(explanation)
-            // 해설 (HTML 텍스트)를 가져오기 (null 체크 추가)
-            let explanationText = '';
-            const explanationElem = questionElem.querySelector('div + div'); // div + div 선택자 변경
-            if (explanationElem) {
-                explanationText = explanationElem.innerText.replace(' 해설 : ', '');
-            } else {
-                explanationText = '해설이 없습니다'; // 해설이 없을 경우 기본값
-            }
+
             questions.push({
                 question: questionText,
                 choices: choices,
                 answer: answer,
-                explanation: explanationText
+                explanation: explanation
             });
         });
 
         const testData = {
             subjectId: subjectId,
-            questions: questions
+            questions: questions,
+            explains: document.getElementById('explain').value
         };
 
         const confirmed = confirm('시험을 등록하시겠습니까?');
@@ -333,13 +333,11 @@
                 },
                 body: JSON.stringify(testData)
             })
-                    .then(response => {
-                        if (response.ok) {
-                            alert("시험이 성공적으로 등록되었습니다!");
-                            document.getElementById('testCard').classList.add('disabled');
-                        } else {
-                            alert('시험 등록에 실패했습니다.');
-                        }
+                    .then(response => response.json())
+                    .then(data => {
+                        testId = data; // 시험 ID 저장
+                        alert("시험이 성공적으로 등록되었습니다!");
+                        document.getElementById('testCard').classList.add('disabled');
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -348,6 +346,7 @@
         }
     }
 
+
     function sendRequest(type, formData) {
         const confirmed = confirm(`${type === 'notice' ? '공지사항' : '수업 요약'}을 등록하시겠습니까?`);
         if (confirmed) {
@@ -355,13 +354,17 @@
                 method: 'POST',
                 body: formData
             })
-                    .then(response => {
-                        if (response.ok) {
-                            alert(`${type === 'notice' ? '공지사항' : '수업 요약'}이 성공적으로 등록되었습니다!`);
-                            document.getElementById(`${type}Card`).classList.add('disabled');
-                        } else {
-                            alert(`${type === 'notice' ? '공지사항' : '수업 요약'} 등록에 실패했습니다.`);
+                    .then(response => response.json())
+                    .then(data => {
+                        if (type === 'summary') {
+                            summaryId = data; // 요약 ID 저장
                         }
+                        if (type === 'notice') {
+                            noticeId = data; // 요약 ID 저장
+                        }
+
+                        alert(`${type === 'notice' ? '공지사항' : '수업 요약'}이 성공적으로 등록되었습니다!`);
+                        document.getElementById(`${type}Card`).classList.add('disabled');
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -369,6 +372,7 @@
                     });
         }
     }
+
     function clickAll() {
         if (!document.getElementById('noticeCard').classList.contains('disabled')) {
             submitData('notice');
@@ -388,6 +392,11 @@
         const summaryStatusInput = document.getElementById("summaryStatus");
         const testStatusInput = document.getElementById("testStatus");
 
+        // 투명 div 내부의 input 요소 참조
+        const summaryIdInput = document.getElementById("summaryId");
+        const testIdInput = document.getElementById("testId");
+        const noticeIdInput = document.getElementById("noticeId");
+
         // 현재 선택된 클래스 ID 설정
         classIdInput.value = document.querySelector("select").value;
 
@@ -399,6 +408,10 @@
         noticeStatusInput.value = disabledCards.includes("공지사항") ? "true" : "false";
         summaryStatusInput.value = disabledCards.includes("수업 요약") ? "true" : "false";
         testStatusInput.value = disabledCards.includes("시험") ? "true" : "false";
+
+        summaryIdInput.value = summaryId || ""; // summaryId가 없으면 빈 값
+        testIdInput.value = testId || "";       // testId가 없으면 빈 값
+        noticeIdInput.value = noticeId || "";   // noticeId가 없으면 빈 값
 
         // 폼 제출
         form.submit();

@@ -1,20 +1,72 @@
 {{>header}}
+<style>
+    .subject-text {
+        font-family: Score8;
+        color: #429115;
+        font-size: 25px;
+        text-align: center;
+    }
+
+    /* 완료 메시지 스타일 */
+    .success-message {
+        font-family: Score5;
+        color: black;
+        font-size: 25px;
+        text-align: center;
+    }
+
+    /* 버튼 컨테이너 스타일 */
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        padding: 20px;
+        margin: 0 auto;
+        background-color: #F6E1A0;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 버튼 스타일 */
+    .custom-button {
+        background-color: white;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: Hakgyo;
+        font-size: 16px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .custom-button:hover {
+        background-color: #ddd;
+    }
+</style>
 <div id="back_ground">
-    <div style="width: 70%;height:65%">
-        <div style="display: flex; justify-content: flex-start; width: 100%; padding: 0; margin: 0;">
-            {{#subject}}
-                {{subject}} | {{Grade}}학년 {{divClass}}분반
-            {{/subject}}
-            {{#notice}}
-                <button class="btn" style="background-color: gray;" disabled>공지사항</button>
-            {{/notice}}
-            {{#summary}}
-                <button class="btn" style="background-color: gray;" disabled>수업 요약</button>
-            {{/summary}}
-            {{#test}}
-                <button class="btn" style="background-color: gray;" disabled>시험</button>
-            {{/test}}
+    {{#subject}}
+        <p class="subject-text">{{subject}} {{Grade}}학년 {{divClass}}분반</p>
+
+        <p class="success-message">게시판 등록을 완료했습니다!</p>
+
+        <div class="button-container">
+            {{#noticeId}}
+                <button class="custom-button" onclick="navigateTo('/board/notice?id={{id}}&num={{noticeId}}')">공지사항 확인하기</button>
+            {{/noticeId}}
+            {{#summaryId}}
+                <button class="custom-button" onclick="navigateTo('/board/summary?id={{id}}&num={{summaryId}}')">수업 요약 확인하기</button>
+            {{/summaryId}}
+            {{#testId}}
+                <button class="custom-button" onclick="navigateTo('/board/test?id={{id}}&num={{testId}}')">시험 확인하기</button>
+            {{/testId}}
         </div>
-    </div>
+    {{/subject}}
 </div>
+<script>
+    function navigateTo(url) {
+        window.location.href = url;
+    }
+</script>
 {{>footer}}

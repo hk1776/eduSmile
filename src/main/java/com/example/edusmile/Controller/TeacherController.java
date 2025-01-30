@@ -7,6 +7,7 @@ import com.example.edusmile.Service.MemberService;
 import com.example.edusmile.Service.PostService;
 import com.example.edusmile.Service.SubjectService;
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -90,7 +92,9 @@ public class TeacherController {
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    Model model,
-                                   @AuthenticationPrincipal UserDetails user) throws IOException {
+                                   @AuthenticationPrincipal UserDetails user,
+                                   RedirectAttributes redirectAttributes,
+                                   HttpSession session) throws IOException {
 
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         if(!member.getRole().equals("teacher")) {
@@ -145,14 +149,54 @@ public class TeacherController {
                     .comparing(Subject::getGrade) // 이름 기준 오름차순
                     .thenComparing(Subject::getDivClass));
 
-            model.addAttribute("subject",subjects);
-            model.addAttribute("stt",stt.getText());
-            model.addAttribute("response", send);
-            model.addAttribute("member", member);
-            model.addAttribute("teacher",member.getRole().equals("teacher"));
+            List<String>explains = new ArrayList<>();
+            for(Classification.AnalyzeDTO.Quiz.Text.Question i : send.getQuiz().getText().getQuestions()){
+                explains.add(i.getExplanation()+"|");
+                log.info("inputExplain"+i.getExplanation());
+            }
+            redirectAttributes.addFlashAttribute("explains", explains);
+            redirectAttributes.addFlashAttribute("subject", subjects);
+            redirectAttributes.addFlashAttribute("stt", stt.getText());
+            redirectAttributes.addFlashAttribute("response", send);
+            redirectAttributes.addFlashAttribute("member", member);
+            redirectAttributes.addFlashAttribute("teacher", member.getRole().equals("teacher"));
+            session.setAttribute("lastExplains", explains);
+            session.setAttribute("lastUploadedResponse", send);
+            session.setAttribute("lastUploadedSTT", stt.getText());
+            session.setAttribute("lastSubjects", subjects);
+            session.setAttribute("lastMember", member);
+            return "redirect:/teacher/upload";
+        }
+    }
+    @GetMapping("/upload")
+    public String redirectUpload(Model model,@AuthenticationPrincipal UserDetails user,HttpSession session) {
 
+        // Flash Attribute 데이터 가져오기
+        if (model.containsAttribute("response")) {
             return "classResult";
         }
+        // Flash Attribute가 없을 때 세션 데이터 활용 (새로고침 대비)
+        Classification.AnalyzeDTO lastResponse = (Classification.AnalyzeDTO) session.getAttribute("lastUploadedResponse");
+        List<Subject> lastSubjects = (List<Subject>) session.getAttribute("lastSubjects");
+        String lastSTT = (String) session.getAttribute("lastUploadedSTT");
+        MemberEntity lastMember = (MemberEntity) session.getAttribute("lastMember");
+        List<String> lastExplains = (List<String>) session.getAttribute("lastExplains");
+
+        if(lastExplains != null){
+         model.addAttribute("explains", lastExplains);
+        }
+        if (lastResponse != null) {
+            model.addAttribute("response", lastResponse);
+            model.addAttribute("stt", lastSTT);
+        }
+        if (lastSubjects != null) {
+            model.addAttribute("subject", lastSubjects);
+        }
+        if (lastMember != null) {
+            model.addAttribute("member", lastMember);
+        }
+
+        return "classResult";
     }
 
     @PostMapping("/classAdd")

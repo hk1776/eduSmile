@@ -82,4 +82,10 @@ public class Classification {
             }
         }
     }
+
+    @Data
+    public static class TestData {
+        private String subjectId;
+        private String quizData;
+    }
 }
