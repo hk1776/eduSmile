@@ -82,7 +82,6 @@ public class LoginService {
 
     public void reset_pw(ResetPWDto resetPWDto)
     {
-        System.out.println(resetPWDto.getLoginId());
         if(resetPWDto.getLoginId() == null || resetPWDto.getPassword()==null)
             return ;
         Optional<MemberEntity> member_op = memberRepository.findByloginId(resetPWDto.getLoginId());

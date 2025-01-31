@@ -9,6 +9,8 @@ import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 @Entity
 @Data
 public class Attend {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

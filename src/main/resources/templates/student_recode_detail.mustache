@@ -92,15 +92,16 @@
         top: 46vw;
         position: absolute;
     }
-    .file_drag {
-        border: 0.5vw solid #ccc;
+    .m-box{
+        border: 0.5vw solid #E1B86A;
         border-radius: 15px;
         padding: 1vw;
         text-align: center;
-        background-color: #FFFAEB;
+        background-color: #E1B86A;
         justify-content: center;   /* 수평 중앙 정렬 */
         align-items: center;       /* 수직 중앙 정렬 */
         color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         font-size: 3vw;
         width: 78vw;
         height: 33.5vw;
@@ -110,6 +111,28 @@
         top:14vw;
         transition: background-color 0.3s;
         overflow-y:auto;
+        z-index:1;
+    }
+    .file_drag {
+        border: 0.5vw solid #FFFAEB;
+        border-radius: 15px;
+        padding: 1vw;
+        text-align: center;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        font-size: 3vw;
+        width: 74vw;
+        height: 29.5vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:20vw;
+        top:16vw;
+        transition: background-color 0.3s;
+        overflow-y:auto;
+        z-index:1;
     }
 
     .file_drag.dragover {
@@ -136,7 +159,7 @@
         text-align: center;        /* 텍스트 중앙 정렬 */
         font-family: "SCore5", sans-serif;
         font-size:2vw;
-        margin-top: 13vw;
+        margin-top: 11vw;
     }
     .file_list_header_task button {
         background: none;
@@ -148,6 +171,7 @@
 
     .file_list_header_title, .file_list_header_volume {
         display: inline-block;
+        z-index:3;
     }
 
     #fileList {
@@ -160,6 +184,10 @@
     #fileList li {
         padding: 5px 10px;
         border-bottom: 1px solid #ccc;
+        position: absolute;
+        left:1vw;
+        top:19vw;
+        width:71vw;
     }
     .file-div
     {
@@ -173,14 +201,14 @@
         font-family: "SCore5", sans-serif;
         background-color: #576096;
         color: white;
-        border: 0.5vw solid #FB9C1F; /* 주황색 테두리 설정 */
+        border: 7px solid #FB9C1F; /* 주황색 테두리 설정 */
         border-radius: 30px;       /* 둥근 테두리 설정 */
         cursor: pointer;
         transition: background-color 0.3s ease;
         width: 15vw;
-        height: 5vw;
-        left: 55vw;
-        top: 5.2vw;
+        height: 4vw;
+        left: 60vw;
+        top: 41vw;
         z-index: 2;
     }
     .file-select-2{
@@ -194,9 +222,30 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
         width: 15vw;
-        height: 5vw;
+        height: 4vw;
         left: 72vw;
         top: 5.2vw;
+        z-index: 2;
+    }
+    .send{
+        position: absolute;
+        left:77vw;
+        top:41vw;
+        background: #f19b2a;
+        border-radius: 30px;
+        border-style: solid;
+        border-color: #576096;
+        border-width: 7px;
+        width: 15vw;
+        height: 4vw;
+        font-family: "Score6", sans-serif;
+        font-size:1.5vw;
+        display: flex; /* 플렉스 박스 활성화 */
+        justify-content: center; /* 수평 중앙 정렬 */
+        align-items: center; /* 수직 중앙 정렬 */
+        text-decoration: none; /* 밑줄 제거 */
+        font-weight: bold;
+        color: white;
         z-index: 2;
     }
 </style>
@@ -216,8 +265,9 @@
                  onerror="this.src='/blank_profile/blank_profile.svg';" />
             <div class="name">{{name}} | 학생</div>
         </div>
+        <div id="student-info" data-student-id="{{id}}"></div>
     {{/student}}
-
+    <div class="m-box"></div>
     <div class="file_drag" id="file_drag">
         <div id="plz_drag" class="plz_drag">파일을 끌어 올리고 제출하면 AI가 자동으로 학생 정보를 분석후 업로드 합니다.</div>
         <div class="file_list_header" style="display: none;">
@@ -226,15 +276,20 @@
             </div>
             <div class="file_list_header_title"><span class="text">파일명</span></div>
             <div class="file_list_header_volume"><span class="text">총용량 </span><span id="fileSize">0</span></div>
+
+
+            <ul id="fileList"></ul>
         </div>
 
-        <ul id="fileList"></ul>
     </div>
+
     <div class="file-div">
         <input type="file" id="fileInput" style="display: none;">
         <button class="file-select-1" id="uploadButton1">생활기록부 등록</button>
-        <button class="file-select-2" id="uploadButton2">진로적성검사 등록</button>
+        <button class="send" id="send">분석하기</button>
     </div>
+
+
 
 </div>
 
@@ -273,82 +328,115 @@
         document.getElementById('fileInput').click();
     });
 
-    document.getElementById('uploadButton2').addEventListener('click', function() {
-        document.getElementById('fileInput').click();
-    });
 
-
-    // 파일 선택 후 처리 (옵션)
+    // 파일 선택 후 처리
     document.getElementById('fileInput').addEventListener('change', function(event) {
-        const files = event.target.files;
+        const file = event.target.files[0]; // 한 개의 파일만 가져옴
+        if (!file) return;
+
+        if (file.type !== "application/pdf") {
+            alert("PDF 파일만 업로드 가능합니다.");
+            return;
+        }
+
         const fileList = document.getElementById("fileList");
         const fileListHeader = document.querySelector(".file_list_header");
         const fileSizeDisplay = document.getElementById("fileSize");
-        let totalFileSize = 0;
 
-        if (files.length > 0) {
-            fileListHeader.style.display = "flex";
-        }
+        // 기존 파일 제거 후 새 파일 추가
+        fileList.innerHTML = "";
+        fileListHeader.style.display = "flex";
 
-        for (const file of files) {
-            const li = document.createElement("li");
-            li.textContent = file.name + ` (${(file.size / 1024).toFixed(2)} KB)`;
-            fileList.appendChild(li);
+        const li = document.createElement("li");
+        li.textContent = file.name + ` (${(file.size / 1024).toFixed(2)} KB)`;
+        fileList.appendChild(li);
 
-            totalFileSize += file.size;
-        }
-
-        fileSizeDisplay.textContent = (totalFileSize / 1024).toFixed(2) + " KB";
+        fileSizeDisplay.textContent = (file.size / 1024).toFixed(2) + " KB";
     });
 
-    document.addEventListener("DOMContentLoaded", function () {   //드래그 앤 드롭
+    document.getElementById("send").addEventListener("click", function () {
+        const fileInput = document.getElementById("fileInput");
+        if (!fileInput.files.length) {
+            alert("업로드할 파일을 선택해주세요.");
+            return;
+        }
+
+        const studentId = document.getElementById("student-info").dataset.studentId; // 학생 ID 가져오기
+        if (!studentId) {
+            alert("학생 ID를 찾을 수 없습니다.");
+            return;
+        }
+
+        const file = fileInput.files[0]; // 첫 번째 파일 가져오기
+        const formData = new FormData();
+        formData.append("file", file); // 파일 추가
+        formData.append("studentId", studentId); // 학생 ID 추가
+
+        fetch("/upload", {
+            method: "POST",
+            body: formData,
+        })
+                .then(response => response.json()) // JSON 형식의 응답 받기
+                .then(data => {
+                    alert("파일 업로드 성공: " + data.message);
+                })
+                .catch(error => {
+                    console.error("파일 업로드 실패:", error);
+                    alert("파일 업로드에 실패했습니다.");
+                });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
         const fileDrag = document.getElementById("file_drag");
         const fileList = document.getElementById("fileList");
         const fileSizeDisplay = document.getElementById("fileSize");
         const removeAllButton = document.getElementById("removeAll_button");
         const fileListHeader = document.querySelector(".file_list_header");
-
-        let totalFileSize = 0;
+        const fileInput = document.getElementById("fileInput");
 
         // 드래그 오버 이벤트
         fileDrag.addEventListener("dragover", function (event) {
-            event.preventDefault();
-            fileDrag.classList.add("dragover");
+            event.preventDefault(); // 기본 동작을 막아야 드롭 가능
+            fileDrag.classList.add("dragover"); // 드래그 오버 상태로 변경
         });
 
         // 드래그 아웃 이벤트
-        fileDrag.addEventListener("dragleave", function (event) {
-            fileDrag.classList.remove("dragover");
+        fileDrag.addEventListener("dragleave", function () {
+            fileDrag.classList.remove("dragover"); // 드래그 아웃 시 스타일 초기화
         });
 
         // 파일 드롭 이벤트
         fileDrag.addEventListener("drop", function (event) {
-            event.preventDefault();
-            fileDrag.classList.remove("dragover");
+            event.preventDefault(); // 기본 동작을 막아야 드롭 가능
+            fileDrag.classList.remove("dragover"); // 드래그 오버 스타일 초기화
 
-            const files = event.dataTransfer.files;
+            const file = event.dataTransfer.files[0]; // 첫 번째 파일만 처리
+            if (!file) return;
 
-            if (files.length > 0) {
-                fileListHeader.style.display = "flex";
+            if (file.type !== "application/pdf") {
+                alert("PDF 파일만 업로드 가능합니다.");
+                return;
             }
 
-            for (const file of files) {
-                const li = document.createElement("li");
-                li.textContent = file.name + ` (${(file.size / 1024).toFixed(2)} KB)`;
-                fileList.appendChild(li);
+            // 파일을 input에 추가하고, 파일 목록 업데이트
+            fileInput.files = event.dataTransfer.files;
 
-                totalFileSize += file.size;
-            }
+            // 기존 파일 목록 지우기
+            fileList.innerHTML = "";
+            fileListHeader.style.display = "flex"; // 파일 목록 헤더 보이기
 
-            fileSizeDisplay.textContent = (totalFileSize / 1024).toFixed(2) + " KB";
+            const li = document.createElement("li");
+            li.textContent = file.name + ` (${(file.size / 1024).toFixed(2)} KB)`;
+            fileList.appendChild(li);
+
+            fileSizeDisplay.textContent = (file.size / 1024).toFixed(2) + " KB";
         });
 
         // "전체 삭제" 버튼 클릭 이벤트
         removeAllButton.addEventListener("click", function () {
-            fileList.innerHTML = "";
-            totalFileSize = 0;
-            fileSizeDisplay.textContent = "0 KB";
-            fileListHeader.style.display = "none";
+            fileList.innerHTML = ""; // 파일 목록 비우기
+            fileSizeDisplay.textContent = "0 KB"; // 파일 크기 초기화
+            fileListHeader.style.display = "none"; // 파일 목록 헤더 숨기기
         });
     });
 </script>
