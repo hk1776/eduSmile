@@ -258,7 +258,7 @@ class EduContentProcessor:
         except Exception as e:
             print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
             return {'오류': {'내용': str(e), '파일명': str(text_path)}}
-    def process_content(self, text) -> Dict:
+    def process_content_class_text(self, text) -> Dict:
         """텍스트 컨텐츠를 처리하고 결과물을 생성합니다."""
         try:
             results = {}
@@ -308,6 +308,32 @@ class EduContentProcessor:
         except Exception as e:
             print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
             return {'오류': {'내용': str(e)}}
+    def process_content_counsel_text(self, text) -> Dict:
+        """텍스트 컨텐츠를 처리하고 결과물을 생성합니다."""
+        try:
+            results = {}
+            content = text
+            
+            # 공지사항 추출
+            notice = self.get_claude_response(f"""
+            다음 텍스트에서 상담내용을 요약하여 JSON 형식으로 정리해주세요.
+            반드시 아래의 JSON 형식만을 사용하여 응답해주세요.
+            JSON 형식 :
+            {{"text": ["상담내용요약"]}}
+            
+            상담 내용:
+            {content}
+            """)
+            
+            # JSON 문자열 파싱
+            parsed_notice = json.loads(notice)  # 이 단계에서 \ 제거됨
+            
+            results['summary'] = parsed_notice
+            return results
+        except Exception as e:
+            print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
+            return {'오류': {'내용': str(e)}}
+
 
 def load_api_keys(base_path: str) -> Dict[str, str]:
     """API 키들을 텍스트 파일에서 로드합니다."""
@@ -347,11 +373,20 @@ def process_audio_file(processor: EduContentProcessor, audio_path: Path):
         print(f"\n오디오 파일 처리 중 오류 발생: {str(e)}")
         return {'오류': {'내용': str(e), '파일': str(audio_path)}}
     
-def process_text_file(processor: EduContentProcessor, text):
-    """단일 텍스트 파일을 처리합니다."""
+def process_class_text_file(processor: EduContentProcessor, text):
+    """단일 수업내용 텍스트 파일을 처리합니다."""
     try:
-        print("\n2. 컨텐츠 처리 단계")
-        results = processor.process_content(text)
+        print("\n1. 컨텐츠 처리 단계")
+        results = processor.process_content_class_text(text)
+        return results
+    except Exception as e:
+        print(f"\텍스트 파일 처리 중 오류 발생: {str(e)}")
+        return {'오류': {'내용': str(e)}}
+def process_counsel_text_file(processor: EduContentProcessor, text):
+    """단일 상담내용 텍스트 파일을 처리합니다."""
+    try:
+        print("\n1. 컨텐츠 처리 단계")
+        results = processor.process_content_counsel_text(text)
         return results
     except Exception as e:
         print(f"\텍스트 파일 처리 중 오류 발생: {str(e)}")

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import os
 from pathlib import Path
 from typing import Dict
-from ai_models.model_pipline import EduContentProcessor, process_audio_file,process_text_file, load_api_keys
+from ai_models.model_pipline import EduContentProcessor, process_audio_file,process_class_text_file, load_api_keys,process_counsel_text_file
 from ai_models.pdf_ocr import PDFProcessor
 from ai_models.job_model_claude import CareerAdvisor
 
@@ -54,20 +54,32 @@ async def process_audio(file: UploadFile = File(...)):
     except Exception as e:
         return {"error": str(e)}
     
-@app.post("/process_text/")
-async def process_text(request: TextRequest):
+@app.post("/process_calss_text/")
+async def process_calss_text(request: TextRequest):
     """
-    업로드된 오디오 파일을 처리하여 공지사항, 수업 내용, 해설을 반환합니다.
+    업로드된 수업 텍스트 파일을 처리하여 공지사항, 수업 내용, 해설을 반환합니다.
     """
     try:
-        # 오디오 파일 처리
-        results = process_text_file(processor, request.text)
+        # 수업 텍스트 파일 처리
+        results = process_class_text_file(processor, request.text)
         return results
     except Exception as e:
         return {"error": str(e)}
-        
+@app.post("/process_counsel_text/")
+async def process_counsel_text(request: TextRequest):
+    """
+    업로드된 상담 텍스트 파일을 처리하여 공지사항, 수업 내용, 해설을 반환합니다.
+    """
+    try:
+        # 상담 텍스트 파일 처리
+        results = process_counsel_text_file(processor, request.text)
+        return results
+    except Exception as e:
+        return {"error": str(e)}
+
+
 @app.post("/process_pdf/")
-async def process_audio(file: UploadFile = File(...)):
+async def process_pdf(file: UploadFile = File(...)):
     """업로드된 PDF파일을 처리합니다다."""
     try:
         base_folder_path = Path(base_folder)
@@ -78,7 +90,7 @@ async def process_audio(file: UploadFile = File(...)):
         results = processor2.process_pdf(pdf_path)
         if os.path.exists(pdf_path):
             os.remove(pdf_path)
-        job_recommendations = results.get("추출된_정보", {}).get("RecommendedJobs", {}).keys()
+        job_recommendations = results.get("summary", {}).get("RecommendedJobs", {}).keys()
         results["job_information"]={}
         for desired_job in job_recommendations:
             results["job_information"][desired_job]=advisor.process(desired_job)

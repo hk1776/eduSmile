@@ -260,26 +260,16 @@ class PDFProcessor:
             # Claude API를 사용하여 정보 분석
             print("\n텍스트 분석 중...")
             student_info = self.analyze_student_info(extracted_text)
-            
-            # 결과 파일 저장
-            output_filename = self._generate_filename(os.path.basename(pdf_path))
-            output_path = self.output_folder / f"{output_filename}.json"
-            
-            with open(output_path, 'w', encoding='utf-8') as f:
-                json.dump(student_info, f, ensure_ascii=False, indent=2)
 
             return {
                 "status": "success",
-                "파일명": os.path.basename(pdf_path),
-                "저장경로": str(output_path),
-                "추출된_정보": student_info
+                "summary": student_info
             }
 
         except Exception as e:
             return {
                 "status": "error",
-                "파일명": os.path.basename(pdf_path),
-                "오류": str(e)
+                "error": str(e)
             }
     def process_pdf1(self, pdf_path: str) -> dict:
         """PDF를 처리하고 결과를 저장합니다."""
