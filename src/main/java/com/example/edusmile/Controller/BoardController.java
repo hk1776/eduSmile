@@ -43,6 +43,7 @@ public class BoardController {
     private final MemberService memberService;
     private final SubjectService subjectService;
     private final TestResultService testResultService;
+    private final FreeBoardService freeBoardService;
 
     @GetMapping("/classList")
     public String classList(Model model,@AuthenticationPrincipal UserDetails user) {
@@ -416,5 +417,48 @@ public class BoardController {
         String jsonAnswer = gson.toJson(testResult.getAnswers());
         testResultService.save(testResult.getTestId(),testResult.getClassId(),testResult.getMemberId(),jsonAnswer,testResult.getScore());
         return ResponseEntity.ok("채점 결과가 서버에 저장되었습니다.");
+    }
+
+    @GetMapping("/freeList")
+    public String freList(@RequestParam("id") String subjectId,
+                           @RequestParam(value = "page", defaultValue = "1") int page,
+                           Model model,
+                           @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+
+        Page<FreeBoard>freePage  = freeBoardService.findByClassId(subjectId, pageable);
+
+        // 페이지 번호 리스트 계산
+        List<Integer> pageNums = new ArrayList<>();
+        for (int i = 1; i <= freePage.getTotalPages(); i++) {
+            pageNums.add(i);
+        }
+        Integer prevPageNum = (freePage.hasPrevious()) ? page - 1 : null;
+        Integer nextPageNum = (freePage.hasNext()) ? page + 1 : null;
+
+        model.addAttribute("member", member);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("freePage", freePage);
+        model.addAttribute("pageNums", pageNums);
+        model.addAttribute("prevPageNum", prevPageNum);
+        model.addAttribute("nextPageNum", nextPageNum);
+        return "free";
+    }
+
+    @GetMapping("/free")
+    public String free(@RequestParam("id") String subjectId,
+                         @RequestParam("num") Long id,
+                         Model model,
+                         @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        FreeBoard free = freeBoardService.findById(id);
+        String file = free.getFile();
+
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("member", member);
+        model.addAttribute("free", free);
+        return "freeDetail";
     }
 }

@@ -53,7 +53,7 @@
              style="background-color: #F6E1A0; padding: 60px; width: 100%; height: 80%; border-radius: 15px; position: relative; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; justify-content: flex-start; overflow-y: auto;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);">
             {{#subjects}}
                 <div class="text-button-container">
-                    <div id="backDiv" class="item" style="margin-top: 10px; width: 100%; background-color: #F19B2A; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); padding: 10px; cursor: pointer;" onclick="toggleDropdown(this)">
+                    <div id="backDiv" class="item" style="margin-top: 10px; width: 100%; background-color: #F19B2A; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); padding: 10px; cursor: pointer;" onclick="toggleDropdownBoard(this)">
                         <p style="font-family: Score5; text-align: center;font-size: 30px">[{{subject}}] {{grade}}학년 {{divClass}}분반</p>
                         <p id="classCode" style="font-family: Score5; text-align: center;">수업 코드 : {{id}}</p>
                     </div>
@@ -73,7 +73,7 @@
 </div>
 
 <script>
-    function toggleDropdown(item) {
+    function toggleDropdownBoard(item) {
         const hiddenDropdown = item.nextElementSibling; // 클릭한 아이템의 바로 다음 형제 요소 가져오기
         const backDiv = item; // 클릭한 아이템
 

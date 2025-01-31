@@ -1,10 +1,13 @@
 package com.example.edusmile.Service;
 
 import com.example.edusmile.Entity.FreeBoard;
+import com.example.edusmile.Entity.Notice;
 import com.example.edusmile.Repository.FreeBoardRepository;
 import jakarta.persistence.Column;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,4 +29,11 @@ public class FreeBoardService {
         return freeBoardRepository.save(freeBoard);
     }
 
+    public Page<FreeBoard> findByClassId(String classId, Pageable pageable){
+        return freeBoardRepository.findByClassId(classId, pageable);
+    }
+
+    public FreeBoard findById(Long id) {
+        return freeBoardRepository.findById(id).orElse(null);
+    }
 }

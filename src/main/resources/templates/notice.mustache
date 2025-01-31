@@ -43,28 +43,24 @@
                 </tbody>
             </table>
 
-            <div>
-                <ul class="pagination">
+            <div class="pagination-container">
+                <div class="pagination-group">
                     {{#prevPageNum}}
-                        <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{prevPageNum}}">이전</a>
-                        </li>
+                        <a class="pagination" href="/board/noticeList?id={{subjectId}}&page={{prevPageNum}}">◀ 이전</a>
                     {{/prevPageNum}}
 
                     {{#pageNums}}
-                        <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{.}}">
-                            {{.}}
-                            </a>
-                        </li>
+                        <a class="pagination" href="/board/noticeList?id={{subjectId}}&page={{.}}">
+                        {{.}}
+                        </a>
                     {{/pageNums}}
 
                     {{#nextPageNum}}
-                        <li class="page-item">
-                            <a class="page-link" href="/board/noticeList?id={{subjectId}}&page={{nextPageNum}}">다음</a>
-                        </li>
+                        <a class="pagination" href="/board/noticeList?id={{subjectId}}&page={{nextPageNum}}">다음 ▶</a>
                     {{/nextPageNum}}
-                </ul>
+                </div>
+                <a href="/board/notice/write" class="write-button">글쓰기</a>
+
             </div>
         </div>
     </div>

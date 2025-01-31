@@ -6,16 +6,16 @@
 <div class="layout">
     <!-- 사이드바 -->
     <aside class="sidebar">
-        <a href="/board/noticeList?id={{subjectId}}">공지사항</a>
-        <a href="/board/summaryList?id={{subjectId}}"class="active">수업요약</a>
+        <a href="/board/noticeList?id={{subjectId}}" >공지사항</a>
+        <a href="/board/summaryList?id={{subjectId}}">수업요약</a>
         <a href="/board/testList?id={{subjectId}}">시험</a>
-        <a href="/board/freeList?id={{subjectId}}">자유게시판</a>
+        <a href="/board/freeList?id={{subjectId}}"class="active">자유게시판</a>
     </aside>
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
         <div class="notice-container">
             <div class="notice-header">
-                <h1>수업요약</h1>
+                <h1>자유게시판</h1>
             </div>
 
             <table class="notice-table">
@@ -28,39 +28,39 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#summaryPage.content}}
-                    <tr onclick="navigateTo('/board/summary?id={{subjectId}}&num={{id}}')">
+                {{#freePage.content}}
+                    <tr onclick="navigateTo('/board/free?id={{subjectId}}&num={{id}}')">
                         <td>{{title}}</a></td>
                         <td>{{author}}</td>
                         <td>{{created}}</td>
                         <td>{{views}}</td>
                     </tr>
-                {{/summaryPage.content}}
-                {{^summaryPage.content}}
+                {{/freePage.content}}
+                {{^freePage.content}}
                     <tr>
-                        <td colspan="4" style="text-align: center;">등록된 수업요약이 없습니다.</td>
+                        <td colspan="4" style="text-align: center;">등록된 게시물이 없습니다.</td>
                     </tr>
-                {{/summaryPage.content}}
+                {{/freePage.content}}
                 </tbody>
             </table>
 
             <div class="pagination-container">
                 <div class="pagination-group">
                     {{#prevPageNum}}
-                        <a class="pagination" href="/board/summaryList?id={{subjectId}}&page={{prevPageNum}}">◀ 이전</a>
+                        <a class="pagination" href="/board/freeList?id={{subjectId}}&page={{prevPageNum}}">◀ 이전</a>
                     {{/prevPageNum}}
 
                     {{#pageNums}}
-                        <a class="pagination" href="/board/summaryList?id={{subjectId}}&page={{.}}">
+                        <a class="pagination" href="/board/freeList?id={{subjectId}}&page={{.}}">
                         {{.}}
                         </a>
                     {{/pageNums}}
 
                     {{#nextPageNum}}
-                        <a class="pagination" href="/board/summaryList?id={{subjectId}}&page={{nextPageNum}}">다음 ▶</a>
+                        <a class="pagination" href="/board/freeList?id={{subjectId}}&page={{nextPageNum}}">다음 ▶</a>
                     {{/nextPageNum}}
                 </div>
-                <a href="/board/summary/write" class="write-button">글쓰기</a>
+                <a href="/board/free/write" class="write-button">글쓰기</a>
 
             </div>
         </div>
