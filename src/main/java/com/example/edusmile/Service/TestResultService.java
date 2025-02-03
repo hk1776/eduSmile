@@ -30,4 +30,8 @@ public class TestResultService {
         Optional<List<TestResult>> testResultsOptional = testResultRepository.findByTestId(testId);
         return testResultsOptional.orElse(Collections.emptyList());
     }
+
+    public void deleteByTestId(long testId) {
+        testResultRepository.deleteByTestId(testId);
+    }
 }

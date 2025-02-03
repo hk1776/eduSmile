@@ -128,6 +128,23 @@
         flex: 1.5; /* 조회수의 너비 비율 */
         text-align: center;
     }
+    .button-container-bottom {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        width: 100%;
+    }
+    .write-button {
+        text-decoration: none; /* 밑줄 제거 */
+        background-color: #F19B2A;
+        color: white;
+        border: none;
+        padding: 5px 25px;
+        border-radius: 30px;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* 그림자 효과 */
+        box-shadow: inset 0 0 0 5px #576096;
+        cursor: pointer;
+    }
 </style>
 
 <!-- 레이아웃 -->
@@ -151,9 +168,22 @@
 
             </div>
             <div style="width: 100%;height: 100%;background-color: white;margin-top: 3%;padding: 15px">
-                {{free}}
+                {{content}}
             </div>
             {{/free}}
+            {{#fileExists}}
+                <div id="file-download-container" style="margin-top:20px;margin-right: 5px;margin-left: 5px;background-color: white;padding: 10px;border: 2px solid #000;border-radius: 20px;box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                    <a href="/board/download?file={{originFilename}}&type=free" class="download-btn">첨부파일: <strong>{{filename}}</strong></a>
+                </div>
+            {{/fileExists}}
+            <div class="button-container-bottom">
+                <button class="write-button" style="margin: 10px;" onclick="deletePost()">
+                    삭제하기
+                </button>
+                <button class="write-button" style="margin: 10px;" onclick="navigateTo('/board/free/update?id={{subjectId}}&num={{free.id}}')">
+                수정하기
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -161,6 +191,21 @@
 <script>
     function navigateTo(url) {
         window.location.href = url; // 클릭 시 URL로 이동
+    }
+
+    function deletePost() {
+        if (confirm("정말 삭제하시겠습니까?")) {
+            fetch(`/board/free/delete?num={{free.id}}`, {
+                method: "DELETE"
+            }).then(response => {
+                if (response.ok) {
+                    alert("삭제 완료!");
+                    window.location.href = `/board/freeList?id={{subjectId}}`;
+                } else {
+                    alert("삭제 실패");
+                }
+            }).catch(error => console.error("Error:", error));
+        }
     }
 </script>
 {{>footer}}

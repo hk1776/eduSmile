@@ -19,6 +19,7 @@ public class TestService {
     private final TestRepository testRepository;
     private final SubjectService subjectService;
     private final MemberService memberService;
+    private final TestResultService testResultService;
 
     public Test save(String classId, String exam, Long memberId) {
         Optional<Subject> subject = subjectService.findById(classId);
@@ -45,6 +46,13 @@ public class TestService {
     }
 
     public Test findById(Long id) {
-        return testRepository.findById(id).orElse(null);
+        Test test = testRepository.findById(id).orElse(null);
+        testRepository.increaseViews(id);
+        return test;
+    }
+
+    public void delete(Long id) {
+        testRepository.deleteById(id);
+        testResultService.deleteByTestId(id);
     }
 }

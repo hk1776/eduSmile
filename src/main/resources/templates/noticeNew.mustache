@@ -57,6 +57,7 @@
     /* 메인 콘텐츠 스타일 */
     .main-content {
         flex: 1;
+        height: 100vh;
         padding: 2px 20px;
         box-sizing: border-box;
     }
@@ -64,13 +65,13 @@
     .notice-container {
         background-color: #F6E1A0;
         border-radius: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
         box-shadow: 7px 7px 4px rgba(0, 0, 0, 0.25);
-        margin: 20px 5px;
         padding: 30px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        min-height: 300px; /* 기본 최소 높이 설정 */
+        display: flex; /* 내부 요소 정렬을 위해 플렉스 사용 */
+        flex-direction: column; /* 자식 요소를 수직 정렬 */
+        justify-content: flex-start; /* 내부 콘텐츠 상단부터 배치 */
     }
 
 
@@ -91,7 +92,7 @@
         border: 1px solid #E0E0E0; /* 연한 테두리 */
         border-radius: 30px; /* 둥근 모서리 */
         padding: 10px; /* 내부 여백 */
-        margin-bottom: 5px; /* 항목 간 간격 */
+        margin-bottom: 10px; /* 항목 간 간격 */
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
         margin-top: 3%;
     }
@@ -124,6 +125,12 @@
         flex: 1.5; /* 조회수의 너비 비율 */
         text-align: center;
     }
+    .button-container-top {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        width: 100%;
+    }
     .button-container-bottom {
         display: flex;
         justify-content: right;
@@ -147,7 +154,7 @@
 <div class="layout">
     <!-- 사이드바 -->
     <aside class="sidebar">
-        <a href="/board/noticeList?id={{subjectId}}" class="active">공지사항</a>
+        <a href="/board/noticeList?id={{subjectId}}"class="active">공지사항</a>
         <a href="/board/summaryList?id={{subjectId}}">수업요약</a>
         <a href="/board/testList?id={{subjectId}}">시험</a>
         <a href="/board/freeList?id={{subjectId}}">자유게시판</a>
@@ -155,32 +162,37 @@
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
         <div class="notice-container">
-            {{#notice}}
-            <div class="notice-row">
-                <div class="notice-item notice-title">{{title}}</div>
-                <div class="notice-item notice-author">{{author}}</div>
-                <div class="notice-item notice-date">{{created}}</div>
-                <div class="notice-item notice-views">{{views}}</div>
-
-            </div>
-            <div style="width: 100%;height: 100%;background-color: white;margin-top:20px;padding: 15px; min-height: 65vh;border-radius: 10px">
-                {{notice}}
-            </div>
-            {{/notice}}
-            {{#fileExists}}
-                <div id="file-download-container" style="margin-top:20px;margin-right: 5px;margin-left: 5px;background-color: white;padding: 10px;border: 2px solid #000;border-radius: 20px;box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
-                    <a href="/board/download?file={{originFilename}}&type=notice" class="download-btn">첨부파일: <strong>{{filename}}</strong></a>
+            <form action="/board/notice/write" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; width: 100%;">
+                <input type="hidden" name="classId" value="{{subjectId}}">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;width: 100%;border-radius: 20px;background-color: white; padding: 5px">
+                    <label for="title" style="padding-left: 20px;">제목 :</label>
+                    <input type="text" id="title" name="title" required style="flex: 1;border:none; outline: none;width: 80%;padding-left: 10px;border-radius: 20px ">
                 </div>
-            {{/fileExists}}
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;width: 100%; border-radius: 20px;background-color: white; padding: 5px">
+                    <div style="display: flex; align-items: center; flex: 1;padding-left: 20px;padding-right: 20px;">
+                        <label for="category" style="width: 60px;">분류:</label>
+                        <input type="text" id="category" name="category" value="공지사항" readonly style="flex: 1;border:none; outline: none">
+                    </div>
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <label for="createdAt" style="width: 60px;">작성일:</label>
+                        <input type="text" id="createdAt" name="createdAt" value="{{today}}" readonly style="flex: 1;border:none; outline: none">
+                    </div>
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <label for="author" style="width: 60px;">작성자:</label>
+                        <input type="text" id="author" name="author" value="{{member.name}}" required style="flex: 1;border:none; outline: none;border-radius: 20px">
+                    </div>
+                </div>
+                <!-- 내용 입력 -->
+                <textarea id="content" name="content" rows="5" required style="min-height: 60vh"></textarea>
 
-            <div class="button-container-bottom">
-                <button class="write-button" style="margin: 10px;" onclick="deletePost({{notice.id}}, '{{subjectId}}')">
-                    삭제하기
-                </button>
-                <button class="write-button" style="margin: 10px;" onclick="navigateTo('/board/notice/update?id={{subjectId}}&num={{notice.id}}')">
-                    수정하기
-                </button>
-            </div>
+                <!-- 파일 업로드 -->
+                <label for="file" style="">파일 첨부</label>
+                <input style="background-color: white;" type="file" id="file" name="file">
+                <div class="button-container-bottom">
+                    <button class="write-button" type="submit" style="margin-top: 10px;">작성 완료</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
@@ -188,21 +200,6 @@
 <script>
     function navigateTo(url) {
         window.location.href = url; // 클릭 시 URL로 이동
-    }
-
-    function deletePost(postId, subjectId) {
-        if (confirm("정말 삭제하시겠습니까?")) {
-            fetch(`/board/notice/delete?num={{notice.id}}`, {
-                method: "DELETE"
-            }).then(response => {
-                if (response.ok) {
-                    alert("삭제 완료!");
-                    window.location.href = `/board/noticeList?id={{subjectId}}`;
-                } else {
-                    alert("삭제 실패");
-                }
-            }).catch(error => console.error("Error:", error));
-        }
     }
 </script>
 {{>footer}}

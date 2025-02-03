@@ -1,0 +1,199 @@
+{{>header}}
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-family: 'Score6', sans-serif;
+        background-color: #FCF2D4;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+    }
+
+    .layout {
+        display: flex;
+        flex: 1;
+    }
+
+    /* 왼쪽 네비게이션 스타일 */
+    .sidebar {
+        width: 200px;
+        height: 95vh;
+        background-color: #F6E1A0;
+        margin: 20px 20px;
+        padding: 20px;
+        display: flex; /* 플렉스박스 활성화 */
+        flex-direction: column; /* 자식 요소를 수직으로 정렬 */
+        align-items: center; /* 좌우 기준으로 중앙 정렬 */
+        gap: 20px; /* 항목 간 간격 추가 */
+        box-sizing: border-box;
+        border-radius: 30px;
+    }
+
+    .sidebar a {
+        width: 100%;
+        display: block;
+        background-color: #576096;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 24px;
+        font-family: 'Hakgyo', sans-serif;
+        transition: background-color 0.3s, transform 0.2s; /* 마우스 호버 애니메이션 */
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+        background-color: #576096;
+        box-shadow: inset 0 0 0 10px #F19B2A;
+        color: white;
+    }
+
+    /* 메인 콘텐츠 스타일 */
+    .main-content {
+        flex: 1;
+        padding: 2px 20px;
+        box-sizing: border-box;
+    }
+
+    .notice-container {
+        background-color: #F6E1A0;
+        border-radius: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        box-shadow: 7px 7px 4px rgba(0, 0, 0, 0.25);
+        padding: 30px;
+        display: flex; /* 내부 요소 정렬을 위해 플렉스 사용 */
+        flex-direction: column; /* 자식 요소를 수직 정렬 */
+        justify-content: flex-start; /* 내부 콘텐츠 상단부터 배치 */
+    }
+
+
+    .notice-header h1 {
+        font-size: 20px;
+        background-color: #576096;
+        padding: 15px 30px;
+        color: white;
+        border-radius: 30px;
+        box-shadow: inset 0 0 0 5px #F19B2A;
+        margin: 0;
+    }
+
+    .button-container-bottom {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        width: 100%;
+    }
+    .write-button {
+        text-decoration: none; /* 밑줄 제거 */
+        background-color: #F19B2A;
+        color: white;
+        border: none;
+        padding: 5px 25px;
+        border-radius: 30px;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* 그림자 효과 */
+        box-shadow: inset 0 0 0 5px #576096;
+        cursor: pointer;
+    }
+
+</style>
+
+<!-- 레이아웃 -->
+<div class="layout">
+    <!-- 사이드바 -->
+    <aside class="sidebar">
+        <a href="/board/noticeList?id={{subjectId}}">공지사항</a>
+        <a href="/board/summaryList?id={{subjectId}}">수업요약</a>
+        <a href="/board/testList?id={{subjectId}}">시험</a>
+        <a href="/board/freeList?id={{subjectId}}"class="active">자유게시판</a>
+    </aside>
+    <!-- 메인 콘텐츠 -->
+    <div class="main-content">
+        <div class="notice-container">
+            <form action="/board/free/update" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; width: 100%;">
+                <input type="hidden" id="fileStatus" name="fileStatus" value="stay">
+                <input type="hidden" name="classId" value="{{subjectId}}">
+            {{#free}}
+                <input type="hidden" name="id" value="{{id}}">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;width: 100%;border-radius: 20px;background-color: white; padding: 5px">
+                    <label for="title" style="padding-left: 20px;">제목 :</label>
+                    <input type="text" id="title" name="title" value="{{title}}" required style="flex: 1;border:none; outline: none;width: 80%;padding-left: 10px;border-radius: 20px ">
+                </div>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;width: 100%; border-radius: 20px;background-color: white; padding: 5px">
+                    <div style="display: flex; align-items: center; flex: 1;padding-left: 20px;padding-right: 20px;">
+                        <label for="category" style="width: 60px;">분류:</label>
+                        <input type="text" id="category" name="category" value="자유게시판" readonly style="flex: 1;border:none; outline: none">
+                    </div>
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <label for="createdAt" style="width: 60px;">마지막 수정일:</label>
+                        <input type="text" id="createdAt" name="createdAt" value="{{updated}}" readonly style="flex: 1;border:none; outline: none">
+                    </div>
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <label for="author" style="width: 60px;">작성자:</label>
+                        <input type="text" id="author" name="author" value="{{author}}" required style="flex: 1;border:none; outline: none;border-radius: 20px">
+                    </div>
+                </div>
+                <!-- 내용 입력 -->
+                <textarea id="content" name="content" rows="5" required style="min-height: 60vh">{{content}}</textarea>
+            {{/free}}
+                {{#fileExists}}
+                    <div id="fileDiv" style="display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 20px;margin-bottom: 20px">
+                        <label>현재 파일:</label>
+                        <div id="file-download-container" style="flex: 9.5; background-color: white; padding: 10px; border: 2px solid #000; border-radius: 20px; box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+                            <a href="/board/download?file={{originFilename}}&type=free" class="download-btn">첨부파일: <strong>{{filename}}</strong></a>
+                        </div>
+                        <button type="button" onclick="removeFile()" style="flex: 0.5; background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">삭제</button>
+                    </div>
+                {{/fileExists}}
+
+                <!-- 파일 업로드 -->
+                <label for="file" style="">새로운 파일 첨부</label>
+                <input style="background-color: white;" type="file" id="file" name="file">
+
+                <div class="button-container-bottom">
+                    <button class="write-button" type="submit" style="margin-top: 10px;">작성 완료</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url; // 클릭 시 URL로 이동
+    }
+
+    function removeFile() {
+        let fileContainer = document.getElementById("fileDiv");
+        let fileStatusInput = document.getElementById("fileStatus");
+
+        let confirmChange = confirm("기존 파일을 제거하시겠습니까?");
+        if (confirmChange) {
+            fileStatusInput.value = "delete";
+            fileContainer.style.display = "none";
+        }
+
+    }
+
+    // 새로운 파일 첨부 시 경고창 표시
+    document.getElementById("file").addEventListener("change", function() {
+        let fileContainer = document.getElementById("fileDiv");
+        if (fileContainer && this.files.length > 0) {
+            let confirmChange = confirm("기존 파일을 변경하시겠습니까?");
+            if (confirmChange) {
+                fileContainer.style.display = "none";
+            } else {
+                this.value = "";
+            }
+        }
+    });
+
+</script>
+{{>footer}}
+

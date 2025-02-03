@@ -6,15 +6,21 @@ import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Entity.Summary;
 import com.example.edusmile.Repository.NoticeRepository;
 import com.example.edusmile.Repository.SummaryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +57,21 @@ public class SummaryService {
     }
 
     public Summary findById(Long id) {
-        return summaryRepository.findById(id).orElse(null);
+        Summary summary = summaryRepository.findById(id).orElse(null);
+        summaryRepository.increaseViews(id);
+        return summary;
     }
+
+    public Summary update(Long id, String title, String content) {
+        Summary summary = summaryRepository.findById(id).orElse(null);
+        summary.setTitle(title);
+        summary.setSummary(content);
+        summary.setUpdated(LocalDate.now().toString());
+        return summaryRepository.save(summary);
+    }
+
+    public void delete(Long id) {
+        summaryRepository.deleteById(id);
+    }
+
 }

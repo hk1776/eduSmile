@@ -148,6 +148,25 @@
         display: block;
         margin: 5px 0;
     }
+
+    .button-container-bottom {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        width: 100%;
+    }
+    .write-button {
+        text-decoration: none; /* 밑줄 제거 */
+        background-color: #F19B2A;
+        color: white;
+        border: none;
+        padding: 5px 25px;
+        border-radius: 30px;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* 그림자 효과 */
+        box-shadow: inset 0 0 0 5px #576096;
+        cursor: pointer;
+    }
+
 </style>
 
 <!-- 레이아웃 -->
@@ -187,9 +206,16 @@
                             <p class="result"></p> <!-- 정오 체크 표시 -->
                         </div>
                     {{/questions}}
-                    <button onclick="submitAnswers()">제출</button>
+                    <div id= "submitDiv" class="button-container-bottom">
+                        <button class="write-button" onclick="submitAnswers()">제출</button>
+                    </div>
                 </div>
             {{/test}}
+            <div class="button-container-bottom">
+                <button class="write-button" style="margin: 10px;" onclick="deletePost()">
+                    삭제하기
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -203,6 +229,8 @@
         if ({{saveCheck}}) {
             // 이미 제출한 문제풀이일 경우
             const questions = document.querySelectorAll(".question");
+            let sDiv = document.getElementById("submitDiv");
+            sDiv.style.display = "none";
             questions.forEach((questionElem, index) => {
                 // 선택된 답안이 있다면
                 const selectedAnswer = {{selects}}[index];
@@ -310,6 +338,21 @@
                 .then(response => response.json())
                 .then(data => alert("채점 결과가 서버에 저장되었습니다."))
                 .catch(error => console.error("오류 발생:", error));
+    }
+
+    function deletePost() {
+        if (confirm("정말 삭제하시겠습니까?")) {
+            fetch(`/board/test/delete?num={{test.id}}`, {
+                method: "DELETE"
+            }).then(response => {
+                if (response.ok) {
+                    alert("삭제 완료!");
+                    window.location.href = `/board/testList?id={{subjectId}}`;
+                } else {
+                    alert("삭제 실패");
+                }
+            }).catch(error => console.error("Error:", error));
+        }
     }
 </script>
 {{>footer}}

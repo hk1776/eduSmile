@@ -1,5 +1,6 @@
 package com.example.edusmile.Controller;
 
+import com.example.edusmile.Dto.BoardDTO;
 import com.example.edusmile.Dto.BoardNextDTO;
 import com.example.edusmile.Dto.Classification;
 import com.example.edusmile.Dto.TestResultDTO;
@@ -10,10 +11,14 @@ import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,10 +31,19 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Controller
 @Slf4j
@@ -71,13 +85,26 @@ public class BoardController {
         }
         UUID uuid = UUID.randomUUID();
         Notice save =null;
+
         if(fileCheck){
-             save = noticeService.save(subjectId, content, member.getId(), uuid.toString());
+             save = noticeService.save("AI",subjectId, content, member.getId(), uuid.toString());
         }else{
-             save = noticeService.save(subjectId, content, member.getId(), "No");
+             save = noticeService.save("AI",subjectId, content, member.getId(), "No");
         }
 
-        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board").toString();
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","notice").toString();
+        File directory = new File(projectDir);
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs(); // 폴더 생성
+            if (created) {
+                System.out.println("디렉토리 생성 성공: " + projectDir);
+            } else {
+                System.err.println("디렉토리 생성 실패!");
+            }
+        } else {
+            System.out.println("디렉토리가 이미 존재합니다: " + projectDir);
+        }
+
         if(fileCheck) {
             files.forEach(file -> {
                 try {
@@ -222,7 +249,7 @@ public class BoardController {
                              Model model,
                              @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+        Pageable pageable = PageRequest.of(page - 1, 10,  Sort.by(Sort.Order.desc("id")));
 
         Page<Notice> noticePage  = noticeService.findByClassId(subjectId, pageable);
 
@@ -253,12 +280,87 @@ public class BoardController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
         Notice notice = noticeService.findById(id);
-        String file = notice.getFile();
+        String uuid = notice.getFile(); // 저장된 UUID 값
 
+        // 파일이 저장된 디렉토리
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
+        Path dirPath = Paths.get(projectDir);
+
+        // 디렉토리가 존재하지 않으면 생성
+        if (!Files.exists(dirPath)) {
+            try {
+                Files.createDirectories(dirPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String matchedFileName = null;
+        boolean fileExists = false;
+
+        // 디렉토리 내의 파일 목록을 검색
+        try (Stream<Path> files = Files.list(dirPath)) {
+            matchedFileName = files
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .filter(name -> name.startsWith(uuid))
+                    .findFirst()
+                    .orElse(null);
+
+            fileExists = (matchedFileName != null); // 파일 존재 여부 확인
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filename = "";
+        if(fileExists) {
+            filename = matchedFileName.substring(36);
+        }
+        log.info("filename = {}", filename);
+        model.addAttribute("fileExists", fileExists);
+        model.addAttribute("filename", filename);
+        model.addAttribute("originFilename", matchedFileName);
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("member", member);
         model.addAttribute("notice", notice);
         return "noticeDetail";
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadFile(@RequestParam("file") String fileName,
+                                                 @RequestParam("type") String type) {
+        String FILE_DIR = System.getProperty("user.dir")
+                + File.separator + "file"
+                + File.separator + "board"
+                + File.separator + type
+                + File.separator;
+        log.info(FILE_DIR);
+        try {
+            // 파일 경로 설정
+            Path filePath = Paths.get(FILE_DIR).resolve(fileName).normalize();
+
+            // 파일 리소스 준비
+            Resource resource = new FileSystemResource(filePath);
+
+            if (resource.exists() && resource.isReadable()) {
+                // 파일 다운로드를 위해 UTF-8로 인코딩한 파일 이름을 헤더에 설정
+                String newFileName = fileName.substring(36); // UUID 길이를 잘라낸 나머지 부분이 원본 파일 이름
+
+                // 새로운 파일 이름을 UTF-8로 인코딩하여 헤더에 설정
+                String encodedFileName = URLEncoder.encode(newFileName, StandardCharsets.UTF_8.toString())
+                        .replaceAll("\\+", "%20");  // +를 %20으로 변경
+
+                // 파일을 다운로드할 수 있도록 설정
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFileName + "\"")
+                        .body(resource);
+            } else {
+                // 파일을 찾을 수 없으면 404 에러
+                throw new FileNotFoundException("파일을 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 
@@ -268,7 +370,7 @@ public class BoardController {
                              Model model,
                              @AuthenticationPrincipal UserDetails user) {
         MemberEntity member = memberService.memberInfo(user.getUsername());
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+        Pageable pageable = PageRequest.of(page - 1, 10,Sort.by(Sort.Order.desc("id")));
 
         Page<Summary> summaryPage = summaryService.findByClassId(subjectId, pageable);
 
@@ -312,7 +414,7 @@ public class BoardController {
                               Model model,
                               @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Order.desc("id")));
 
         Page<Test>testPage  = testService.findByClassId(subjectId, pageable);
 
@@ -425,7 +527,7 @@ public class BoardController {
                            Model model,
                            @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("created").descending());
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Order.desc("id")));
 
         Page<FreeBoard>freePage  = freeBoardService.findByClassId(subjectId, pageable);
 
@@ -454,11 +556,425 @@ public class BoardController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
         FreeBoard free = freeBoardService.findById(id);
-        String file = free.getFile();
 
+        String uuid = free.getFile(); // 저장된 UUID 값
+
+        // 파일이 저장된 디렉토리
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
+        Path dirPath = Paths.get(projectDir);
+
+        // 디렉토리가 존재하지 않으면 생성
+        if (!Files.exists(dirPath)) {
+            try {
+                Files.createDirectories(dirPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String matchedFileName = null;
+        boolean fileExists = false;
+
+        // 디렉토리 내의 파일 목록을 검색
+        try (Stream<Path> files = Files.list(dirPath)) {
+            matchedFileName = files
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .filter(name -> name.startsWith(uuid))
+                    .findFirst()
+                    .orElse(null);
+
+            fileExists = (matchedFileName != null); // 파일 존재 여부 확인
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filename = "";
+        if(fileExists) {
+            filename = matchedFileName.substring(36);
+        }
+
+        log.info("filename = {}", filename);
+        model.addAttribute("fileExists", fileExists);
+        model.addAttribute("filename", filename);
+        model.addAttribute("originFilename", matchedFileName);
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("member", member);
         model.addAttribute("free", free);
         return "freeDetail";
+    }
+
+    @GetMapping("/free/write")
+    public String freeSaveForm(@RequestParam("id") String subjectId,
+                       Model model,
+                       @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("today", LocalDate.now().toString());
+        model.addAttribute("member", member);
+        return "freeNew";
+    }
+    @PostMapping("/free/write")
+    public String freeSave(Model model,
+                           @AuthenticationPrincipal UserDetails user,
+                           @ModelAttribute BoardDTO.Free free,
+                           @RequestParam("file") MultipartFile file) {
+
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        boolean fileCheck = false;
+        if (file != null && !file.isEmpty()) {
+            fileCheck = true;
+        }
+        UUID uuid = UUID.randomUUID();
+        FreeBoard save =null;
+        if(fileCheck){
+            save = freeBoardService.save(free.getTitle(), free.getAuthor(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),uuid.toString(),free.getClassId());
+        }else{
+            save = freeBoardService.save(free.getTitle(), free.getAuthor(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),"No",free.getClassId());
+        }
+
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","free").toString();
+        File directory = new File(projectDir);
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs(); // 폴더 생성
+            if (created) {
+                System.out.println("디렉토리 생성 성공: " + projectDir);
+            } else {
+                System.err.println("디렉토리 생성 실패!");
+            }
+        } else {
+            System.out.println("디렉토리가 이미 존재합니다: " + projectDir);
+        }
+
+        if(fileCheck) {
+            try {
+                String originalFilename = file.getOriginalFilename();;
+                String savePath = Paths.get(projectDir, uuid+originalFilename).toString();
+                file.transferTo(new File(savePath));
+                System.out.println("파일 저장 완료: " + savePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 실패");
+            }
+        }
+
+        return "redirect:/board/free?id=" + free.getClassId() + "&num=" + save.getId();
+    }
+
+    @GetMapping("/notice/write")
+    public String noticeSaveForm(@RequestParam("id") String subjectId,
+                               Model model,
+                               @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("today", LocalDate.now().toString());
+        model.addAttribute("member", member);
+        return "noticeNew";
+    }
+    @PostMapping("/notice/write")
+    public String noticeSave(Model model,
+                           @AuthenticationPrincipal UserDetails user,
+                           @ModelAttribute BoardDTO.Free notice,
+                           @RequestParam("file") MultipartFile file) {
+
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        boolean fileCheck = false;
+        if (file != null && !file.isEmpty()) {
+            fileCheck = true;
+        }
+        UUID uuid = UUID.randomUUID();
+        Notice save =null;
+        if(fileCheck){
+            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member.getId(), uuid.toString());
+        }else{
+            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member.getId(), "No");
+        }
+
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","notice").toString();
+        File directory = new File(projectDir);
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs(); // 폴더 생성
+            if (created) {
+                System.out.println("디렉토리 생성 성공: " + projectDir);
+            } else {
+                System.err.println("디렉토리 생성 실패!");
+            }
+        } else {
+            System.out.println("디렉토리가 이미 존재합니다: " + projectDir);
+        }
+
+        if(fileCheck) {
+            try {
+                String originalFilename = file.getOriginalFilename();;
+                String savePath = Paths.get(projectDir, uuid+originalFilename).toString();
+                file.transferTo(new File(savePath));
+                System.out.println("파일 저장 완료: " + savePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 실패");
+            }
+        }
+
+        return "redirect:/board/notice?id=" + notice.getClassId() + "&num=" + save.getId();
+    }
+
+    @GetMapping("/notice/update")
+    public String noticeUpdateForm(@RequestParam("id") String subjectId,
+                                   @RequestParam("num") Long id,
+                                 Model model,
+                                 @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        Notice notice = noticeService.findById(id);
+
+        String uuid = notice.getFile(); // 저장된 UUID 값
+
+        // 파일이 저장된 디렉토리
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
+        Path dirPath = Paths.get(projectDir);
+
+        // 디렉토리가 존재하지 않으면 생성
+        if (!Files.exists(dirPath)) {
+            try {
+                Files.createDirectories(dirPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String matchedFileName = null;
+        boolean fileExists = false;
+
+        // 디렉토리 내의 파일 목록을 검색
+        try (Stream<Path> files = Files.list(dirPath)) {
+            matchedFileName = files
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .filter(name -> name.startsWith(uuid))
+                    .findFirst()
+                    .orElse(null);
+
+            fileExists = (matchedFileName != null); // 파일 존재 여부 확인
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filename = "";
+        if(fileExists) {
+            filename = matchedFileName.substring(36);
+        }
+
+        log.info("filename = {}", filename);
+        model.addAttribute("fileExists", fileExists);
+        model.addAttribute("filename", filename);
+        model.addAttribute("originFilename", matchedFileName);
+        model.addAttribute("notice", notice);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("today", LocalDate.now().toString());
+        model.addAttribute("member", member);
+        return "noticeUpdate";
+    }
+
+    @PostMapping("/notice/update")
+    public String noticeUpdate(Model model,
+                             @AuthenticationPrincipal UserDetails user,
+                             @ModelAttribute BoardDTO.Update notice,
+                             @RequestParam("file") MultipartFile file) {
+
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        boolean fileCheck = false;
+        if (file != null && !file.isEmpty()) {
+            fileCheck = true;
+        }
+        UUID uuid = UUID.randomUUID();
+        Notice save =null;
+        if(fileCheck){
+            save = noticeService.update(notice.getTitle(), notice.getContent(), uuid.toString(),notice.getId());
+            String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","notice").toString();
+            File directory = new File(projectDir);
+            if (!directory.exists()) {
+                boolean created = directory.mkdirs(); // 폴더 생성
+                if (created) {
+                    System.out.println("디렉토리 생성 성공: " + projectDir);
+                } else {
+                    System.err.println("디렉토리 생성 실패!");
+                }
+            } else {
+                System.out.println("디렉토리가 이미 존재합니다: " + projectDir);
+            }
+
+            try {
+                String originalFilename = file.getOriginalFilename();;
+                String savePath = Paths.get(projectDir, uuid+originalFilename).toString();
+                file.transferTo(new File(savePath));
+                System.out.println("파일 저장 완료: " + savePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 실패");
+            }
+        }else{
+            //stay or delete
+            save = noticeService.update(notice.getTitle(), notice.getContent(), notice.getFileStatus(),notice.getId());
+        }
+
+
+
+        return "redirect:/board/notice?id=" + notice.getClassId() + "&num=" + save.getId();
+    }
+
+    @DeleteMapping("/notice/delete")
+    public ResponseEntity<?> deleteNotice(@RequestParam("num") Long id) {
+
+        noticeService.deleteNotice(id);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @GetMapping("/free/update")
+    public String freeUpdateForm(@RequestParam("id") String subjectId,
+                                   @RequestParam("num") Long id,
+                                   Model model,
+                                   @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        FreeBoard free = freeBoardService.findById(id);
+
+        String uuid = free.getFile(); // 저장된 UUID 값
+
+        // 파일이 저장된 디렉토리
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
+        Path dirPath = Paths.get(projectDir);
+
+        // 디렉토리가 존재하지 않으면 생성
+        if (!Files.exists(dirPath)) {
+            try {
+                Files.createDirectories(dirPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String matchedFileName = null;
+        boolean fileExists = false;
+
+        // 디렉토리 내의 파일 목록을 검색
+        try (Stream<Path> files = Files.list(dirPath)) {
+            matchedFileName = files
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .filter(name -> name.startsWith(uuid))
+                    .findFirst()
+                    .orElse(null);
+
+            fileExists = (matchedFileName != null); // 파일 존재 여부 확인
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filename = "";
+        if(fileExists) {
+            filename = matchedFileName.substring(36);
+        }
+
+        log.info("filename = {}", filename);
+        model.addAttribute("fileExists", fileExists);
+        model.addAttribute("filename", filename);
+        model.addAttribute("originFilename", matchedFileName);
+        model.addAttribute("free", free);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("today", LocalDate.now().toString());
+        model.addAttribute("member", member);
+        return "freeUpdate";
+    }
+
+    @PostMapping("/free/update")
+    public String freeUpdate(Model model,
+                               @AuthenticationPrincipal UserDetails user,
+                               @ModelAttribute BoardDTO.Update free,
+                               @RequestParam("file") MultipartFile file) {
+
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        boolean fileCheck = false;
+        if (file != null && !file.isEmpty()) {
+            fileCheck = true;
+        }
+        UUID uuid = UUID.randomUUID();
+        FreeBoard save =null;
+        if(fileCheck){
+            save = freeBoardService.update(free.getTitle(), free.getContent(), uuid.toString(),free.getId());
+            String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","free").toString();
+            File directory = new File(projectDir);
+            if (!directory.exists()) {
+                boolean created = directory.mkdirs(); // 폴더 생성
+                if (created) {
+                    System.out.println("디렉토리 생성 성공: " + projectDir);
+                } else {
+                    System.err.println("디렉토리 생성 실패!");
+                }
+            } else {
+                System.out.println("디렉토리가 이미 존재합니다: " + projectDir);
+            }
+
+            try {
+                String originalFilename = file.getOriginalFilename();;
+                String savePath = Paths.get(projectDir, uuid+originalFilename).toString();
+                file.transferTo(new File(savePath));
+                System.out.println("파일 저장 완료: " + savePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 실패");
+            }
+        }else{
+            //stay or delete
+            save = freeBoardService.update(free.getTitle(), free.getContent(), free.getFileStatus(),free.getId());
+        }
+
+
+
+        return "redirect:/board/free?id=" + free.getClassId() + "&num=" + save.getId();
+    }
+
+    @DeleteMapping("/free/delete")
+    public ResponseEntity<?> deleteFree(@RequestParam("num") Long id) {
+
+        freeBoardService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/summary/update")
+    public String summaryUpdateForm(@RequestParam("id") String subjectId,
+                                 @RequestParam("num") Long id,
+                                 Model model,
+                                 @AuthenticationPrincipal UserDetails user) {
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        Summary summary = summaryService.findById(id);
+
+        model.addAttribute("summary", summary);
+        model.addAttribute("subjectId", subjectId);
+        model.addAttribute("today", LocalDate.now().toString());
+        model.addAttribute("member", member);
+        return "summaryUpdate";
+    }
+
+    @PostMapping("/summary/update")
+    public String summaryUpdate(Model model,
+                             @AuthenticationPrincipal UserDetails user,
+                             @ModelAttribute BoardDTO.Summary summary) {
+        Summary update = summaryService.update(summary.getId(), summary.getTitle(), summary.getContent());
+
+        return "redirect:/board/summary?id=" + update.getClassId() + "&num=" + update.getId();
+    }
+
+    @DeleteMapping("/summary/delete")
+    public ResponseEntity<?> deleteSummary(@RequestParam("num") Long id) {
+
+        summaryService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/test/delete")
+    public ResponseEntity<?> testSummary(@RequestParam("num") Long id) {
+
+        testService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
