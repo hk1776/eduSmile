@@ -267,7 +267,7 @@
     }
     .show{
         border-radius: 15px;
-        border-color:#7E5200;
+        border-color:#E1B86A;
         width: 10vw;
         height: 3vw;
         border:1px;
@@ -278,7 +278,7 @@
         left:85vw;
         top:12.5vw;
         z-index: 0;
-        background-color:#7E5200;
+        background-color:#E1B86A;
     }
     /* 클릭한 버튼 색상 */
     .file.active {
@@ -353,7 +353,7 @@
 <div class="ai-020">
     <div class="left-box" >
         <button class="teacher-button" type="button" >
-            <a target="_self" id="btlogin" class="btlogin"  href="/teacher">교사페이지</a>
+            <a target="_self" id="btlogin" class="btlogin"  href="/member/mypage">마이페이지</a>
         </button>
         <a target="_self" id="back-btn" class="back-btn"  href="/teacher/student_recode"><<< 뒤로가기</a>
 
@@ -379,26 +379,6 @@
     <div class="m-box"></div>
 
 
-    <div class="file_drag" id="file_drag">
-        <div id="plz_drag" class="plz_drag">파일을 끌어 올리고 제출하면 AI가 자동으로 학생 정보를 분석후 업로드 합니다.</div>
-        <div class="file_list_header" style="display: none;">
-            <div class="file_list_header_task">
-                <button type="button" id="removeAll_button"><span class="blind">X</span></button>
-            </div>
-            <div class="file_list_header_title"><span class="text">파일명</span></div>
-            <div class="file_list_header_volume"><span class="text">총용량 </span><span id="fileSize">0</span></div>
-
-
-            <ul id="fileList"></ul>
-
-        </div>
-
-        <div class="file-div">
-            <input type="file" id="fileInput" style="display: none;">
-            <button class="file-select-1" id="uploadButton1">생활기록부 등록</button>
-            <button class="send" id="send">분석하기</button>
-        </div>
-    </div>
 
 
     <div class="show_counsel" id="show_counsel"  style="white-space: pre-wrap;">
@@ -407,7 +387,7 @@
 
 
 
-    <button  id="file_drag_button" class="file" onclick="toggleDiv('file_drag')">생활기록부 등록</button>
+
     <button  id="show_counsel_button" class="show" onclick="toggleDiv('show_counsel')">상담 내역</button>
 
 
@@ -454,33 +434,6 @@
 
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const fileButton = document.getElementById('file_drag_button');
-        const showButton = document.getElementById('show_counsel_button');
-
-        function disableSideBox() {
-            const sideBox = document.querySelector(".side-box");
-            const buttons = sideBox.querySelectorAll("button");
-            // 'side-box' 안에 있는 모든 버튼을 비활성화
-            buttons.forEach(button => {
-                button.disabled = true;
-            });
-            // 스타일로 비활성화된 느낌을 주기 위해 변경
-            sideBox.style.pointerEvents = 'none';  // 마우스 이벤트를 막음
-            sideBox.style.opacity = '0.5';  // 흐리게 보이게 함
-        }
-
-        function ableSideBox() {
-            const sideBox = document.querySelector(".side-box");
-            const buttons = sideBox.querySelectorAll("button");
-            // 'side-box' 안에 있는 모든 버튼을 활성화
-            buttons.forEach(button => {
-                button.disabled = false;
-            });
-            // 스타일 초기화
-            sideBox.style.pointerEvents = 'auto';  // 마우스 이벤트가 다시 작동하도록 함
-            sideBox.style.opacity = '1';  // 흐리게 보이는 효과를 없앰
-        }
 
         // 파일 버튼 클릭 시
         fileButton.addEventListener('click', function () {
@@ -500,23 +453,11 @@
             showButton.style.borderColor = '#E1B86A';
             ableSideBox();
         });
-    });
 
     // 페이지 로딩 시 file_drag를 기본적으로 보이게 설정
     window.onload = function() {
-        toggleDiv('file_drag');
-        function disableSideBox() {
-            const sideBox = document.querySelector(".side-box");
-            const buttons = sideBox.querySelectorAll("button");
-            // 'side-box' 안에 있는 모든 버튼을 비활성화
-            buttons.forEach(button => {
-                button.disabled = true;
-            });
-            // 스타일로 비활성화된 느낌을 주기 위해 변경
-            sideBox.style.pointerEvents = 'none';  // 마우스 이벤트를 막음
-            sideBox.style.opacity = '0.5';  // 흐리게 보이게 함
-        }
-        disableSideBox();
+        toggleDiv('show_counsel');
+
     };
 
     document.addEventListener('DOMContentLoaded', function() {                //로그인 데이터 위아래로 위치하기

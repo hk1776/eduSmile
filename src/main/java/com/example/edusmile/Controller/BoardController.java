@@ -5,6 +5,7 @@ import com.example.edusmile.Dto.BoardNextDTO;
 import com.example.edusmile.Dto.Classification;
 import com.example.edusmile.Dto.TestResultDTO;
 import com.example.edusmile.Entity.*;
+import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Service.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -58,6 +59,7 @@ public class BoardController {
     private final SubjectService subjectService;
     private final TestResultService testResultService;
     private final FreeBoardService freeBoardService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/classList")
     public String classList(Model model,@AuthenticationPrincipal UserDetails user) {
@@ -68,6 +70,15 @@ public class BoardController {
                 .thenComparing(Subject::getDivClass));
         model.addAttribute("subjects", memberSubject);
         model.addAttribute("member", member);
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
+
         return "classList";
     }
 
@@ -255,6 +266,13 @@ public class BoardController {
 
         log.info("page: " + noticePage.getContent().toString());
 
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= noticePage.getTotalPages(); i++) {
@@ -281,6 +299,13 @@ public class BoardController {
 
         Notice notice = noticeService.findById(id);
         String uuid = notice.getFile(); // 저장된 UUID 값
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
 
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
@@ -374,6 +399,14 @@ public class BoardController {
 
         Page<Summary> summaryPage = summaryService.findByClassId(subjectId, pageable);
 
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
+
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= summaryPage.getTotalPages(); i++) {
@@ -400,6 +433,13 @@ public class BoardController {
                          @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
+
         Summary summary = summaryService.findById(id);
         log.info("summary= {}",summary.getSummary());
         model.addAttribute("subjectId", subjectId);
@@ -407,6 +447,8 @@ public class BoardController {
         model.addAttribute("summary", summary);
         return "summaryDetail";
     }
+
+
 
     @GetMapping("/testList")
     public String testList(@RequestParam("id") String subjectId,
@@ -417,6 +459,12 @@ public class BoardController {
         Pageable pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Order.desc("id")));
 
         Page<Test>testPage  = testService.findByClassId(subjectId, pageable);
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
 
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
@@ -445,6 +493,13 @@ public class BoardController {
         boolean saveCheck = false;
         TestResult result=null;
         List<Integer> selects = new ArrayList<>();
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
 
         List<TestResult> testResult = testResultService.findByTestId(id);
         if (!testResult.isEmpty()) {
@@ -531,6 +586,15 @@ public class BoardController {
 
         Page<FreeBoard>freePage  = freeBoardService.findByClassId(subjectId, pageable);
 
+
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
+
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= freePage.getTotalPages(); i++) {
@@ -562,6 +626,12 @@ public class BoardController {
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
         Path dirPath = Paths.get(projectDir);
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
 
         // 디렉토리가 존재하지 않으면 생성
         if (!Files.exists(dirPath)) {
@@ -610,7 +680,15 @@ public class BoardController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("today", LocalDate.now().toString());
+
         model.addAttribute("member", member);
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
         return "freeNew";
     }
     @PostMapping("/free/write")
@@ -669,6 +747,13 @@ public class BoardController {
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("today", LocalDate.now().toString());
         model.addAttribute("member", member);
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
         return "noticeNew";
     }
     @PostMapping("/notice/write")
@@ -678,6 +763,8 @@ public class BoardController {
                            @RequestParam("file") MultipartFile file) {
 
         MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+
 
         boolean fileCheck = false;
         if (file != null && !file.isEmpty()) {
@@ -728,6 +815,12 @@ public class BoardController {
         Notice notice = noticeService.findById(id);
 
         String uuid = notice.getFile(); // 저장된 UUID 값
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
 
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
@@ -839,6 +932,12 @@ public class BoardController {
         FreeBoard free = freeBoardService.findById(id);
 
         String uuid = free.getFile(); // 저장된 UUID 값
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
 
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
@@ -952,6 +1051,13 @@ public class BoardController {
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("today", LocalDate.now().toString());
         model.addAttribute("member", member);
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
         return "summaryUpdate";
     }
 

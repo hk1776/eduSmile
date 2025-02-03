@@ -51,6 +51,9 @@ public class NoticeController {
             return "main";
         }
 
+
+
+
         // 공지사항 예시 데이터
         List<Map<String, Object>> notices = new ArrayList<>(List.of(
                 Map.of("id", 1, "title", "2017년도 교외체험학습 계획서 및 보고서", "author", "최**", "date", "2024-11-01", "views", 72),

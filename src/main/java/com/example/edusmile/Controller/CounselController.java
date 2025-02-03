@@ -86,10 +86,18 @@ public class CounselController {
         model.addAttribute("class-teacher", teacher);
         //여기 까지
 
+        List<CounselEntity> record = counselRepository.duplicateContent(student.getName(),"record");
+
+        if(!record.isEmpty()) {
+            record.get(0).setTitle(record.get(0).getCounsel().replace("\n", "<br>"));
+            model.addAttribute("record", record.get(0).getCounsel());
+
+        }
+
         List<MemberEntity> students = memberRepository.findByRoleAndTeacherCode("student",member.getTeacherCode());  //자기반학생찾기
         model.addAttribute("students", students);
         if(!member.getRole().equals("teacher")) {
-            return "main";
+            return "student_recode_detail_for_student";
         }else{
             return "student_recode_detail";
         }

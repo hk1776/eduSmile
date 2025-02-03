@@ -136,12 +136,104 @@
         color: white;
 
     }
+    .popup {
+        display: none; /* 숨겨진 상태로 시작 */
+        position: fixed;
+        width: 30%;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+    .openPopup{
+        position: absolute;
+        left:52vw;
+        top:35vw;
+        background: #f19b2a;
+        border-radius: 30px;
+        border-style: solid;
+        border-color: #576096;
+        border-width: 7px;
+        width: 15vw;
+        height: 8vh;
+        font-family: "Score6", sans-serif;
+        font-size:1.5vw;
+        display: flex; /* 플렉스 박스 활성화 */
+        justify-content: center; /* 수평 중앙 정렬 */
+        align-items: center; /* 수직 중앙 정렬 */
+        text-decoration: none; /* 밑줄 제거 */
+        font-weight: bold;
+        color: white;
+    }
+    .overlay {
+        display: none; /* 숨겨진 상태로 시작 */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+    .btnAll {
+        background-color: #F19B2A;
+        color: white;
+        border: none;
+        padding: 5px 20px;
+        font-size: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Score6', sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 및 애니메이션 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+    .btnAdd {
+        background-color: #F19B2A;
+        color: white;
+        border: none;
+        padding: 5px 20px;
+        font-size: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: 'Score6', sans-serif;
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 및 애니메이션 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
 </style>
 
 
 <div class="ai-020">
 
         <a target="_self" id="back-btn" class="back-btn"  href="/teacher"><<< 뒤로가기</a>
+
+    <div class="popup" id="popup">
+        <div style="background-color:#576096; width: 100%; height: 10%; color: white; font-family: Hakgyo; font-size: 25px; display: flex; align-items: center; padding: 10px;">
+            수업 추가
+        </div>
+        <div style="display: flex; justify-content: center; width: 100%;">
+            <form method="POST" action="/member/mypage/classAdd" oninput="return validateForm()" style="padding: 10px; width: 80%; font-family: Score5; font-size: 20px;">
+
+                <label for="subject">과목 코드</label>
+                <input id="subject" name="subject" maxlength="5" style="width: 100%;
+                   border: 1px solid #ddd;
+                   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                   margin-bottom: 10px;
+                   border-radius: 5px;
+                   font-family: 'Score5', sans-serif;"
+                       placeholder="과목 추가"
+                />
+                <div id="codeError" class="text-danger" style="font-size: 1vw; display: none;">영어와 숫자 혼합(5자리)(대소문자 구분)</div>
+
+                <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 15px; margin-bottom: 15px;">
+                    <button type="button" id="closePopup" class="btnAll">취소</button>
+                    <button type="submit" class="btnAdd" id="btnAdd" style="margin-left: 15px;">추가</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
 
     <div class="main-box" >
@@ -165,21 +257,118 @@
         {{/member}}
     </div>
 
-        <a target="_self" href="/CounselList" class="Counsel-btn">상담내역 확인</a>
+    {{#teacher}}
+    {{#member}}
+        <a target="_self" href="/teacher/student_recode" class="Counsel-btn">상담내역 확인</a>
+    {{/member}}
+    {{/teacher}}
 
+
+    {{#st}}
+        {{#member}}
+            <a target="_self" href="/teacher/student_recode/{{id}}" class="Counsel-btn">상담내역 확인</a>
+            <button type="button" id="openPopup" class="openPopup">과목추가</button>
+        {{/member}}
+    {{/st}}
     </div>
 
+
+
 <script>
-    window.addEventListener('keydown', function(event) {
-        // F5 키를 누를 때 새로고침 방지
-        if (event.key === 'F5') {
-            event.preventDefault();
+    function validateForm() {
+
+        //아이디 유효성
+        var code = document.getElementById("subject").value;
+        var coderegex = /^[A-Za-z0-9]{5}$/; //정규식 5자리 영어 + 숫자
+        var codeerrorMessage = document.getElementById("codeError");
+
+        if (!coderegex.test(code)) {
+            codeerrorMessage.style.display = "block"; // 에러
+            document.getElementById("btnAdd").disabled = true; // 제출 버튼 비활성화
+            return false;
+        } else {
+            codeerrorMessage.style.display = "none"; // 에러 x
         }
-        // Ctrl + R (새로고침) 방지
-        if (event.ctrlKey && event.key === 'r') {
-            event.preventDefault();
-        }
+
+        document.getElementById("btnAdd").disabled = false;
+        return true;
+    }
+
+    document.getElementById('openPopup').addEventListener('click', function() {
+        document.getElementById('popup').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
     });
+
+    document.getElementById('closePopup').addEventListener('click', function() {
+        document.getElementById('popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    });
+
+    document.getElementById('overlay').addEventListener('click', function() {
+        document.getElementById('popup').style.display = 'none';
+        this.style.display = 'none';
+    });
+
+    function toggleButtons(item) {
+        const hiddenButtons = item.querySelector('.hidden-buttons'); // 클릭한 아이템 내의 hidden-buttons 찾기
+        const backDiv = item; // 클릭한 아이템을 backDiv로 사용
+
+        if (hiddenButtons.style.display === 'none' || hiddenButtons.style.display === '') {
+            hiddenButtons.style.display = 'flex';
+            backDiv.style.backgroundColor = '#B0B7E2';  // 클릭한 아이템 배경색 변경
+        } else {
+            hiddenButtons.style.display = 'none';
+            backDiv.style.backgroundColor = '#ffffff';  // 다시 배경색 원래대로
+        }
+    }
+
+    function update(element) {
+        // 클릭된 아이템에서 값 추출
+        var item = element.closest('.item');  // 클릭된 item을 찾아서
+        var textContent = item.querySelector('p').innerText;
+        var classCodeText = item.querySelector('#classCode').innerText;  // 해당 아이템 내의 classCode를 참조
+        var classCode = classCodeText.split(":")[1].trim();
+        var subject = textContent.match(/\[([^\]]+)\]/)[1]; // [물리]에서 물리 추출
+        var grade = textContent.match(/(\d+)학년/)[1]; // 1학년에서 1 추출
+        var divClass = textContent.match(/(\w+)분반/)[1];
+
+        console.log(classCode);
+        console.log(subject);
+        console.log(grade);
+        console.log(divClass);
+        // 팝업의 입력 필드에 디폴트 값 설정
+        document.getElementById('updateCodeTitle').textContent = classCode;
+        document.getElementById('updateCode').value = classCode;
+        document.getElementById('updateGrade').value = grade;
+        document.getElementById('updateClass').value = divClass;
+        document.getElementById('updateSubject').value = subject;
+
+        // 팝업 표시
+        document.getElementById('updatePopup').style.display = 'block';
+    }
+
+    function updateClose(){
+        document.getElementById('updatePopup').style.display = 'none';
+    }
+
+    function deleteClass(element) {
+        // 클릭된 아이템에서 값 추출
+        var item = element.closest('.item');  // 클릭된 item을 찾아서
+        var classCodeText = item.querySelector('#classCode').innerText;  // 해당 아이템 내의 classCode를 참조
+        var classCode = classCodeText.split(":")[1].trim();  // 수업 코드를 추출
+
+        // 팝업의 입력 필드에 디폴트 값 설정
+        document.getElementById('deleteCode').value = classCode;
+
+        // 팝업 표시
+        document.getElementById('deletePopup').style.display = 'block';
+    }
+
+    function deleteClose(){
+        document.getElementById('deletePopup').style.display = 'none';
+    }
+
+
 
 
     document.addEventListener("DOMContentLoaded", function() {

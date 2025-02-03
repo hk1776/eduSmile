@@ -30,7 +30,7 @@ public class MemberController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         model.addAttribute("member", member);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
-
+        model.addAttribute("st", member.getRole().equals("student"));
         //헤더 있는페이지는 이거 필수
         List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
         MemberEntity teacher = listteacher.get(0);
@@ -40,6 +40,12 @@ public class MemberController {
         log.info("member: {}", member.getName());
         System.out.println("member: " + member.getId());
         return "mypage";
+    }
+
+    @PostMapping("/member/mypage/classAdd")
+    public String classAdd(@AuthenticationPrincipal UserDetails user, Model model) {
+        return"";
+
     }
 
 
