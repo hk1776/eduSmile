@@ -17,28 +17,128 @@
     /*    background-size: contain;*/
     /*    cursor: pointer;*/
     /*}*/
+
+    .formStyle{
+        display: flex;
+        flex-direction: column;
+        background-color: #004D05;
+        padding: 30px;
+        width: 30%;
+        border-radius: 8px;
+        height: 60vh;
+        position: relative;
+        overflow-y: auto;
+        box-sizing: border-box;
+        margin: 0;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .formStyle::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5%;
+        background-color: #472A00;
+    }
+
+    .button-icon {
+        width: 50px;
+        height: 50px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .button-icon:disabled {
+        transform: scale(1); /* 비활성화된 버튼 크기 기본 유지 */
+        cursor: not-allowed;
+    }
+
+    .button-icon:hover {
+        transform: scale(1.3);
+    }
+
+    .button-icon:active {
+        transform: scale(0.95); /* 클릭 시 버튼 크기 줄어드는 효과 */
+    }
+
+    /* 활성화된 버튼은 더 크게 */
+    .button-icon.active {
+        transform: scale(1.3);
+    }
+
+    #loadingOverlay {
+        display: none;
+        justify-content: center; /* 가로 중앙 정렬 */
+        align-items: center; /* 세로 중앙 정렬 */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 10;
+        flex-direction: column;
+        border-radius: 10px;
+    }
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-top: 5px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
 </style>
-<div id="back_ground">
-    <form id="audio_input" class="container" action="/teacher/upload" method="post" enctype="multipart/form-data"
-          style="background-color: white; padding: 30px; width: 50%; border-bottom-left-radius: 8px; border-radius: 8px; height: 60%; position: relative; overflow-y: auto; box-sizing: border-box; margin: 0; flex-direction: column; justify-content: flex-start;">
-        <div class="mb-3">
-            <label class="form-label" style="font-weight: bold;">음성 파일</label>
-            <label class="form-label" for="audioFile" id="audioFileLabel" style="display:none;">녹음 완료</label>
+<div id="back_ground" style="position: relative">
+    <form id="audio_input" class="formStyle" action="/teacher/upload" method="post" enctype="multipart/form-data" style="position: relative;">
+        <!-- 로딩 화면 (폼만 덮도록 설정) -->
+        <div id="loadingOverlay" >
+            <div class="spinner"></div>
+            <div style="color: white; font-size: 1.2em; text-align: center;margin-top: 10px">
+                <p>AI 분석 중입니다. 잠시만 기다려 주세요...</p>
+                <p>예상 소요시간 :  <span id="timeRange2"></span></p>
+            </div>
+        </div>
+
+        <img src="/images/recordTitle.svg" style="height: 10%;display: inline-block; margin-bottom: 15px;"/>
+
+        <div class="mb-5" style="width: 80%">
+            <label class="form-label" style="font-weight: bold;color: white">음성 파일</label>
             <input id="audioFile" type="file" class="form-control" name="file" accept="audio/*" style="display:block;">
         </div>
-        <div class="mb-3" style="height: 10%">
-            <button id="startBtn" type="button">녹음</button>
-            <button id="stopBtn" type="button" disabled>중지</button>
+
+        <div class="mb-3" style="width: 80%">
+            <label class="form-label" style="font-weight: bold;color: white">음성 녹음</label>
+            <div style="width : 100%; background-color:#CFA173; border: 1px solid #553029; border-radius: 30px; padding: 15px; display: flex; justify-content: space-around;">
+                <div id="startBtn" class="button-icon" style="background-image: url('/images/record.svg');"></div>
+                <div id="pauseBtn" class="button-icon" style="background-image: url('/images/pause.svg');" disabled></div>
+                <div id="resumeBtn" class="button-icon" style="background-image: url('/images/play.svg');" disabled></div>
+                <div id="stopBtn" class="button-icon" style="background-image: url('/images/stop.svg');" disabled></div>
+            </div>
         </div>
         <div id="audioPlayerContainer" style="display:none;">
             <audio id="audioPlayer" controls></audio>
         </div>
-        <div style="margin-top: 48px; padding-top: 10px;">
-            <div id="estimatedTime" style="margin-top: 10px; color: red; font-size: 1em; display: none;">
-                예상 소요 시간: <span id="timeRange"></span>
+        <div style="margin-top: auto; padding-top: 10px;width: 80%;margin-bottom: 15px">
+            <div id="estimatedTime" style="margin-top: 10px; color: yellow; font-size: 1em; display: none;">
+                녹음 완료! 예상 소요 시간: <span id="timeRange"></span>
             </div>
             <button id="submit2" type="submit" class="btn btn-primary"
                     style="width: 100%; padding: 10px;">분석 시작</button>
+        </div>
+        <div style="width: 100%">
+            <img src="/images/analyzeEnd.svg"/>
         </div>
     </form>
 </div>
@@ -50,10 +150,39 @@
     const audioForm = document.getElementById("audio_input");
     const startBtn = document.getElementById("startBtn");
     const stopBtn = document.getElementById("stopBtn");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const resumeBtn = document.getElementById("resumeBtn");
     const audioFileInput = document.getElementById("audioFile");
-    const audioFileLabel = document.getElementById("audioFileLabel");
     const audioPlayer = document.getElementById("audioPlayer");
     const audioPlayerContainer = document.getElementById("audioPlayerContainer");
+    const timeRangeDisplay = document.getElementById("timeRange");
+    const timeRangeDisplay2 = document.getElementById("timeRange2");
+    const estimatedTimeContainer = document.getElementById("estimatedTime");
+    const baseFileSizes = [747250914, 51692284]; // 파일 크기 (바이트 단위)
+    const baseTimes = [136, 23]; // 처리 시간 (초 단위, 2분16초 = 136초)
+
+    document.getElementById("submit2").addEventListener("click", function(event) {
+        const audioFileInput = document.getElementById("audioFile");
+
+        if (!audioFileInput.files.length) {
+            event.preventDefault(); // 폼 제출 방지
+            alert("음성 파일을 선택하거나 녹음 후 제출하세요!");
+        } else {
+            // `#back_ground` 안에서만 로딩 화면 표시
+            document.getElementById("loadingOverlay").style.display = "flex";
+        }
+    });
+
+    function setActiveButton(button) {
+        // 모든 버튼에서 active 클래스를 제거
+        startBtn.classList.remove('active');
+        stopBtn.classList.remove('active');
+        pauseBtn.classList.remove('active');
+        resumeBtn.classList.remove('active');
+
+        // 클릭된 버튼에 active 클래스 추가
+        button.classList.add('active');
+    }
 
     startBtn.addEventListener("click", async () => {
         try {
@@ -85,25 +214,33 @@
                     dataTransfer.items.add(wavFile);
                     audioFileInput.files = dataTransfer.files;
 
-                    audioFileLabel.style.display = "block";
 
                     // 녹음된 내용을 재생
                     const wavURL = URL.createObjectURL(wavBlob);
                     audioPlayer.src = wavURL;
-                    audioPlayerContainer.style.display = "block";
+                    /*audioPlayerContainer.style.display = "block";*/
 
-                    startBtn.disabled = false;
-                    stopBtn.disabled = true;
-
+                    setActiveButton(stopBtn);
                     audioChunks = [];
+
+                    const file = audioFileInput.files[0]; // 업로드된 파일 가져오기
+                    if (file) {
+                        const fileSize = file.size; // 파일 크기 (바이트 단위)
+                        const { estimatedMinutes, estimatedSeconds, upperBoundMinutes } = calculateTime(fileSize);
+
+                        timeRangeDisplay.textContent = `${estimatedMinutes}분 ${estimatedSeconds}초 ~ ${upperBoundMinutes}분`;
+                        timeRangeDisplay2.textContent = `${estimatedMinutes}분 ${estimatedSeconds}초 ~ ${upperBoundMinutes}분`
+                        estimatedTimeContainer.style.display = "block";
+                    } else {
+                        estimatedTimeContainer.style.display = "none";
+                    }
                 } else {
                     console.error("No audio data recorded");
                 }
             };
 
             mediaRecorder.start();
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
+            setActiveButton(startBtn);
             audioPlayerContainer.style.display = "none";
         } catch (error) {
             console.error("Error initializing recording:", error);
@@ -113,8 +250,22 @@
     stopBtn.addEventListener("click", () => {
         if (mediaRecorder && mediaRecorder.state !== "inactive") {
             mediaRecorder.stop();
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
+            setActiveButton(startBtn);
+
+        }
+    });
+
+    pauseBtn.addEventListener("click", () => {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.pause();
+            setActiveButton(pauseBtn);
+        }
+    });
+
+    resumeBtn.addEventListener("click", () => {
+        if (mediaRecorder && mediaRecorder.state === "paused") {
+            mediaRecorder.resume();
+            setActiveButton(resumeBtn);
         }
     });
 
@@ -172,10 +323,6 @@
         }
     }
 
-    const timeRangeDisplay = document.getElementById("timeRange");
-    const estimatedTimeContainer = document.getElementById("estimatedTime");
-    const baseFileSizes = [747250914, 51692284]; // 파일 크기 (바이트 단위)
-    const baseTimes = [136, 23]; // 처리 시간 (초 단위, 2분16초 = 136초)
 
     // 파일 크기에 따른 소요 시간 계산 함수
     function calculateTime(fileSize) {
@@ -199,6 +346,7 @@
             const { estimatedMinutes, estimatedSeconds, upperBoundMinutes } = calculateTime(fileSize);
 
             timeRangeDisplay.textContent = `${estimatedMinutes}분 ${estimatedSeconds}초 ~ ${upperBoundMinutes}분`;
+            timeRangeDisplay2.textContent = `${estimatedMinutes}분 ${estimatedSeconds}초 ~ ${upperBoundMinutes}분`
             estimatedTimeContainer.style.display = "block";
         } else {
             estimatedTimeContainer.style.display = "none";
