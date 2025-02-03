@@ -3,9 +3,9 @@ from pydantic import BaseModel
 import os
 from pathlib import Path
 from typing import Dict
-from ai_models.model_pipline import EduContentProcessor, process_audio_file,process_class_text_file, load_api_keys,process_counsel_text_file
-from ai_models.pdf_ocr import PDFProcessor
-from ai_models.job_model_claude import CareerAdvisor
+from model_pipline import EduContentProcessor, process_audio_file,process_class_text_file, load_api_keys,process_counsel_text_file
+from pdf_ocr import PDFProcessor
+from job_model_claude import CareerAdvisor
 
 app = FastAPI()
 
