@@ -8,15 +8,7 @@ import json
 from datetime import datetime
 import time
 from typing import Dict, List, Any
-
-# # FFmpeg 경로 설정
-# os.environ['PATH'] = os.environ['PATH'] + os.pathsep + r'C:\ffmpeg\bin'
-# from pydub import AudioSegment
-
-# # FFmpeg 경로를 직접 지정
-# AudioSegment.converter = r"C:\ffmpeg\bin\ffmpeg.exe"
-# AudioSegment.ffmpeg = r"C:\ffmpeg\bin\ffmpeg.exe"
-# AudioSegment.ffprobe = r"C:\ffmpeg\bin\ffprobe.exe"
+from pydub import AudioSegment
 
 class EduContentProcessor:
     def __init__(self, openai_api_key: str, claude_api_key: str, base_folder: str):
@@ -316,19 +308,15 @@ class EduContentProcessor:
             
             # 공지사항 추출
             notice = self.get_claude_response(f"""
-            다음 텍스트에서 상담내용을 요약하여 JSON 형식으로 정리해주세요.
-            반드시 아래의 JSON 형식만을 사용하여 응답해주세요.
-            JSON 형식 :
-            {{"text": ["상담내용요약"]}}
+            다음 텍스트에서 상담내용을 요약하여  정리해주세요.
+            상담과 관련이 없는 내용일 경우 "상담 내용이 아닙니다."라고만 응답해주세요
+            상담요약내용만 응답해주세요.
             
             상담 내용:
             {content}
             """)
             
-            # JSON 문자열 파싱
-            parsed_notice = json.loads(notice)  # 이 단계에서 \ 제거됨
-            
-            results['summary'] = parsed_notice
+            results['summary'] = notice
             return results
         except Exception as e:
             print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
