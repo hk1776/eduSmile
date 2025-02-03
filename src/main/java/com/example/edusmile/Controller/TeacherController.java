@@ -107,8 +107,18 @@ public class TeacherController {
                 log.info("파일 형식 에러" + file.getContentType());
             }
             log.info("파일 이름 = {} 파일 정보 = {} 파일 사이즈 = {} 파일 타입 = {}",file.getOriginalFilename(), file.getContentType(), file.getSize(),file.getContentType());
-            String projectDir = System.getProperty("user.dir");
-            projectDir = Paths.get(projectDir, "file", "audio").toString();
+            String projectDir = Paths.get(System.getProperty("user.dir"), "file", "audio").toString();
+            File directory = new File(projectDir);
+            if (!directory.exists()) {
+                boolean created = directory.mkdirs(); // 폴더 생성
+                if (created) {
+                    System.out.println("디렉토리 생성 성공: " + projectDir);
+                } else {
+                    System.err.println("디렉토리 생성 실패!");
+                }
+            } else {
+                System.out.println("디렉토리가 이미 존재합니다: " + projectDir);
+            }
             File convert = new File(projectDir, Objects.requireNonNull(file.getOriginalFilename()));
             log.info(convert.getPath());
             file.transferTo(convert);
