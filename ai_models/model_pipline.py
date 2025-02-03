@@ -9,14 +9,14 @@ from datetime import datetime
 import time
 from typing import Dict, List, Any
 
-# FFmpeg 경로 설정
-os.environ['PATH'] = os.environ['PATH'] + os.pathsep + r'C:\ffmpeg\bin'
-from pydub import AudioSegment
+# # FFmpeg 경로 설정
+# os.environ['PATH'] = os.environ['PATH'] + os.pathsep + r'C:\ffmpeg\bin'
+# from pydub import AudioSegment
 
-# FFmpeg 경로를 직접 지정
-AudioSegment.converter = r"C:\ffmpeg\bin\ffmpeg.exe"
-AudioSegment.ffmpeg = r"C:\ffmpeg\bin\ffmpeg.exe"
-AudioSegment.ffprobe = r"C:\ffmpeg\bin\ffprobe.exe"
+# # FFmpeg 경로를 직접 지정
+# AudioSegment.converter = r"C:\ffmpeg\bin\ffmpeg.exe"
+# AudioSegment.ffmpeg = r"C:\ffmpeg\bin\ffmpeg.exe"
+# AudioSegment.ffprobe = r"C:\ffmpeg\bin\ffprobe.exe"
 
 class EduContentProcessor:
     def __init__(self, openai_api_key: str, claude_api_key: str, base_folder: str):
