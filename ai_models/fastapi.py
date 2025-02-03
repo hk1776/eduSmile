@@ -24,7 +24,7 @@ processor = EduContentProcessor(
     config['base_folder']
 )
 processor2 = PDFProcessor(api_key_path,base_folder,pdf_json_folder)
-anthro_api_key = "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"
+anthro_api_key = config['claude_api_key']
 advisor = CareerAdvisor(anthro_api_key, base_folder)
 class TextRequest(BaseModel):
     text: str
