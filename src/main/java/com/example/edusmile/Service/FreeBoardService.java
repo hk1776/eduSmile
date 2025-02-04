@@ -26,10 +26,11 @@ import java.util.stream.Stream;
 public class FreeBoardService {
     private final FreeBoardRepository freeBoardRepository;
 
-    public FreeBoard save(String title,String author, int views, String content, String created, String updated, String file, String classId) {
+    public FreeBoard save(String title,String author,Long memberId,int views, String content, String created, String updated, String file, String classId) {
         FreeBoard freeBoard = new FreeBoard();
         freeBoard.setTitle(title);
         freeBoard.setAuthor(author);
+        freeBoard.setMemberId(memberId);
         freeBoard.setViews(views);
         freeBoard.setContent(content);
         freeBoard.setCreated(created);

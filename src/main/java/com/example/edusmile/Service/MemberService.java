@@ -33,6 +33,11 @@ public class MemberService {
     public void deleteOnlySubject(Long id, String subject) {
         attendService.memberSubjectDelete(id, subject);
     }
+    public MemberEntity myTeacher(String code){
+        List<MemberEntity> teacher = memberRepository.findByTeacherCodeTeacher(code,"teacher");
+        return teacher.get(0);
+    }
+
 //    public void removeMemberFromSubject(Long memberId, String subjectId) {
 //        // Member와 Subject 조회
 //        MemberEntity member = memberRepository.findById(memberId)

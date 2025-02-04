@@ -11,6 +11,7 @@ public class FreeBoard {
     private Long id;
     private String title;
     private String author;
+    private Long memberId;
     private int views;
     @Column(length = 10000)
     private String content;

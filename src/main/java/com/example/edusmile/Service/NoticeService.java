@@ -33,9 +33,8 @@ public class NoticeService {
     private final SubjectService subjectService;
     private final MemberService memberService;
 
-    public Notice save(String title,String classId, String notice, Long memberId, String uuid) {
+    public Notice save(String title,String classId, String notice,MemberEntity member, String uuid) {
         Optional<Subject> subject = subjectService.findById(classId);
-        Optional<MemberEntity> member = memberService.findById(memberId);
         if(title.equals("AI")){
             title = "["+subject.get().getSubject()+"] "+subject.get().getGrade()+"학년 "+subject.get().getDivClass()+"분반 공지사항";
         }
@@ -46,7 +45,8 @@ public class NoticeService {
 
         Notice input = new Notice();
         input.setTitle(title);
-        input.setAuthor(member.get().getName());
+        input.setAuthor(member.getName());
+        input.setMemberId(member.getId());
         input.setViews(0);
         input.setNotice(notice);
         input.setCreated(time);

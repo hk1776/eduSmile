@@ -98,9 +98,9 @@ public class BoardController {
         Notice save =null;
 
         if(fileCheck){
-             save = noticeService.save("AI",subjectId, content, member.getId(), uuid.toString());
+             save = noticeService.save("AI",subjectId, content, member, uuid.toString());
         }else{
-             save = noticeService.save("AI",subjectId, content, member.getId(), "No");
+             save = noticeService.save("AI",subjectId, content, member, "No");
         }
 
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","notice").toString();
@@ -141,7 +141,7 @@ public class BoardController {
         log.info(subjectId);
 
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-        Summary save = summaryService.save(subjectId, content, member.getId());
+        Summary save = summaryService.save(subjectId, content, member);
 
 
         return ResponseEntity.ok(save.getId());
@@ -177,7 +177,7 @@ public class BoardController {
         String json = gson.toJson(questions);
 
 
-        Test save = testService.save(subjectId, json, member.getId());
+        Test save = testService.save(subjectId, json, member);
         log.info(questions.toString());
         log.info(subjectId);
         return ResponseEntity.ok(save.getId());
@@ -283,6 +283,7 @@ public class BoardController {
 
         model.addAttribute("member", member);
         model.addAttribute("subjectId", subjectId);
+        model.addAttribute("teacher", "teacher".equals(member.getRole()));
         model.addAttribute("noticePage", noticePage);
         model.addAttribute("pageNums", pageNums);
         model.addAttribute("prevPageNum", prevPageNum);
@@ -346,6 +347,7 @@ public class BoardController {
         model.addAttribute("originFilename", matchedFileName);
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("member", member);
+        model.addAttribute("author", Objects.equals(notice.getMemberId(), member.getId()));
         model.addAttribute("notice", notice);
         return "noticeDetail";
     }
@@ -445,6 +447,7 @@ public class BoardController {
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("member", member);
         model.addAttribute("summary", summary);
+        model.addAttribute("author", Objects.equals(summary.getMemberId(), member.getId()));
         return "summaryDetail";
     }
 
@@ -561,6 +564,7 @@ public class BoardController {
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("member", member);
         model.addAttribute("test", test);
+        model.addAttribute("author", Objects.equals(test.getMemberId(), member.getId()));
         model.addAttribute("questions", questions); // 문제 리스트 추가
 
         // 'testDetail' 페이지로 이동
@@ -665,6 +669,7 @@ public class BoardController {
 
         log.info("filename = {}", filename);
         model.addAttribute("fileExists", fileExists);
+        model.addAttribute("author", Objects.equals(free.getMemberId(), member.getId()));
         model.addAttribute("filename", filename);
         model.addAttribute("originFilename", matchedFileName);
         model.addAttribute("subjectId", subjectId);
@@ -706,9 +711,9 @@ public class BoardController {
         UUID uuid = UUID.randomUUID();
         FreeBoard save =null;
         if(fileCheck){
-            save = freeBoardService.save(free.getTitle(), free.getAuthor(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),uuid.toString(),free.getClassId());
+            save = freeBoardService.save(free.getTitle(), free.getAuthor(),member.getId(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),uuid.toString(),free.getClassId());
         }else{
-            save = freeBoardService.save(free.getTitle(), free.getAuthor(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),"No",free.getClassId());
+            save = freeBoardService.save(free.getTitle(), free.getAuthor(),member.getId(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),"No",free.getClassId());
         }
 
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","free").toString();
@@ -773,9 +778,9 @@ public class BoardController {
         UUID uuid = UUID.randomUUID();
         Notice save =null;
         if(fileCheck){
-            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member.getId(), uuid.toString());
+            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member, uuid.toString());
         }else{
-            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member.getId(), "No");
+            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member, "No");
         }
 
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","notice").toString();

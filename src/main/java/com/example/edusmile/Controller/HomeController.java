@@ -28,11 +28,11 @@ public class HomeController {
     @GetMapping("/home")
     public String home(@AuthenticationPrincipal UserDetails user, Model model) {
 
-
-
         log.info("user = {}",user.getUsername());
         MemberEntity member  = memberService.memberInfo(user.getUsername());
+        MemberEntity myTeacher = memberService.myTeacher(member.getTeacherCode());
         model.addAttribute("member", member);
+        model.addAttribute("teacherInfo", myTeacher);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
@@ -40,7 +40,6 @@ public class HomeController {
         MemberEntity teacher = listteacher.get(0);
         model.addAttribute("class-teacher", teacher);
         //여기 까지
-
 
         log.info("member: {}", member.getName());
         return "main";

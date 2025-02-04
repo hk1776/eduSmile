@@ -30,9 +30,8 @@ public class SummaryService {
     private final SubjectService subjectService;
     private final MemberService memberService;
 
-    public Summary save(String classId, String summary, Long memberId) {
+    public Summary save(String classId, String summary, MemberEntity member) {
         Optional<Subject> subject = subjectService.findById(classId);
-        Optional<MemberEntity> member = memberService.findById(memberId);
         String title = "["+subject.get().getSubject()+"] "+subject.get().getGrade()+"학년 "+subject.get().getDivClass()+"분반 수업요약";
 
         LocalDate now = LocalDate.now();
@@ -43,7 +42,8 @@ public class SummaryService {
 
         Summary input = new Summary();
         input.setTitle(title);
-        input.setAuthor(member.get().getName());
+        input.setAuthor(member.getName());
+        input.setMemberId(member.getId());
         input.setViews(0);
         input.setSummary(summary);
         input.setCreated(time);

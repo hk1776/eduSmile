@@ -21,9 +21,8 @@ public class TestService {
     private final MemberService memberService;
     private final TestResultService testResultService;
 
-    public Test save(String classId, String exam, Long memberId) {
+    public Test save(String classId, String exam,MemberEntity member) {
         Optional<Subject> subject = subjectService.findById(classId);
-        Optional<MemberEntity> member = memberService.findById(memberId);
         String title = "["+subject.get().getSubject()+"] "+subject.get().getGrade()+"학년 "+subject.get().getDivClass()+"분반 시험";
 
         LocalDate now = LocalDate.now();
@@ -32,7 +31,8 @@ public class TestService {
 
         Test input = new Test();
         input.setTitle(title);
-        input.setAuthor(member.get().getName());
+        input.setAuthor(member.getName());
+        input.setMemberId(member.getId());
         input.setViews(0);
         input.setExam(exam);
         input.setCreated(time);

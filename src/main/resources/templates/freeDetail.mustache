@@ -176,14 +176,17 @@
                     <a href="/board/download?file={{originFilename}}&type=free" class="download-btn">첨부파일: <strong>{{filename}}</strong></a>
                 </div>
             {{/fileExists}}
-            <div class="button-container-bottom">
-                <button class="write-button" style="margin: 10px;" onclick="deletePost()">
-                    삭제하기
-                </button>
-                <button class="write-button" style="margin: 10px;" onclick="navigateTo('/board/free/update?id={{subjectId}}&num={{free.id}}')">
-                수정하기
-                </button>
-            </div>
+
+            {{#author}}
+                <div class="button-container-bottom">
+                    <button class="write-button" style="margin: 10px;" onclick="deletePost()">
+                        삭제하기
+                    </button>
+                    <button class="write-button" style="margin: 10px;" onclick="navigateTo('/board/free/update?id={{subjectId}}&num={{free.id}}')">
+                    수정하기
+                    </button>
+                </div>
+            {{/author}}
         </div>
     </div>
 </div>

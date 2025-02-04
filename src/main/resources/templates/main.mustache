@@ -15,16 +15,23 @@
     }
 </style>
 <div id="back_ground">
-    <div style="width: 70%;height:65%">
-        <div style="display: flex; justify-content: flex-start; width: 100%; padding: 0; margin: 0;">
-            <div id="text" class="title">최신 게시판</div>
-        </div>
+    <div style="width: 80%; height: auto;">
         <div class="container"
-              style="background-color: #F6E1A0; padding: 30px; width: 100%;height:80%; border-radius:15px ; position: relative; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; justify-content: flex-start; overflow-y: auto;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);">
-            <div style="width: 100%;border-radius:15px; height: 50px;background-color: white ">
-                1교시 준비물
+             style="background-color: #F6E1A0; padding: 25px; width: 100%; border-radius: 20px;
+                    position: relative; box-sizing: border-box; margin: 0 auto;
+                    display: flex; flex-direction: column; justify-content: flex-start;
+                    overflow-y: auto; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
+
+            <h2 style="text-align: center; color: #6A4C93; margin-bottom: 15px;">학교 정보</h2>
+            <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <p style="margin: 0; font-size: 1.2em; font-weight: bold; color: #333;">🏫 {{member.school}}</p>
             </div>
 
+            <h2 style="text-align: center; color: #6A4C93; margin-top: 20px; margin-bottom: 15px;"> 선생님 정보</h2>
+            <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <p style="margin: 0; font-size: 1.2em; font-weight: bold; color: #333;">성함 : {{teacherInfo.name}}</p>
+                <p style="margin: 0; font-size: 1.2em; color: #333;">전화번호 : {{teacherInfo.phoneNumber}}</p>
+            </div>
         </div>
     </div>
 </div>
