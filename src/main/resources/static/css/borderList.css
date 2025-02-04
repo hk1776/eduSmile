@@ -68,7 +68,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-height: 300px; /* 기본 최소 높이 설정 */
+    min-height: 90vh; /* 기본 최소 높이 설정 */
 }
 
 .notice-header {

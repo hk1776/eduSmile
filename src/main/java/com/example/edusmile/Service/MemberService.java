@@ -1,16 +1,14 @@
 package com.example.edusmile.Service;
 
-import com.example.edusmile.Entity.MemberEntity;
-import com.example.edusmile.Entity.Subject;
+import com.example.edusmile.Dto.BoardDTO;
+import com.example.edusmile.Entity.*;
 import com.example.edusmile.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +35,7 @@ public class MemberService {
         List<MemberEntity> teacher = memberRepository.findByTeacherCodeTeacher(code,"teacher");
         return teacher.get(0);
     }
+
 
 //    public void removeMemberFromSubject(Long memberId, String subjectId) {
 //        // Member와 Subject 조회

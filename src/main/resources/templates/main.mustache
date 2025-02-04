@@ -1,5 +1,147 @@
 {{>header}}
 <style>
+    /* 컨테이너 스타일 */
+    .container {
+        background-color: #F6E1A0;
+        padding: 25px;
+        width: 100%;
+        max-width: 1300px;
+        border-radius: 20px;
+        box-sizing: border-box;
+        margin: 0 auto 30px auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        flex-wrap: wrap; /* 반응형 */
+    }
+
+    /* 정보 블록 */
+    .info-box {
+        width: 45%;
+        text-align: center;
+    }
+
+    .info-box h2 {
+        color: #6A4C93;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+    }
+
+    .info-content {
+        background: white;
+        padding: 20px;
+        height: 60%;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 카드 레이아웃 */
+    .grid {
+        display: grid;
+        width: 100%;
+        max-width: 1300px;
+        margin: 0 auto;
+        grid-template-columns: repeat(2, 1fr); /* 2열 */
+        gap: 20px;
+    }
+
+    .card {
+        background-color: #F6E1A0;
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card h2 {
+        font-family: "Hakgyo", sans-serif;
+        font-size: 1.3em;
+        color: #6A4C93;
+        margin-bottom: 15px;
+    }
+
+    .cardIn {
+        list-style: none;
+        padding: 0;
+    }
+
+    .cardIn li {
+        margin: 10px 0;
+    }
+
+    .cardIn a {
+        text-decoration: none;
+        color: #333;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+
+    .cardIn a:hover {
+        color: #6A4C93;
+        text-decoration: underline;
+    }
+    .scroll-container {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding: 10px 0;
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: #6A4C93 transparent; /* Firefox */
+        scroll-behavior: smooth; /* 부드러운 스크롤 */
+        white-space: nowrap; /* 가로 스크롤 유지 */
+    }
+
+    .scroll-container::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+        background-color: #6A4C93;
+        border-radius: 4px;
+    }
+
+    .scroll-card {
+        flex: 0 0 auto;
+        width: 250px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        transition: transform 0.2s ease-in-out;
+        text-align: center;
+    }
+
+    .scroll-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .scroll-card h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #6A4C93;
+    }
+
+    .scroll-card a {
+        text-decoration: none;
+        color: #333;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .scroll-card a:hover {
+        color: #6A4C93;
+    }
     .title {
         background-color: #576096;
         color: white;
@@ -13,26 +155,88 @@
         font-size: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
-</style>
-<div id="back_ground">
-    <div style="width: 80%; height: auto;">
-        <div class="container"
-             style="background-color: #F6E1A0; padding: 25px; width: 100%; border-radius: 20px;
-                    position: relative; box-sizing: border-box; margin: 0 auto;
-                    display: flex; flex-direction: column; justify-content: flex-start;
-                    overflow-y: auto; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);">
+    /* 반응형 스타일 */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
 
-            <h2 style="text-align: center; color: #6A4C93; margin-bottom: 15px;">학교 정보</h2>
-            <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <p style="margin: 0; font-size: 1.2em; font-weight: bold; color: #333;">🏫 {{member.school}}</p>
+        .info-box {
+            width: 100%;
+        }
+
+        .grid {
+            grid-template-columns: 1fr; /* 한 줄 */
+        }
+
+    }
+</style>
+
+<div id="back_ground">
+    <div style="width: 100%;max-width: 1300px; height: auto; margin: 0 auto;">
+        <div style="display: flex; justify-content: flex-start; width: 100%; padding: 0; margin: 0;">
+            <div id="text" class="title">🏠 Home</div>
+        </div>
+        <!-- 학교 및 선생님 정보 -->
+        <div class="container">
+            <div class="info-box">
+                <h2 style="margin: 0 0 10px 0;font-size: 1.1em;font-weight: bold; color: #6A4C93;font-family: Hakgyo">학교 정보</h2>
+                <div class="info-content">
+                    <p style="font-size: 1.2em; font-weight: bold; color: #333;">🏫 {{member.school}}</p>
+                </div>
             </div>
 
-            <h2 style="text-align: center; color: #6A4C93; margin-top: 20px; margin-bottom: 15px;"> 선생님 정보</h2>
-            <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <p style="margin: 0; font-size: 1.2em; font-weight: bold; color: #333;">성함 : {{teacherInfo.name}}</p>
-                <p style="margin: 0; font-size: 1.2em; color: #333;">전화번호 : {{teacherInfo.phoneNumber}}</p>
+            <div class="info-box">
+                <h2 style="margin: 0 0 10px 0;font-size: 1.1em;font-weight: bold; color: #6A4C93;font-family: Hakgyo">담임 선생님 정보</h2>
+                <div class="info-content">
+                    <p style="font-size: 1.2em; font-weight: bold; color: #333;">성함 : {{teacherInfo.name}}</p>
+                    <p style="font-size: 1.2em; color: #333;">전화번호 : {{teacherInfo.phoneNumber}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 게시판 -->
+        <div class="grid">
+            <!-- 수업 게시판 -->
+            <div class="card">
+                <h2>수강 목록</h2>
+                <div class="scroll-container" id="scrollContainer">
+                {{#subjects}}
+                    <div class="scroll-card">
+                        <h4 style="font-family: Score8">{{subject}}</h4>
+                        <p style="font-family: Score5">{{grade}}학년 {{divClass}}분반</p>
+                        <br>
+                        <p style="font-family: Score5">담당 선생님 : {{teacher.name}}</p>
+                        <a style="font-size: 15px; font-family: Score4" href="/board/noticeList?id={{id}}">과목 게시판으로 이동-></a>
+                    </div>
+                    <div class="scroll-card"><a href="#">추가 항목</a></div>
+                {{/subjects}}
+                    <div class="scroll-card"><a href="#"><h1>&#43</h1></a></div>
+                </div>
+            </div>
+
+            <!-- 우리반 소식 -->
+            <div class="card">
+                <h2>우리반 소식</h2>
+                <ul class="cardIn">
+                    <li><a href="#">yy.mm.dd 결과</a></li>
+                    <li><a href="#">yy.mm.dd 결과</a></li>
+                    <li><a href="#">yy.mm.dd 결과</a></li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const scrollContainer = document.getElementById("scrollContainer");
+
+        scrollContainer.addEventListener("wheel", function (event) {
+            event.preventDefault();
+            scrollContainer.scrollLeft += event.deltaY * 2; // 마우스 휠 속도 조절 (2배 빠르게)
+        });
+    });
+</script>
 {{>footer}}

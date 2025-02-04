@@ -17,6 +17,7 @@ public class Subject {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Attend> attends = new HashSet<>();
 
+    private Long teacherId;
     private String subject;
     private int grade;
 

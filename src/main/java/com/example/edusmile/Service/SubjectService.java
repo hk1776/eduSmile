@@ -40,6 +40,7 @@ public class SubjectService {
         subject.setAttends(new HashSet<>());
         subject.setGrade(grade);
         subject.setDivClass(divClass);
+        subject.setTeacherId(member.getId());
 
         String uuid = UUID.randomUUID().toString();
         String id = uuid.replace("-", "").substring(0, 5);

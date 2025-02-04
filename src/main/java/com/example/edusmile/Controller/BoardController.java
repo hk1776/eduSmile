@@ -1088,4 +1088,5 @@ public class BoardController {
         testService.delete(id);
         return ResponseEntity.ok().build();
     }
+
 }

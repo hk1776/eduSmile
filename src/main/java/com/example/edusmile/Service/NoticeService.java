@@ -60,6 +60,7 @@ public class NoticeService {
         return noticeRepository.findByClassId(classId, pageable);
     }
 
+
     public Notice findById(Long id) {
         log.info("조회수 증가");
         Notice notice = noticeRepository.findById(id).orElse(null);
