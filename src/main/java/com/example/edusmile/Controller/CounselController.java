@@ -298,7 +298,7 @@ public class CounselController {
             model.addAttribute("member", lastMember);
         }
 
-        return "classResult";
+        return "counselResult";
     }
 
     @PostMapping("/counsel/summary")

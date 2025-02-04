@@ -159,17 +159,8 @@
     <div class="analyzeTitle">
         <img src="/images/analyzeTitle.svg" style="height: 50%;display: inline-block; margin-bottom: 15px;"/>
 
-        <select  style="background-color: #FFFEFD;
-                        opacity: 0.9;
-                        border: 1px solid #ddd;
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                        width: 200px;
-                        border-radius: 5px;
-                        font-family: 'Score5', sans-serif;">
-            {{#subject}}
-                <option value="{{id}}">{{subject}} | {{grade}}학년 {{divClass}}분반</option>
-            {{/subject}}
-        </select>
+
+
     </div>
     <div class="grid">
         <!-- STT(Speech to Text) -->
@@ -182,7 +173,7 @@
         </div>
         <div class="card" id="summaryCard">
             <div class="content-wrapper">
-                <h2 class="resultTitle">수업 요약</h2>
+                <h2 class="resultTitle">상담 요약</h2>
                 <button class="btnOne" onclick="submitData('summary')">등록</button>
             </div>
             <textarea style="height: 100%" placeholder="요약된 상담 내용입니다.">{{response}}</textarea>
@@ -217,14 +208,14 @@
      formData.append('content', content);
      formData.append('subjectId', subjectId);
 
-     sendRequest(type, formData);
+     sendRequest( formData);
 
     }
 
-    function sendRequest(type, formData) {
+    function sendRequest( formData) {
         const confirmed = confirm('상담 요약을 등록하시겠습니까?');
         if (confirmed) {
-            fetch(`/counsel/${type}`, {
+            fetch(`/counsel/`, {
                 method: 'POST',
                 body: formData
             })
