@@ -18,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AttendService {
     private final AttendRepository repository;
+    private final AttendRepository attendRepository;
 
     public Attend save(MemberEntity member, Subject subject) {
         Attend attend = new Attend(member, subject);
@@ -66,4 +67,5 @@ public class AttendService {
         List<Attend> attends = repository.findBySubject_Id(subjectId);
         repository.deleteAll(attends);
     }
+
 }

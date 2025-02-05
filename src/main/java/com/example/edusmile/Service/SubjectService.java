@@ -64,4 +64,9 @@ public class SubjectService {
         subject.get().setDivClass(divClass);
         return subjectRepository.save(subject.get());
     }
+
+    public Subject findBySubjectId(String subjectId) {
+        Optional<Subject> subject = subjectRepository.findById(subjectId);
+        return subject.orElse(null);
+    }
 }
