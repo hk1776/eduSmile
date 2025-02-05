@@ -19,6 +19,10 @@ public interface CounselRepository extends JpaRepository<CounselEntity,Long> {
 
 
     @Query(value = "select c from CounselEntity c " +
-            "where c.student =:name AND c.type=:type")
-    List<CounselEntity> duplicateContent(@Param("name") String name, @Param("type") String type );
+            "where c.loginId =:loginId AND c.type=:type")
+    List<CounselEntity> duplicateContent_loginId(@Param("loginId") String loginId, @Param("type") String type );
+
+    @Query(value = "select c from CounselEntity c " +
+            "where c.loginId =:loginId AND c.type=:type")
+    List<CounselEntity> findCounsel(@Param("loginId") String loginId, @Param("type") String type );
 }

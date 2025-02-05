@@ -72,12 +72,7 @@ public class Classification {
 
     @Data
     public static class Counsel {
-        private Summary summary;
+        private String summary;
 
-        @Getter
-        @Setter
-        public static class Summary {
-            private List<String> text;
-        }
     }
 }

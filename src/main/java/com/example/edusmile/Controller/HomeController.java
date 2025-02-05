@@ -69,9 +69,9 @@ public class HomeController {
             model.addAttribute("teacher", member.getRole().equals("teacher"));
 
             //헤더 있는페이지는 이거 필수
-            List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(), "teacher");
-            MemberEntity teacher = listteacher.get(0);
-            model.addAttribute("class-teacher", teacher);
+            Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+            MemberEntity my = m.get();
+            model.addAttribute("my", my);
             //여기 까지
 
             log.info("member: {}", member.getName());

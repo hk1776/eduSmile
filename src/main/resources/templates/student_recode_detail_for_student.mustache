@@ -6,14 +6,14 @@
     }
     .ai-020 {
         background: #fcf2d4;
-        height: 50vw;
+        height: 57vw;
         position: relative;
         overflow: hidden;
         z-index:1;
     }
     .left-box {
         width: 15vw; /* 가로 길이 */
-        height: 47vw; /* 세로 길이 */
+        height: 54vw; /* 세로 길이 */
         background-color: #F6E1A0; /* 배경색 (임의 지정) */
         border-radius: 15px; /* 모서리를 둥글게 */
         margin-top: 1.5vw; /* 위쪽 마진 */
@@ -46,7 +46,7 @@
         font-size: 1.3vw;
         border-width: 0.2vw;
         width: 78vw;  /* 너비를 vw로 설정 */
-        height: 12vw;  /* 높이를 vh로 설정 */
+        height: 8vw;  /* 높이를 vh로 설정 */
         left: 18vw;  /* 좌측 위치를 vw로 설정 */
         top: 1.5vw;    /* 상단 위치를 vh로 설정 */
         position: absolute;
@@ -68,8 +68,8 @@
     }
     .blank_profile
     {
-        height: 10vw;
-        width: 10vw;
+        height: 6vw;
+        width: 6vw;
         border: 0.3vw solid #1E2D84;
         left:5vw;
         top:1vw;
@@ -80,8 +80,8 @@
         font-family: "Score6", sans-serif;
         font-size:2.5vw;
         color: #1E2D84;
-        left:20vw;
-        top: 3.8vw;
+        left:15vw;
+        top: 2vw;
         position:absolute;
     }
     .back-btn{
@@ -89,7 +89,7 @@
         font-size: 1.3vw;
         text-decoration: none; /* 밑줄 없애기 */
         left: 2vw;
-        top: 46vw;
+        top: 50vw;
         position: absolute;
     }
     .m-box{
@@ -104,11 +104,11 @@
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         font-size: 3vw;
         width: 78vw;
-        height: 33.5vw;
+        height: 44.5vw;
         margin: 1VW auto;
         position: absolute;
         left:18vw;
-        top:14vw;
+        top:10vw;
         transition: background-color 0.3s;
         overflow-y:auto;
         z-index:1;
@@ -125,11 +125,11 @@
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         font-size: 3vw;
         width: 74vw;
-        height: 29.5vw;
+        height: 39.5vw;
         margin: 1VW auto;
         position: absolute;
         left:20vw;
-        top:16vw;
+        top:12vw;
         transition: background-color 0.3s;
         overflow-y:auto;
         z-index:1;
@@ -159,7 +159,7 @@
         text-align: center;        /* 텍스트 중앙 정렬 */
         font-family: "SCore5", sans-serif;
         font-size:2vw;
-        margin-top: 11vw;
+        margin-top: 15vw;
     }
     .file_list_header_task button {
         background: none;
@@ -186,7 +186,7 @@
         border-bottom: 1px solid #ccc;
         position: absolute;
         left:1vw;
-        top:19vw;
+        top:24vw;
         width:71vw;
     }
     .file-div
@@ -208,7 +208,7 @@
         width: 15vw;
         height: 4vw;
         left: 40vw;
-        top: 22vw;
+        top: 33vw;
         z-index: 2;
     }
     .file-select-2{
@@ -231,7 +231,7 @@
 
         position: absolute;
         left: 57vw;
-        top: 22vw;
+        top: 33vw;
         background: #f19b2a;
         border-radius: 30px;
         border-style: solid;
@@ -261,7 +261,7 @@
         font-size: 1.2vw;
         overflow: visible;
         left:75vw;
-        top:12.5vw;
+        top:8.5vw;
         z-index: 0;
         background-color:#E1B86A;
     }
@@ -276,7 +276,7 @@
         font-size: 1.5vw;
         overflow: visible;
         left:85vw;
-        top:12.5vw;
+        top:8.5vw;
         z-index: 0;
         background-color:#E1B86A;
     }
@@ -293,19 +293,85 @@
         border-radius: 15px;
         padding: 1vw;
         overflow: auto;
-        font-size: 1.5vw;
+        font-size: 1vw;
         background-color: #FFFAEB;
         justify-content: center;   /* 수평 중앙 정렬 */
         align-items: center;       /* 수직 중앙 정렬 */
         color: #666;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         text-align: left;
-        width: 74vw;
-        height: 29.5vw;
+        width: 35vw;
+        height: 15vw;
         margin: 1VW auto;
         position: absolute;
         left:20vw;
         top:16vw;
+        transition: background-color 0.3s;
+        z-index:1;
+
+    }
+    .show_counsel2{
+        border: 0.5vw solid #FFFAEB;
+        border-radius: 15px;
+        padding: 1vw;
+        overflow: auto;
+        font-size: 1vw;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        text-align: left;
+        width: 35vw;
+        height: 15vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:58vw;
+        top:16vw;
+        transition: background-color 0.3s;
+        z-index:1;
+
+    }
+    .show_counsel3{
+        border: 0.5vw solid #FFFAEB;
+        border-radius: 15px;
+        padding: 1vw;
+        overflow: auto;
+        font-size: 1vw;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        text-align: left;
+        width: 35vw;
+        height: 15vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:20vw;
+        top:38vw;
+        transition: background-color 0.3s;
+        z-index:1;
+
+    }
+    .show_counsel4{
+        border: 0.5vw solid #FFFAEB;
+        border-radius: 15px;
+        padding: 1vw;
+        overflow: auto;
+        font-size: 1vw;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        text-align: left;
+        width: 35vw;
+        height: 15vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:58vw;
+        top:38vw;
         transition: background-color 0.3s;
         z-index:1;
 
@@ -318,7 +384,7 @@
         width: 10vw;
         height: 30vw;
         margin: 20px 20px;
-        overflow: hidden;
+        overflow-y: auto;
         top:12vw;
         left:2.5vw;
         padding: 20px;
@@ -335,8 +401,8 @@
     .show_recode{
         font-family: "Score6", sans-serif;
         background-color:#FFFFFF;
-        height:3vw;
-        width:6vw;
+        height:4vw;
+        width:5vw;
         font-size:0.7vw;
         border-radius: 15px;
         border-color:#FFFFFF;
@@ -345,7 +411,112 @@
         border: none !important;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     }
+    .show_counsels{
+        font-family: "Score6", sans-serif;
+        background-color:#FFFFFF;
+        height:3vw;
+        width:5vw;
 
+        left:1vw;
+        top:3vw;
+        font-size:0.7vw;
+        border-radius: 15px;
+        border-color:#FFFFFF;
+        outline:none !important;
+
+        border: none !important;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+    .recode_name{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 16vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:0.7vw;
+        top:-0.7vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .recode_name1{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 13vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:38.7vw;
+        top:-4vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .recode_name2{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 12vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:0.7vw;
+        top:14vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .recode_name3{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 12vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:38.7vw;
+        top:10.5vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .custom_font {
+        font-family: Hakgyo, sans-serif; /* 원하는 폰트 설정 */
+        font-weight: bold; /* 필요하면 추가 */
+        color: #576096; /* 색상 변경 가능 */
+        top:0vw;
+        left:1vw;
+        position: absolute;
+        font-size: 1.5vw;
+
+    }
+    .show_counsel2_sub
+    {
+        position: absolute;
+        top: 2.3vw;
+    }
+    .show_counsel3_sub
+    {
+        position: absolute;
+        top: 2.3vw;
+    }
+    .show_counsel4_sub
+    {
+        position: absolute;
+        top: 3.3vw;
+    }
+    .show_counsel1_sub
+    {
+        position: absolute;
+        top: 3.3vw;
+    }
 </style>
 <!-- jQuery 라이브러리 추가 (최신 버전 사용 가능) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -353,7 +524,7 @@
 <div class="ai-020">
     <div class="left-box" >
         <button class="teacher-button" type="button" >
-            <a target="_self" id="btlogin" class="btlogin"  href="/member/mypage">마이페이지</a>
+            <a target="_self" id="btlogin" class="btlogin"  href="/teacher">교사페이지</a>
         </button>
         <a target="_self" id="back-btn" class="back-btn"  href="/teacher/student_recode"><<< 뒤로가기</a>
 
@@ -362,11 +533,17 @@
             {{#record}}
                 <button type="button" class="show_recode" id="show-btn" >생활기록부</button>
             {{/record}}
-            <button type="button" class="show_counsel">날짜 + 상담 </button>
+
+            {{#counsels}}
+                <button type="button" class="show_counsels" id="show-btn" >{{title}}</button>
+                <input type="hidden" value="{{id}}">
+            {{/counsels}}
         </div>
+
+
     </div>
 
-    {{#student}}
+    {{#student }}
         <div class="main-box" >
             <img class="blank_profile" src="{{img_path}}"
                  onerror="this.src='/blank_profile/blank_profile.svg';" />
@@ -376,21 +553,373 @@
     {{/student}}
 
 
-    <div class="m-box"></div>
+    <div class="m-box">
 
-
-
-
-    <div class="show_counsel" id="show_counsel"  style="white-space: pre-wrap;">
-        <p></p>
+        <div class="recode_name" id="recode_name">생활기록부 요약</div>
+        <div class="recode_name1" id="recode_name1">직업 추천</div>
+        <div class="recode_name2">직업 정보</div>
+        <div class="recode_name3">상담 요약</div>
     </div>
 
 
+    <div class="counsel_div" id="counsel_div">
+        <div class="show_counsel" id="show_counsel1"  style="white-space: pre-wrap;">
+            <span class="custom_font">생활기록부 요약</span>
+            <div class="show_counsel1_sub" id="show_counsel1_sub"></div>
+
+        </div>
 
 
-    <button  id="show_counsel_button" class="show" onclick="toggleDiv('show_counsel')">상담 내역</button>
+        <div class="show_counsel2" id="show_counsel2"  style="white-space: pre-wrap;">
+            <span class="custom_font">추천 직업</span>
+            <div class="show_counsel2_sub" id="show_counsel2_sub"></div>
+        </div>
+
+        <div class="show_counsel3" id="show_counsel3"  style="white-space: pre-wrap;">
+            <span class="custom_font">직업 정보</span>
+            <div class="show_counsel3_sub" id="show_counsel3_sub"></div>
+        </div>
+
+        <div class="show_counsel4" id="show_counsel4"  style="white-space: pre-wrap;">
+            <span class="custom_font">상담 요약</span>
+            <div class="show_counsel4_sub" id="show_counsel4_sub"></div>
+        </div>
+
+    </div>
 
 
+    <button  id="show_counsel_button" class="show" onclick="toggleDiv('counsel_div')">상담 내역</button>
+
+
+</div>
+
+
+</div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        document.querySelectorAll(".show_counsels").forEach(button => {
+            button.addEventListener("click", function () {
+                const counselId = this.nextElementSibling.value;
+
+
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", `/api/counsel/${counselId}`, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const data = JSON.parse(xhr.responseText);
+
+                            const content = data.content;
+                            const answer = data.answer;
+
+                            document.querySelector("#show_counsel1_sub").innerHTML = "";
+
+                            document.querySelector("#show_counsel2_sub").textContent = "";
+                            document.querySelector("#show_counsel3_sub").innerHTML = "";
+
+                            // HTML 업데이트
+                            document.querySelector("#show_counsel1_sub").innerHTML = answer[0];
+                            document.querySelector("#show_counsel2_sub").innerHTML = answer[1];
+                            document.querySelector("#show_counsel3_sub").innerHTML = answer[2];
+                            document.querySelector("#show_counsel4_sub").innerHTML = content; // 예시로 'content'를 사용
+                            // div 보이기
+                            document.querySelector("#show_counsel1_sub").style.display = 'block';
+                            document.querySelector("#show_counsel2_sub").style.display = 'block';
+                            document.querySelector("#show_counsel3_sub").style.display = 'block';
+
+                            // show_counsel4 div 보이기
+                            document.querySelector("#show_counsel4_sub").style.display = 'block';
+                        } else {
+                            alert("상담 데이터를 불러오는데 실패했습니다.");
+                        }
+                    }
+                };
+                xhr.send();
+            });
+
+
+        });
+
+        // 버튼 클릭 이벤트 리스너 추가
+        document.querySelector(".show_recode").addEventListener("click", function () {
+            const studentId = document.querySelector("#student-info").dataset.studentId;
+
+            // AJAX 요청
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", `/api/record/${studentId}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        const data1 = data[0];
+                        const data2 = data[1];
+                        const data3 = data[2];
+
+                        // HTML 업데이트
+                        document.querySelector("#show_counsel1_sub").innerHTML = data1;
+                        document.querySelector("#show_counsel2_sub").innerHTML = data2;
+                        document.querySelector("#show_counsel3_sub").innerHTML = data3;
+
+
+                        // div 보이기
+                        document.querySelector("#show_counsel1_sub").style.display = 'block';
+                        document.querySelector("#show_counsel2_sub").style.display = 'block';
+                        document.querySelector("#show_counsel3_sub").style.display = 'block';
+                        document.querySelector("#show_counsel4_sub").style.display = 'none';
+                    } else {
+                        alert("생활기록부 데이터를 불러오는데 실패했습니다.");
+                    }
+                }
+            };
+            xhr.send();
+        });
+    });
+
+
+
+    // Div 보이기/숨기기 함수
+    function toggleDiv(divId) {
+        const allDivs = ['file_drag', 'counsel_div'];
+        const allButtons = ['file_drag_button', 'show_counsel_button'];
+
+        // Div visibility toggle
+        allDivs.forEach(id => {
+            const div = document.getElementById(id);
+            const rn = document.getElementById('recode_name');
+            const rn1 = document.getElementById('recode_name1');
+            if (id === divId) {
+                if(id==='counsel_div')
+                {
+                    rn.style.display = 'block';
+                    rn1.style.display = 'block';
+                }
+                div.style.display = 'block'; // 클릭한 div만 보이게
+
+            } else {
+                if(id==='counsel_div')
+                {
+                    rn.style.display = 'none';
+                    rn1.style.display = 'none';
+                }
+                div.style.display = 'none'; // 나머지 div는 숨김
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileButton = document.getElementById('file_drag_button');
+        const showButton = document.getElementById('show_counsel_button');
+
+        function disableSideBox() {
+            const sideBox = document.querySelector(".side-box");
+            const buttons = sideBox.querySelectorAll("button");
+            // 'side-box' 안에 있는 모든 버튼을 비활성화
+            buttons.forEach(button => {
+                button.disabled = true;
+            });
+            // 스타일로 비활성화된 느낌을 주기 위해 변경
+            sideBox.style.pointerEvents = 'none';  // 마우스 이벤트를 막음
+            sideBox.style.opacity = '0.5';  // 흐리게 보이게 함
+        }
+
+        function ableSideBox() {
+            const sideBox = document.querySelector(".side-box");
+            const buttons = sideBox.querySelectorAll("button");
+            // 'side-box' 안에 있는 모든 버튼을 활성화
+            buttons.forEach(button => {
+                button.disabled = false;
+            });
+            // 스타일 초기화
+            sideBox.style.pointerEvents = 'auto';  // 마우스 이벤트가 다시 작동하도록 함
+            sideBox.style.opacity = '1';  // 흐리게 보이는 효과를 없앰
+        }
+
+        // 파일 버튼 클릭 시
+        fileButton.addEventListener('click', function () {
+            fileButton.style.backgroundColor = '#E1B86A';  // 클릭 시 색
+            showButton.style.backgroundColor = '#7E5200';  // 다른 버튼 원래 색으로
+            fileButton.style.borderColor = '#E1B86A';
+            showButton.style.borderColor = '#7E5200';
+            disableSideBox();
+
+        });
+
+        // 상담 버튼 클릭 시
+        showButton.addEventListener('click', function () {
+            fileButton.style.backgroundColor = '#7E5200';  // 클릭 시 색
+            showButton.style.backgroundColor = '#E1B86A';  // 다른 버튼 원래 색으로
+            fileButton.style.borderColor = '#7E5200';
+            showButton.style.borderColor = '#E1B86A';
+            ableSideBox();
+        });
+    });
+
+    // 페이지 로딩 시 file_drag를 기본적으로 보이게 설정
+    window.onload = function() {
+        toggleDiv('file_drag');
+        function ableSideBox() {
+            const sideBox = document.querySelector(".side-box");
+            const buttons = sideBox.querySelectorAll("button");
+            // 'side-box' 안에 있는 모든 버튼을 활성화
+            buttons.forEach(button => {
+                button.disabled = false;
+            });
+            // 스타일 초기화
+            sideBox.style.pointerEvents = 'auto';  // 마우스 이벤트가 다시 작동하도록 함
+            sideBox.style.opacity = '1';  // 흐리게 보이는 효과를 없앰
+        }
+        ableSideBox();
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {                //로그인 데이터 위아래로 위치하기
+        const studentElement = document.querySelectorAll('.student-div');
+
+        function updatePositions() {
+            const windowHeight = window.innerHeight;  // 화면 높이 가져오기
+
+            studentElement.forEach((element, index) => {
+                // 화면 높이를 기준으로 비례적인 값을 계산 (40px 기준으로)
+                const topValue = (index * 0.17) * windowHeight;  // 5%씩 증가하도록 계산 (조정 가능)
+
+                element.style.top = `${topValue}px`;
+                element.style.position = 'absolute';  // position을 절대값으로 설정
+            });
+
+
+        }
+
+        // 처음 로드 시와 화면 크기가 변경될 때마다 업데이트
+        updatePositions();
+
+        window.addEventListener('resize', function() {
+            updatePositions();  // 화면 크기 조정 시 위치 업데이트
+        });
+    });
+
+
+
+
+    document.getElementById('uploadButton1').addEventListener('click', function() {
+        document.getElementById('fileInput').click();
+    });
+
+
+    // 파일 선택 후 처리
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0]; // 한 개의 파일만 가져옴
+        if (!file) return;
+
+        if (file.type !== "application/pdf") {
+            alert("PDF 파일만 업로드 가능합니다.");
+            return;
+        }
+
+        const fileList = document.getElementById("fileList");
+        const fileListHeader = document.querySelector(".file_list_header");
+        const fileSizeDisplay = document.getElementById("fileSize");
+
+        // 기존 파일 제거 후 새 파일 추가
+        fileList.innerHTML = "";
+        fileListHeader.style.display = "flex";
+
+        const li = document.createElement("li");
+        li.textContent = file.name + ` (${(file.size / 1024).toFixed(2)} KB)`;
+        fileList.appendChild(li);
+
+        fileSizeDisplay.textContent = (file.size / 1024).toFixed(2) + " KB";
+    });
+
+    document.getElementById("send").addEventListener("click", function () {
+        const fileInput = document.getElementById("fileInput");
+        if (!fileInput.files.length) {
+            alert("업로드할 파일을 선택해주세요.");
+            return;
+        }
+
+        const studentId = document.getElementById("student-info").dataset.studentId; // 학생 ID 가져오기
+        if (!studentId) {
+            alert("학생 ID를 찾을 수 없습니다.");
+            return;
+        }
+
+        const file = fileInput.files[0]; // 첫 번째 파일 가져오기
+        const formData = new FormData();
+        formData.append("file", file); // 파일 추가
+        formData.append("studentId", studentId); // 학생 ID 추가
+
+        fetch("/upload", {
+            method: "POST",
+            body: formData,
+        })
+                .then(response => response.json()) // JSON 형식의 응답 받기
+                .then(data => {
+                    alert("파일 업로드 성공: " + data.message);
+                })
+                .catch(error => {
+                    console.error("파일 업로드 실패:", error);
+                    alert("파일 업로드에 실패했습니다.");
+                });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileDrag = document.getElementById("file_drag");
+        const fileList = document.getElementById("fileList");
+        const fileSizeDisplay = document.getElementById("fileSize");
+        const removeAllButton = document.getElementById("removeAll_button");
+        const fileListHeader = document.querySelector(".file_list_header");
+        const fileInput = document.getElementById("fileInput");
+
+        // 드래그 오버 이벤트
+        fileDrag.addEventListener("dragover", function (event) {
+            event.preventDefault(); // 기본 동작을 막아야 드롭 가능
+            fileDrag.classList.add("dragover"); // 드래그 오버 상태로 변경
+        });
+
+        // 드래그 아웃 이벤트
+        fileDrag.addEventListener("dragleave", function () {
+            fileDrag.classList.remove("dragover"); // 드래그 아웃 시 스타일 초기화
+        });
+
+        // 파일 드롭 이벤트
+        fileDrag.addEventListener("drop", function (event) {
+            event.preventDefault(); // 기본 동작을 막아야 드롭 가능
+            fileDrag.classList.remove("dragover"); // 드래그 오버 스타일 초기화
+
+            const file = event.dataTransfer.files[0]; // 첫 번째 파일만 처리
+            if (!file) return;
+
+            if (file.type !== "application/pdf") {
+                alert("PDF 파일만 업로드 가능합니다.");
+                return;
+            }
+
+            // 파일을 input에 추가하고, 파일 목록 업데이트
+            fileInput.files = event.dataTransfer.files;
+
+            // 기존 파일 목록 지우기
+            fileList.innerHTML = "";
+            fileListHeader.style.display = "flex"; // 파일 목록 헤더 보이기
+
+            const li = document.createElement("li");
+            li.textContent = file.name + ` (${(file.size / 1024).toFixed(2)} KB)`;
+            fileList.appendChild(li);
+
+            fileSizeDisplay.textContent = (file.size / 1024).toFixed(2) + " KB";
+        });
+
+        // "전체 삭제" 버튼 클릭 이벤트
+        removeAllButton.addEventListener("click", function () {
+            fileList.innerHTML = ""; // 파일 목록 비우기
+            fileSizeDisplay.textContent = "0 KB"; // 파일 크기 초기화
+            fileListHeader.style.display = "none"; // 파일 목록 헤더 숨기기
+        });
+    });
+</script>
+
+{{>footer}}
 
 
 

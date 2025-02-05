@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -41,9 +38,9 @@ public class NoticeController {
         model.addAttribute("teacher", member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         // 교사가 아닌 경우 메인 페이지로 이동

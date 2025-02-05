@@ -6,14 +6,14 @@
     }
     .ai-020 {
         background: #fcf2d4;
-        height: 50vw;
+        height: 57vw;
         position: relative;
         overflow: hidden;
         z-index:1;
     }
     .left-box {
         width: 15vw; /* 가로 길이 */
-        height: 47vw; /* 세로 길이 */
+        height: 54vw; /* 세로 길이 */
         background-color: #F6E1A0; /* 배경색 (임의 지정) */
         border-radius: 15px; /* 모서리를 둥글게 */
         margin-top: 1.5vw; /* 위쪽 마진 */
@@ -46,7 +46,7 @@
         font-size: 1.3vw;
         border-width: 0.2vw;
         width: 78vw;  /* 너비를 vw로 설정 */
-        height: 12vw;  /* 높이를 vh로 설정 */
+        height: 8vw;  /* 높이를 vh로 설정 */
         left: 18vw;  /* 좌측 위치를 vw로 설정 */
         top: 1.5vw;    /* 상단 위치를 vh로 설정 */
         position: absolute;
@@ -68,8 +68,8 @@
     }
     .blank_profile
     {
-        height: 10vw;
-        width: 10vw;
+        height: 6vw;
+        width: 6vw;
         border: 0.3vw solid #1E2D84;
         left:5vw;
         top:1vw;
@@ -80,8 +80,8 @@
         font-family: "Score6", sans-serif;
         font-size:2.5vw;
         color: #1E2D84;
-        left:20vw;
-        top: 3.8vw;
+        left:15vw;
+        top: 2vw;
         position:absolute;
     }
     .back-btn{
@@ -89,7 +89,7 @@
         font-size: 1.3vw;
         text-decoration: none; /* 밑줄 없애기 */
         left: 2vw;
-        top: 46vw;
+        top: 50vw;
         position: absolute;
     }
     .m-box{
@@ -104,11 +104,11 @@
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         font-size: 3vw;
         width: 78vw;
-        height: 33.5vw;
+        height: 44.5vw;
         margin: 1VW auto;
         position: absolute;
         left:18vw;
-        top:14vw;
+        top:10vw;
         transition: background-color 0.3s;
         overflow-y:auto;
         z-index:1;
@@ -125,11 +125,11 @@
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         font-size: 3vw;
         width: 74vw;
-        height: 29.5vw;
+        height: 39.5vw;
         margin: 1VW auto;
         position: absolute;
         left:20vw;
-        top:16vw;
+        top:12vw;
         transition: background-color 0.3s;
         overflow-y:auto;
         z-index:1;
@@ -159,7 +159,7 @@
         text-align: center;        /* 텍스트 중앙 정렬 */
         font-family: "SCore5", sans-serif;
         font-size:2vw;
-        margin-top: 11vw;
+        margin-top: 15vw;
     }
     .file_list_header_task button {
         background: none;
@@ -186,7 +186,7 @@
         border-bottom: 1px solid #ccc;
         position: absolute;
         left:1vw;
-        top:19vw;
+        top:24vw;
         width:71vw;
     }
     .file-div
@@ -208,7 +208,7 @@
         width: 15vw;
         height: 4vw;
         left: 40vw;
-        top: 22vw;
+        top: 33vw;
         z-index: 2;
     }
     .file-select-2{
@@ -231,7 +231,7 @@
 
         position: absolute;
         left: 57vw;
-        top: 22vw;
+        top: 33vw;
         background: #f19b2a;
         border-radius: 30px;
         border-style: solid;
@@ -261,7 +261,7 @@
         font-size: 1.2vw;
         overflow: visible;
         left:75vw;
-        top:12.5vw;
+        top:8.5vw;
         z-index: 0;
         background-color:#E1B86A;
     }
@@ -276,7 +276,7 @@
         font-size: 1.5vw;
         overflow: visible;
         left:85vw;
-        top:12.5vw;
+        top:8.5vw;
         z-index: 0;
         background-color:#7E5200;
     }
@@ -293,19 +293,85 @@
         border-radius: 15px;
         padding: 1vw;
         overflow: auto;
-        font-size: 1.5vw;
+        font-size: 1vw;
         background-color: #FFFAEB;
         justify-content: center;   /* 수평 중앙 정렬 */
         align-items: center;       /* 수직 중앙 정렬 */
         color: #666;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         text-align: left;
-        width: 74vw;
-        height: 29.5vw;
+        width: 35vw;
+        height: 15vw;
         margin: 1VW auto;
         position: absolute;
         left:20vw;
         top:16vw;
+        transition: background-color 0.3s;
+        z-index:1;
+
+    }
+    .show_counsel2{
+        border: 0.5vw solid #FFFAEB;
+        border-radius: 15px;
+        padding: 1vw;
+        overflow: auto;
+        font-size: 1vw;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        text-align: left;
+        width: 35vw;
+        height: 15vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:58vw;
+        top:16vw;
+        transition: background-color 0.3s;
+        z-index:1;
+
+    }
+    .show_counsel3{
+        border: 0.5vw solid #FFFAEB;
+        border-radius: 15px;
+        padding: 1vw;
+        overflow: auto;
+        font-size: 1vw;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        text-align: left;
+        width: 35vw;
+        height: 15vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:20vw;
+        top:38vw;
+        transition: background-color 0.3s;
+        z-index:1;
+
+    }
+    .show_counsel4{
+        border: 0.5vw solid #FFFAEB;
+        border-radius: 15px;
+        padding: 1vw;
+        overflow: auto;
+        font-size: 1vw;
+        background-color: #FFFAEB;
+        justify-content: center;   /* 수평 중앙 정렬 */
+        align-items: center;       /* 수직 중앙 정렬 */
+        color: #666;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        text-align: left;
+        width: 35vw;
+        height: 15vw;
+        margin: 1VW auto;
+        position: absolute;
+        left:58vw;
+        top:38vw;
         transition: background-color 0.3s;
         z-index:1;
 
@@ -318,7 +384,7 @@
         width: 10vw;
         height: 30vw;
         margin: 20px 20px;
-        overflow: hidden;
+        overflow-y: auto;
         top:12vw;
         left:2.5vw;
         padding: 20px;
@@ -335,8 +401,8 @@
     .show_recode{
         font-family: "Score6", sans-serif;
         background-color:#FFFFFF;
-        height:3vw;
-        width:6vw;
+        height:4vw;
+        width:5vw;
         font-size:0.7vw;
         border-radius: 15px;
         border-color:#FFFFFF;
@@ -345,7 +411,112 @@
         border: none !important;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     }
+    .show_counsels{
+        font-family: "Score6", sans-serif;
+        background-color:#FFFFFF;
+        height:3vw;
+        width:5vw;
 
+        left:1vw;
+        top:3vw;
+        font-size:0.7vw;
+        border-radius: 15px;
+        border-color:#FFFFFF;
+        outline:none !important;
+
+        border: none !important;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    }
+    .recode_name{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 16vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:0.7vw;
+        top:-0.7vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .recode_name1{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 13vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:38.7vw;
+        top:-4vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .recode_name2{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 12vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:0.7vw;
+        top:14vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .recode_name3{
+        background: #f19b2a;
+        border-radius: 15px;
+        width: 12vw;
+        height: 3.5vw;
+        position: relative;
+        box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+        left:38.7vw;
+        top:10.5vw;
+        font-size: 2vw;
+        font-family: Hakgyo;
+        line-height: 3.5vw; /* height 값과 동일하게 설정 */
+        color:#FFFFFF;
+
+    }
+    .custom_font {
+        font-family: Hakgyo, sans-serif; /* 원하는 폰트 설정 */
+        font-weight: bold; /* 필요하면 추가 */
+        color: #576096; /* 색상 변경 가능 */
+        top:0vw;
+        left:1vw;
+        position: absolute;
+        font-size: 1.5vw;
+
+    }
+    .show_counsel2_sub
+    {
+        position: absolute;
+        top: 2.3vw;
+    }
+    .show_counsel3_sub
+    {
+        position: absolute;
+        top: 2.3vw;
+    }
+    .show_counsel4_sub
+    {
+        position: absolute;
+        top: 3.3vw;
+    }
+    .show_counsel1_sub
+    {
+        position: absolute;
+        top: 3.3vw;
+    }
 </style>
 <!-- jQuery 라이브러리 추가 (최신 버전 사용 가능) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -362,11 +533,17 @@
             {{#record}}
                 <button type="button" class="show_recode" id="show-btn" >생활기록부</button>
             {{/record}}
-            <button type="button" class="show_counsel">날짜 + 상담 </button>
+
+            {{#counsels}}
+                <button type="button" class="show_counsels" id="show-btn" >{{title}}</button>
+                <input type="hidden" value="{{id}}">
+            {{/counsels}}
         </div>
+
+
     </div>
 
-    {{#student}}
+    {{#student }}
         <div class="main-box" >
             <img class="blank_profile" src="{{img_path}}"
                  onerror="this.src='/blank_profile/blank_profile.svg';" />
@@ -376,7 +553,13 @@
     {{/student}}
 
 
-    <div class="m-box"></div>
+    <div class="m-box">
+
+        <div class="recode_name" id="recode_name">생활기록부 요약</div>
+        <div class="recode_name1" id="recode_name1">직업 추천</div>
+        <div class="recode_name2">직업 정보</div>
+        <div class="recode_name3">상담 요약</div>
+    </div>
 
 
     <div class="file_drag" id="file_drag">
@@ -400,58 +583,154 @@
         </div>
     </div>
 
+    <div class="counsel_div" id="counsel_div">
+        <div class="show_counsel" id="show_counsel1"  style="white-space: pre-wrap;">
+            <span class="custom_font">생활기록부 요약</span>
+            <div class="show_counsel1_sub" id="show_counsel1_sub"></div>
 
-    <div class="show_counsel" id="show_counsel"  style="white-space: pre-wrap;">
-        <p></p>
-    </div>
+        </div>
+
+
+        <div class="show_counsel2" id="show_counsel2"  style="white-space: pre-wrap;">
+            <span class="custom_font">추천 직업</span>
+            <div class="show_counsel2_sub" id="show_counsel2_sub"></div>
+        </div>
+
+        <div class="show_counsel3" id="show_counsel3"  style="white-space: pre-wrap;">
+            <span class="custom_font">직업 정보</span>
+            <div class="show_counsel3_sub" id="show_counsel3_sub"></div>
+        </div>
+
+        <div class="show_counsel4" id="show_counsel4"  style="white-space: pre-wrap;">
+            <span class="custom_font">상담 요약</span>
+            <div class="show_counsel4_sub" id="show_counsel4_sub"></div>
+        </div>
+
+</div>
+
 
 
 
     <button  id="file_drag_button" class="file" onclick="toggleDiv('file_drag')">생활기록부 등록</button>
-    <button  id="show_counsel_button" class="show" onclick="toggleDiv('show_counsel')">상담 내역</button>
-
-
-
+    <button  id="show_counsel_button" class="show" onclick="toggleDiv('counsel_div')">상담 내역</button>
 
 
 </div>
 
+
+</div>
+</div>
+
 <script>
-    $(document).ready(function () {
-        $(".show_recode").click(function () {
-            let studentId = $("#student-info").data("student-id");
+    document.addEventListener("DOMContentLoaded", function () {
 
-            $.ajax({
-                type: "GET",
-                url: `/api/record/${studentId}`,
-                success: function (data) {
-                    let content = "";
+        document.querySelectorAll(".show_counsels").forEach(button => {
+            button.addEventListener("click", function () {
+                const counselId = this.nextElementSibling.value;
 
 
-                    $("#show_counsel").html(data).show();
-                },
-                error: function () {
-                    alert("생활기록부 데이터를 불러오는데 실패했습니다.");
-                }
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", `/api/counsel/${counselId}`, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const data = JSON.parse(xhr.responseText);
+
+                            const content = data.content;
+                            const answer = data.answer;
+
+                            document.querySelector("#show_counsel1_sub").innerHTML = "";
+
+                            document.querySelector("#show_counsel2_sub").textContent = "";
+                            document.querySelector("#show_counsel3_sub").innerHTML = "";
+
+                            // HTML 업데이트
+                            document.querySelector("#show_counsel1_sub").innerHTML = answer[0];
+                            document.querySelector("#show_counsel2_sub").innerHTML = answer[1];
+                            document.querySelector("#show_counsel3_sub").innerHTML = answer[2];
+                            document.querySelector("#show_counsel4_sub").innerHTML = content; // 예시로 'content'를 사용
+                            // div 보이기
+                            document.querySelector("#show_counsel1_sub").style.display = 'block';
+                            document.querySelector("#show_counsel2_sub").style.display = 'block';
+                            document.querySelector("#show_counsel3_sub").style.display = 'block';
+
+                            // show_counsel4 div 보이기
+                            document.querySelector("#show_counsel4_sub").style.display = 'block';
+                        } else {
+                            alert("상담 데이터를 불러오는데 실패했습니다.");
+                        }
+                    }
+                };
+                xhr.send();
             });
+
+
+        });
+
+        // 버튼 클릭 이벤트 리스너 추가
+        document.querySelector(".show_recode").addEventListener("click", function () {
+            const studentId = document.querySelector("#student-info").dataset.studentId;
+
+            // AJAX 요청
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", `/api/record/${studentId}`, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        const data1 = data[0];
+                        const data2 = data[1];
+                        const data3 = data[2];
+
+                        // HTML 업데이트
+                        document.querySelector("#show_counsel1_sub").innerHTML = data1;
+                        document.querySelector("#show_counsel2_sub").innerHTML = data2;
+                        document.querySelector("#show_counsel3_sub").innerHTML = data3;
+
+
+                        // div 보이기
+                        document.querySelector("#show_counsel1_sub").style.display = 'block';
+                        document.querySelector("#show_counsel2_sub").style.display = 'block';
+                        document.querySelector("#show_counsel3_sub").style.display = 'block';
+                        document.querySelector("#show_counsel4_sub").style.display = 'none';
+                    } else {
+                        alert("생활기록부 데이터를 불러오는데 실패했습니다.");
+                    }
+                }
+            };
+            xhr.send();
         });
     });
 
+
+
+    // Div 보이기/숨기기 함수
     function toggleDiv(divId) {
-        const allDivs = ['file_drag', 'show_counsel'];
+        const allDivs = ['file_drag', 'counsel_div'];
         const allButtons = ['file_drag_button', 'show_counsel_button'];
 
         // Div visibility toggle
         allDivs.forEach(id => {
             const div = document.getElementById(id);
+            const rn = document.getElementById('recode_name');
+            const rn1 = document.getElementById('recode_name1');
             if (id === divId) {
+                if(id==='counsel_div')
+                {
+                   rn.style.display = 'block';
+                   rn1.style.display = 'block';
+                }
                 div.style.display = 'block'; // 클릭한 div만 보이게
+
             } else {
+                if(id==='counsel_div')
+                {
+                    rn.style.display = 'none';
+                    rn1.style.display = 'none';
+                }
                 div.style.display = 'none'; // 나머지 div는 숨김
             }
         });
-
-
     }
 
     document.addEventListener('DOMContentLoaded', function () {

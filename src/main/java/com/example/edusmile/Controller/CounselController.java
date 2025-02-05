@@ -33,10 +33,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Member;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Controller
 @Slf4j
@@ -55,9 +58,9 @@ public class CounselController {
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         List<MemberEntity> students = memberRepository.findByRoleAndTeacherCode("student",member.getTeacherCode());  //자기반학생찾기
@@ -80,14 +83,18 @@ public class CounselController {
         model.addAttribute("student", student);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
+        List<CounselEntity> counsels = counselRepository.findCounsel(student.getLoginId(),"counsel");
+
+        model.addAttribute("counsels", counsels);
+
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
-        List<CounselEntity> record = counselRepository.duplicateContent(student.getName(),"record");
-
+        List<CounselEntity> record = counselRepository.findCounsel(student.getLoginId(),"record");
+        System.out.println(student.getName());
         if(!record.isEmpty()) {
             record.get(0).setTitle(record.get(0).getCounsel().replace("\n", "<br>"));
             model.addAttribute("record", record.get(0).getCounsel());
@@ -127,6 +134,12 @@ public class CounselController {
         List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
         MemberEntity teacher = listteacher.get(0);
         model.addAttribute("class-teacher", teacher);
+        //여기 까지
+
+        //헤더 있는페이지는 이거 필수
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         String teacherCode = teacher.getTeacherCode();
@@ -174,9 +187,9 @@ public class CounselController {
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         if(!member.getRole().equals("teacher")) {
@@ -247,24 +260,51 @@ public class CounselController {
                 return "main";
             }
             Gson gson = new Gson();
+
+            System.out.println(response.getBody());
             Classification.Counsel send = gson.fromJson(response.getBody(), Classification.Counsel.class);
             log.info("FastAPI 응답 객체: {}", send);
 
-            log.info("받아온 값 :"+send.getSummary().getText());
+            log.info("받아온 값 :"+send.getSummary());
             List<Subject> subjects = subjectService.getMemberSubject(member.getId());
             subjects.sort(Comparator
                     .comparing(Subject::getGrade) // 이름 기준 오름차순
                     .thenComparing(Subject::getDivClass));
 
+            Path dirPath = Paths.get(projectDir);
+            String uploadedFileName = file.getOriginalFilename();
+
+            try (Stream<Path> files = Files.list(dirPath)) {
+                files
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .filter(name -> name.equals(uploadedFileName))
+                        .findFirst()
+                        .ifPresent(matchedFileName -> {
+                            try {
+                                Path oldFilePath = Paths.get(projectDir, matchedFileName);
+                                Files.deleteIfExists(oldFilePath);
+                                log.info("삭제된 파일: " + matchedFileName);
+                            } catch (IOException e) {
+                                log.error("파일 삭제 실패: " + matchedFileName, e);
+                            }
+                        });
+            } catch (IOException e) {
+                log.error("디렉토리 조회 실패", e);
+            }
+
+
             redirectAttributes.addFlashAttribute("subject", subjects);
             redirectAttributes.addFlashAttribute("stt", stt.getText());
-            redirectAttributes.addFlashAttribute("response", send.getSummary().getText());
+            redirectAttributes.addFlashAttribute("response", send.getSummary());
             redirectAttributes.addFlashAttribute("member", member);
             redirectAttributes.addFlashAttribute("teacher", member.getRole().equals("teacher"));
-            session.setAttribute("lastUploadedResponse", send.getSummary().getText().get(0));
+            session.setAttribute("lastUploadedResponse", send.getSummary());
             session.setAttribute("lastUploadedSTT", stt.getText());
             session.setAttribute("lastSubjects", subjects);
             session.setAttribute("lastMember", member);
+
+
             return "redirect:/counsel/upload";
         }
     }
@@ -276,6 +316,8 @@ public class CounselController {
         if (model.containsAttribute("response")) {
             return "counselResult";
         }
+
+
         // Flash Attribute가 없을 때 세션 데이터 활용 (새로고침 대비)
         String lastResponse = (String) session.getAttribute("lastUploadedResponse");
         List<Subject> lastSubjects = (List<Subject>) session.getAttribute("lastSubjects");
@@ -297,6 +339,22 @@ public class CounselController {
         if (lastMember != null) {
             model.addAttribute("member", lastMember);
         }
+
+
+        Optional<MemberEntity> mem = memberRepository.findByloginId(user.getUsername());
+
+
+        MemberEntity member = mem.get();
+
+
+        //헤더 있는페이지는 이거 필수
+        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
+        MemberEntity teacher = listteacher.get(0);
+        model.addAttribute("class-teacher", teacher);
+        //여기 까지
+        List<MemberEntity> students = memberRepository.findByRoleAndTeacherCode("student", teacher.getTeacherCode());
+
+        model.addAttribute("students", students);
 
         return "counselResult";
     }

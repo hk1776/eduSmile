@@ -22,6 +22,6 @@ public class CounselDto {
 
 
     public CounselEntity toEntity() {
-        return new CounselEntity(null,title,student,1,counsel,null,null,classId,null);
+        return new CounselEntity(null,title,student,1,counsel,null,null,classId,null,null);
     }
 }

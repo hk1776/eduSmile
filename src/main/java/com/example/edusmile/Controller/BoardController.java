@@ -73,9 +73,9 @@ public class BoardController {
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
 
@@ -277,9 +277,9 @@ public class BoardController {
 
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         // 페이지 번호 리스트 계산
@@ -311,9 +311,9 @@ public class BoardController {
         String uuid = notice.getFile(); // 저장된 UUID 값
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
 
@@ -412,9 +412,9 @@ public class BoardController {
 
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
 
@@ -445,9 +445,9 @@ public class BoardController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
 
@@ -473,9 +473,9 @@ public class BoardController {
         Page<Test>testPage  = testService.findByClassId(subjectId, pageable);
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         // 페이지 번호 리스트 계산
@@ -507,9 +507,9 @@ public class BoardController {
         List<Integer> selects = new ArrayList<>();
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
 
@@ -602,9 +602,9 @@ public class BoardController {
 
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
 
@@ -641,9 +641,9 @@ public class BoardController {
         Path dirPath = Paths.get(projectDir);
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         // 디렉토리가 존재하지 않으면 생성
@@ -698,9 +698,9 @@ public class BoardController {
         model.addAttribute("member", member);
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         return "freeNew";
@@ -763,9 +763,9 @@ public class BoardController {
         model.addAttribute("member", member);
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         return "noticeNew";
@@ -831,9 +831,9 @@ public class BoardController {
         String uuid = notice.getFile(); // 저장된 UUID 값
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         // 파일이 저장된 디렉토리
@@ -948,9 +948,9 @@ public class BoardController {
         String uuid = free.getFile(); // 저장된 UUID 값
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         // 파일이 저장된 디렉토리
@@ -1067,9 +1067,9 @@ public class BoardController {
         model.addAttribute("member", member);
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
 
         return "summaryUpdate";

@@ -159,7 +159,17 @@
     <div class="analyzeTitle">
         <img src="/images/analyzeTitle.svg" style="height: 50%;display: inline-block; margin-bottom: 15px;"/>
 
-
+        <select  style="background-color: #FFFEFD;
+                        opacity: 0.9;
+                        border: 1px solid #ddd;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        width: 200px;
+                        border-radius: 5px;
+                        font-family: 'Score5', sans-serif;">
+            {{#students}}
+                <option value="{{id}}">{{name}} 학생</option>
+            {{/students}}
+        </select>
 
     </div>
     <div class="grid">
@@ -188,6 +198,24 @@
     </div>
 </div>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // URLSearchParams를 사용하여 현재 URL의 쿼리 파라미터를 확인
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // refreshed 파라미터가 없다면 (즉, 외부에서 새로 들어온 경우)
+        if (!urlParams.has("refreshed")) {
+            setTimeout(() => {
+                console.log("5초 후 새로고침 실행");
+                // refreshed 파라미터를 추가한 새 URL을 구성
+                urlParams.set("refreshed", "true");
+                // 새 URL로 이동 (자동 새로고침)
+                window.location.search = urlParams.toString();
+            }, 100);
+        } else {
+            console.log("refreshed 파라미터 존재 - 자동 새로고침 미실행");
+        }
+    });
+
     let summaryId = null;
     let noticeId = null;
     let testId = null;
@@ -204,9 +232,9 @@
      let formData = new FormData();
 
      const content = document.querySelector('.grid .card textarea[placeholder="요약된 상담 내용입니다."]').value;
-     const subjectId = document.querySelector('select').value;
+     const id = document.querySelector('select').value;
      formData.append('content', content);
-     formData.append('subjectId', subjectId);
+     formData.append('id', id);
 
      sendRequest( formData);
 
@@ -215,17 +243,16 @@
     function sendRequest( formData) {
         const confirmed = confirm('상담 요약을 등록하시겠습니까?');
         if (confirmed) {
-            fetch(`/counsel/`, {
+            fetch(`/counsel/save`, {
                 method: 'POST',
                 body: formData
             })
-                    .then(response => response.json())
+                    .then(response => response.text()) // JSON 대신 text() 사용
                     .then(data => {
-                        if (type === 'summary') {
-                            summaryId = data; // 요약 ID 저장
-                        }
                         alert('상담 요약이 성공적으로 등록되었습니다!');
-                        document.getElementById(`${type}Card`).classList.add('disabled');
+                        window.location.href = "/teacher";
+
+
                     })
                     .catch(error => {
                         console.error('Error:', error);

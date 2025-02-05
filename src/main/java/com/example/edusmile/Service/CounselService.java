@@ -178,7 +178,7 @@ public class CounselService {
 
         MemberEntity student = st.get();
 
-        List<CounselEntity> duplicate = counselRepository.duplicateContent(student.getName(),"record");
+        List<CounselEntity> duplicate = counselRepository.duplicateContent_loginId(student.getLoginId(),"record");
 
         if (!duplicate.isEmpty()) {
 
@@ -192,10 +192,11 @@ public class CounselService {
 
             counselEntity.setClassId(student.getTeacherCode());
             counselEntity.setCounsel(report);
-            counselEntity.setTitle(student.getName() + " 님의 생활기록부 분석 내용");
+            counselEntity.setTitle(student.getName() + " 님의 생활기록부 분석 내용1");
             counselEntity.setStudent(student.getName());
             counselEntity.setViews(0);
             counselEntity.setType("record");
+            counselEntity.setLoginId(student.getLoginId());
             counselRepository.save(counselEntity);
         }
     }
@@ -204,7 +205,7 @@ public class CounselService {
         StringBuilder report = new StringBuilder();
 
         // 수상 내역
-        report.append("#### 1. 수상 내역\n");
+        report.append(" 1. 수상 내역\n");
         JsonNode awards = data.path("summary").path("Awards");
         for (JsonNode award : awards) {
             report.append("- ").append(award.asText()).append("\n");
@@ -212,7 +213,7 @@ public class CounselService {
         report.append("\n");
 
         // 자격증
-        report.append("#### 2. 자격증\n");
+        report.append(" 2. 자격증\n");
         JsonNode certifications = data.path("summary").path("Certifications");
         if (!certifications.isArray() || certifications.size() == 0) {
             report.append("현재 자격증 보유 내역은 없습니다.\n");
@@ -220,7 +221,7 @@ public class CounselService {
         report.append("\n");
 
         // 진로 목표
-        report.append("#### 3. 진로 목표\n");
+        report.append(" 3. 진로 목표\n");
         JsonNode careerAspiration = data.path("summary").path("CareerAspiration");
         for (JsonNode aspiration : careerAspiration) {
             report.append("- ").append(aspiration.asText()).append("\n");
@@ -228,7 +229,7 @@ public class CounselService {
         report.append("\n");
 
         // 창의적 경험 및 활동
-        report.append("#### 4. 창의적 경험 및 활동\n");
+        report.append(" 4. 창의적 경험 및 활동\n");
         JsonNode creativeActivities = data.path("summary").path("CreativeExperienceActivities");
         for (JsonNode activity : creativeActivities) {
             report.append("- ").append(activity.asText()).append("\n");
@@ -236,7 +237,7 @@ public class CounselService {
         report.append("\n");
 
         // 주요 과목 및 특기 사항
-        report.append("#### 5. 주요 과목 및 특기 사항\n");
+        report.append(" 5. 주요 과목 및 특기 사항\n");
         JsonNode subjectNotes = data.path("summary").path("SubjectSpecialtyAndNotes");
         for (JsonNode note : subjectNotes) {
             report.append("- ").append(note.asText()).append("\n");
@@ -244,7 +245,7 @@ public class CounselService {
         report.append("\n");
 
         // 독서 활동
-        report.append("#### 6. 독서 활동\n");
+        report.append(" 6. 독서 활동\n");
         JsonNode readingActivities = data.path("summary").path("ReadingActivities");
         for (JsonNode activity : readingActivities) {
             report.append("- ").append(activity.asText()).append("\n");
@@ -252,7 +253,7 @@ public class CounselService {
         report.append("\n");
 
         // 행동 특성 및 전반적인 코멘트
-        report.append("#### 7. 행동 특성 및 전반적인 코멘트\n");
+        report.append(" 7. 행동 특성 및 전반적인 코멘트\n");
         JsonNode behaviorComments = data.path("summary").path("BehaviorCharacteristicsAndOverallComments");
         for (JsonNode comment : behaviorComments) {
             report.append("- ").append(comment.asText()).append("\n");
@@ -260,11 +261,11 @@ public class CounselService {
         report.append("\n");
 
         // 추천 직업
-        report.append("#### 8. 추천 직업\n");
+        report.append(" 8. 추천 직업\n");
         JsonNode recommendedJobs = data.path("summary").path("RecommendedJobs");
         for (Iterator<String> jobNames = recommendedJobs.fieldNames(); jobNames.hasNext(); ) {
             String jobName = jobNames.next();
-            report.append("##### ").append(jobName).append("\n");
+            report.append("추천 직업 : ").append(jobName).append("\n");
 
             JsonNode jobDetails = recommendedJobs.path(jobName);
             JsonNode reasons = jobDetails.path("추천이유");
@@ -304,14 +305,14 @@ public class CounselService {
             report.append("\n");
         }
 
-        report.append("#### 9. 직업 정보\n");
+        report.append(" 9. 직업 정보\n");
         JsonNode jobInformation = data.path("job_information");
         for (Iterator<String> jobNames = jobInformation.fieldNames(); jobNames.hasNext();) {
             String jobName = jobNames.next();
             JsonNode jobDetails = jobInformation.path(jobName);
             String advice = jobDetails.path("advice").asText();
 
-            report.append("##### ").append(jobName).append("\n");
+            report.append("추천 직업 :  ").append(jobName).append("\n");
             report.append("- 추천: ").append(advice).append("\n");
             report.append("\n");
         }

@@ -39,4 +39,6 @@ public class CounselEntity {
 
     private String type;
 
+    private String loginId;
+
 }

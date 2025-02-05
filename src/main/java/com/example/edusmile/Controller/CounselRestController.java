@@ -23,6 +23,7 @@ import retrofit2.http.GET;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -36,16 +37,115 @@ public class CounselRestController {
 
     private final CounselService counselService;
 
+    public  String escapeJsonString(String input) {
+        return input.replace("\"", "\\\"")
+                .replace("\\", "\\\\")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
+    }
+
+    @GetMapping("/api/counsel/{CounselId}")
+    public ResponseEntity<String> getStudentCounsel(@PathVariable Long CounselId) {
+        CounselEntity counselEntity = counselRepository.findById(CounselId).orElse(null);
+        String counsel1 = counselEntity.getCounsel();
+
+        Optional<MemberEntity> mem = memberRepository.findByloginId(counselEntity.getLoginId());
+        MemberEntity member = mem.get();
+
+        List<CounselEntity> recode = counselRepository.duplicateContent_loginId(member.getLoginId(),"record");
+
+        String c = "";
+        String answerJson = "";
+        String escapedContent = escapeJsonString(counsel1);
+
+        String escapedAnswer0 = " ";
+        String escapedAnswer1 = " ";
+        String escapedAnswer2 = " ";
+
+        answerJson = String.format("[\"%s\", \"%s\", \"%s\"]", escapedAnswer0, escapedAnswer1, escapedAnswer2);
+
+        if(recode.isEmpty()) {
+
+
+            System.out.println(escapedContent);
+
+        }
+        else {
+            c = recode.get(0).getCounsel();
+
+            String[] answer = new String[3];
+
+            answer[0] = c.split(" 8\\.")[0];
+            answer[1] = c.split(" 9\\.")[0].split(" 8\\.")[1];
+            answer[1] = answer[1].substring(6);
+            answer[2] = c.split(" 9\\.")[1];
+            answer[2] = answer[2].substring(6);
+
+
+                System.out.println(answer[0]);
+            // 각 항목을 이스케이프 처리
+
+              escapedAnswer0 = escapeJsonString(answer[0]);
+              escapedAnswer1 = escapeJsonString(answer[1]);
+              escapedAnswer2 = escapeJsonString(answer[2]);
+
+
+
+            // answer 배열을 JSON 형식으로 변환
+             answerJson = String.format("[\"%s\", \"%s\", \"%s\"]", escapedAnswer0, escapedAnswer1, escapedAnswer2);
+        }
+        // JSON 객체로 응답을 반환
+
+        String jsonResponse = String.format("{\"content\": \"%s\", \"answer\": %s}", escapedContent, answerJson);
+        return ResponseEntity.ok(jsonResponse);
+    }
 
 
     @GetMapping("/api/record/{studentId}")
-    public ResponseEntity<String> getStudentRecord(@PathVariable Long studentId) {
+    public ResponseEntity<String[]> getStudentRecord(@PathVariable Long studentId) {
 
         MemberEntity member = memberRepository.findById(studentId).orElse(null);
+        System.out.println(member.toString());
+        List<CounselEntity> counsel = counselRepository.findCounsel(member.getLoginId(),"record");
 
-        List<CounselEntity> counsel = counselRepository.duplicateContent(member.getName(),"record");
         String c = counsel.get(0).getCounsel();
-        return ResponseEntity.ok(c);
+        System.out.println(c);
+
+        String[] answer = new String[3];
+
+        answer[0] = c.split(" 8\\.")[0];
+        answer[1] = c.split(" 9\\.")[0].split(" 8\\.")[1];
+        answer[1] = answer[1].substring(6);
+        answer[2] = c.split(" 9\\.")[1];
+        answer[2] = answer[2].substring(6);
+
+
+
+        // JSON 객체로 응답을 반환
+
+
+        return ResponseEntity.ok(answer);
+    }
+
+    @Transactional
+    @PostMapping("/counsel/save")
+    public ResponseEntity<?> saveCounsel(@RequestParam("content") String content , @RequestParam("id") Long id) {
+
+        LocalDate today = LocalDate.now();
+
+        MemberEntity member = memberRepository.findById(id).orElse(null);
+
+        CounselEntity counsel = new CounselEntity();
+
+        counsel.setCounsel(content);
+        counsel.setClassId(member.getTeacherCode());
+        counsel.setStudent(member.getName());
+        counsel.setType("counsel");
+        counsel.setTitle("상담 : " + today);
+        counsel.setLoginId(member.getLoginId());
+        counselRepository.save(counsel);
+        return ResponseEntity.ok("ok");
     }
 
     @Transactional
@@ -69,122 +169,5 @@ public class CounselRestController {
         return ResponseEntity.ok("{\"message\": \"생활기록부 분석시 5분정도 소요됩니다.\"}");
     }
 
-    public static String generateReport(JsonNode data) {             //json string 으로 바꾸기 이쁘게
-        StringBuilder report = new StringBuilder();
 
-        // 수상 내역
-        report.append("#### 1. 수상 내역\n");
-        JsonNode awards = data.path("summary").path("Awards");
-        for (JsonNode award : awards) {
-            report.append("- ").append(award.asText()).append("\n");
-        }
-        report.append("\n");
-
-        // 자격증
-        report.append("#### 2. 자격증\n");
-        JsonNode certifications = data.path("summary").path("Certifications");
-        if (!certifications.isArray() || certifications.size() == 0) {
-            report.append("현재 자격증 보유 내역은 없습니다.\n");
-        }
-        report.append("\n");
-
-        // 진로 목표
-        report.append("#### 3. 진로 목표\n");
-        JsonNode careerAspiration = data.path("summary").path("CareerAspiration");
-        for (JsonNode aspiration : careerAspiration) {
-            report.append("- ").append(aspiration.asText()).append("\n");
-        }
-        report.append("\n");
-
-        // 창의적 경험 및 활동
-        report.append("#### 4. 창의적 경험 및 활동\n");
-        JsonNode creativeActivities = data.path("summary").path("CreativeExperienceActivities");
-        for (JsonNode activity : creativeActivities) {
-            report.append("- ").append(activity.asText()).append("\n");
-        }
-        report.append("\n");
-
-        // 주요 과목 및 특기 사항
-        report.append("#### 5. 주요 과목 및 특기 사항\n");
-        JsonNode subjectNotes = data.path("summary").path("SubjectSpecialtyAndNotes");
-        for (JsonNode note : subjectNotes) {
-            report.append("- ").append(note.asText()).append("\n");
-        }
-        report.append("\n");
-
-        // 독서 활동
-        report.append("#### 6. 독서 활동\n");
-        JsonNode readingActivities = data.path("summary").path("ReadingActivities");
-        for (JsonNode activity : readingActivities) {
-            report.append("- ").append(activity.asText()).append("\n");
-        }
-        report.append("\n");
-
-        // 행동 특성 및 전반적인 코멘트
-        report.append("#### 7. 행동 특성 및 전반적인 코멘트\n");
-        JsonNode behaviorComments = data.path("summary").path("BehaviorCharacteristicsAndOverallComments");
-        for (JsonNode comment : behaviorComments) {
-            report.append("- ").append(comment.asText()).append("\n");
-        }
-        report.append("\n");
-
-        // 추천 직업
-        report.append("#### 8. 추천 직업\n");
-        JsonNode recommendedJobs = data.path("summary").path("RecommendedJobs");
-        for (Iterator<String> jobNames = recommendedJobs.fieldNames(); jobNames.hasNext(); ) {
-            String jobName = jobNames.next();
-            report.append("##### ").append(jobName).append("\n");
-
-            JsonNode jobDetails = recommendedJobs.path(jobName);
-            JsonNode reasons = jobDetails.path("추천이유");
-            for (JsonNode reason : reasons) {
-                report.append("- 추천 이유: ").append(reason.asText()).append("\n");
-            }
-
-            JsonNode relatedDepartments = jobDetails.path("직업관련학과");
-            report.append("- 직업 관련 학과: ");
-            for (int i = 0; i < relatedDepartments.size(); i++) {
-                report.append(relatedDepartments.get(i).asText());
-                if (i < relatedDepartments.size() - 1) {
-                    report.append(", ");
-                }
-            }
-            report.append("\n");
-
-            JsonNode relatedCertifications = jobDetails.path("직업관련자격증");
-            report.append("- 직업 관련 자격증: ");
-            for (int i = 0; i < relatedCertifications.size(); i++) {
-                report.append(relatedCertifications.get(i).asText());
-                if (i < relatedCertifications.size() - 1) {
-                    report.append(", ");
-                }
-            }
-            report.append("\n");
-
-            JsonNode efforts = jobDetails.path("노력");
-            report.append("- 노력: ");
-            for (int i = 0; i < efforts.size(); i++) {
-                report.append(efforts.get(i).asText());
-                if (i < efforts.size() - 1) {
-                    report.append(", ");
-                }
-            }
-            report.append("\n");
-            report.append("\n");
-        }
-
-        report.append("#### 9. 직업 정보\n");
-        JsonNode jobInformation = data.path("job_information");
-        for (Iterator<String> jobNames = jobInformation.fieldNames(); jobNames.hasNext();) {
-            String jobName = jobNames.next();
-            JsonNode jobDetails = jobInformation.path(jobName);
-            String advice = jobDetails.path("advice").asText();
-
-            report.append("##### ").append(jobName).append("\n");
-            report.append("- 추천: ").append(advice).append("\n");
-            report.append("\n");
-        }
-
-        return report.toString();
-    }
 }
