@@ -8,7 +8,6 @@ import json
 from datetime import datetime
 import time
 from typing import Dict, List, Any
-from pydub import AudioSegment
 
 class EduContentProcessor:
     def __init__(self, openai_api_key: str, claude_api_key: str, base_folder: str):
