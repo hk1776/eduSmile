@@ -161,8 +161,9 @@
         align-items: center; /* 세로 중앙 정렬 */
         color: #3C2C95; /* 텍스트 색 */
         font-family: Hakgyo, sans-serif; /* 글꼴 */
-        font-size: 100px; /* 글자 크기 */
+        font-size: 40px; /* 글자 크기 */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
         margin-bottom: 15px;
     }
     .text-button-container {
@@ -348,7 +349,8 @@
 
         <div class="class-info">
             <p style="font-family: Score5; font-size: 30px; color: black">담임 학급</p>
-            <div class="circle">1반</div>
+            <div class="circle">1반<br>{{member.teacherCode}}
+            </div>
             <div class="text-button-container">
                 <span style="
 
