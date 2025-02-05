@@ -34,4 +34,8 @@ public class TestResultService {
     public void deleteByTestId(long testId) {
         testResultRepository.deleteByTestId(testId);
     }
+
+    public void deleteByClassId(String classId) {
+        testResultRepository.deleteByClassId(classId);
+    }
 }

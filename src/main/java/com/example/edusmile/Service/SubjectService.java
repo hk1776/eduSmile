@@ -4,6 +4,8 @@ import com.example.edusmile.Entity.Attend;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.AttendRepository;
+import com.example.edusmile.Repository.FreeBoardRepository;
+import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Repository.SubjectRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +52,9 @@ public class SubjectService {
         return subjectEntity;
     }
     public void delete(String subjectId) {
-        Subject subject = subjectRepository.findById(subjectId).orElseThrow(() -> new EntityNotFoundException("Subject not found"));
         attendRepository.deleteAttendBySubjectId(subjectId);
         subjectRepository.deleteSubjectById(subjectId);
+
     }
 
     public Subject update(String subjectId,String subjectInput,int grade,String divClass) {

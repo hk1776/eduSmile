@@ -47,11 +47,19 @@
 </style>
 <div id="back_ground">
     {{#subject}}
+        {{^nothing}}
         <p class="subject-text">{{subject}} {{Grade}}학년 {{divClass}}분반</p>
 
         <p class="success-message">게시판 등록을 완료했습니다!</p>
+        {{/nothing}}
 
+        {{#nothing}}
+            <p class="success-message">어떠한 게시물도 등록하지 않으셨습니다.</p>
+        {{/nothing}}
         <div class="button-container">
+            {{#nothing}}
+                <button class="custom-button" onclick="navigateTo('/teacher')">교사 페이지로 이동</button>
+            {{/nothing}}
             {{#noticeId}}
                 <button class="custom-button" onclick="navigateTo('/board/notice?id={{id}}&num={{noticeId}}')">공지사항 확인하기</button>
             {{/noticeId}}

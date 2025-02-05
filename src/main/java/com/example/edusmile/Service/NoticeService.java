@@ -133,4 +133,8 @@ public class NoticeService {
 
         noticeRepository.deleteById(id);
     }
+
+    public void deleteByClassId(String classId) {
+        noticeRepository.deleteByClassId(classId);
+    }
 }

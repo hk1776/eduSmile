@@ -120,4 +120,7 @@ public class FreeBoardService {
 
         freeBoardRepository.deleteById(id);
     }
+    public void deleteByClassId(String classId) {
+        freeBoardRepository.deleteByClassId(classId);
+    }
 }

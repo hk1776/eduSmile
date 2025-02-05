@@ -33,7 +33,21 @@ public class MemberService {
     }
     public MemberEntity myTeacher(String code){
         List<MemberEntity> teacher = memberRepository.findByTeacherCodeTeacher(code,"teacher");
-        return teacher.get(0);
+        if(!teacher.isEmpty()){
+            return teacher.get(0);
+        }else {
+            return null;
+        }
+    }
+
+    public List<MemberEntity> myStudent(String code){
+        return memberRepository.findByTeacherCodeTeacher(code,"student");
+    }
+
+    public void studentClassDel(Long id){
+        Optional<MemberEntity> member = memberRepository.findById(id);
+        member.get().setTeacherCode("&");
+        memberRepository.save(member.get());
     }
 
 

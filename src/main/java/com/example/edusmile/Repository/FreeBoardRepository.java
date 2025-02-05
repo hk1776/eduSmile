@@ -13,6 +13,7 @@ import java.util.List;
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     Page<FreeBoard> findByClassId(String classId, Pageable pageable);
     List<FreeBoard> findByClassId(String classId);
+    void deleteByClassId(String classId);
 
     @Modifying
     @Query("UPDATE FreeBoard f SET f.views = f.views + 1 WHERE f.id = :id")

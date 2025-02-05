@@ -55,4 +55,7 @@ public class TestService {
         testRepository.deleteById(id);
         testResultService.deleteByTestId(id);
     }
+    public void deleteByClassId(String classId) {
+        testRepository.deleteByClassId(classId);
+    }
 }

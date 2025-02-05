@@ -12,6 +12,8 @@ import org.springframework.data.repository.query.Param;
 public interface TestRepository extends JpaRepository<Test, Long> {
     Page<Test> findByClassId(String classId, Pageable pageable);
 
+    void deleteByClassId(String classId);
+
     @Modifying
     @Query("UPDATE Test f SET f.views = f.views + 1 WHERE f.id = :id")
     void increaseViews(@Param("id") Long id);

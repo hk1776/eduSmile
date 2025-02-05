@@ -184,7 +184,7 @@
             <div class="card" id = "noticeCard">
                 <div class="content-wrapper">
                     <h2 class="resultTitle">공지사항</h2>
-                    <button class="btnOne" onclick="submitData('notice')">등록</button>
+                    <button class="btnOne" onclick="submitData('notice',true)">등록</button>
                 </div>
                 {{#notice}}
                 <textarea style="height: 100%" placeholder="공지사항 내역입니다.">{{text}}</textarea>
@@ -195,7 +195,7 @@
             <div class="card" id="summaryCard">
                 <div class="content-wrapper">
                     <h2 class="resultTitle">수업 요약</h2>
-                    <button class="btnOne" onclick="submitData('summary')">등록</button>
+                    <button class="btnOne" onclick="submitData('summary',true)">등록</button>
                 </div>
                 {{#class_summary}}
                 <textarea style="height: 100%" placeholder="요약된 수업 내용입니다.">{{text}}</textarea>
@@ -206,7 +206,7 @@
                 <div class="content-wrapper">
                     <h2 class="resultTitle">시험</h2>
                     <input type="hidden" id="explain" value='{{explains}}'>
-                    <button class="btnOne" onclick="submitData('test')">등록</button>
+                    <button class="btnOne" onclick="submitData('test', true)">등록</button>
                 </div>
                 {{#quiz}}
                     <div class="testCard" style="height: 100%">
@@ -267,9 +267,9 @@
         });
     });
 
-    function submitData(type) {
+    function submitData(type, showAlert) {
         if (type === 'test') {
-            submitTest();
+            submitTest(true);
         } else {
             let formData = new FormData();
 
@@ -294,94 +294,111 @@
                 formData.append('subjectId', subjectId);
             }
 
-            sendRequest(type, formData);
+            sendRequest(type, formData, showAlert);
         }
     }
 
-    function submitTest() {
-        const subjectId = document.querySelector('select').value;
-        let questions = [];
-        document.querySelectorAll('.testCard .question').forEach(questionElem => {
-            let questionText = questionElem.querySelector('p').innerText.replace('문제: ', '');
-            let choices = [];
-            questionElem.querySelectorAll('input[type="radio"]').forEach(inputElem => {
-                choices.push(inputElem.value);
+    function submitTest(showAlert) {
+        return new Promise((resolve, reject) => {
+            const subjectId = document.querySelector('select').value;
+            let questions = [];
+            document.querySelectorAll('.testCard .question').forEach(questionElem => {
+                let questionText = questionElem.querySelector('p').innerText.replace('문제: ', '');
+                let choices = [];
+                questionElem.querySelectorAll('input[type="radio"]').forEach(inputElem => {
+                    choices.push(inputElem.value);
+                });
+                let answer = questionElem.querySelector('span').innerText.replace('정답: ', '');
+                let explanation = questionElem.querySelector('.correct-answer').dataset.answer;
+
+                questions.push({
+                    question: questionText,
+                    choices: choices,
+                    answer: answer,
+                    explanation: explanation
+                });
             });
-            let answer = questionElem.querySelector('span').innerText.replace('정답: ', '');
-            let explanation = questionElem.querySelector('.correct-answer').dataset.answer;
 
-            questions.push({
-                question: questionText,
-                choices: choices,
-                answer: answer,
-                explanation: explanation
-            });
-        });
+            const testData = {
+                subjectId: subjectId,
+                questions: questions,
+                explains: document.getElementById('explain').value
+            };
 
-        const testData = {
-            subjectId: subjectId,
-            questions: questions,
-            explains: document.getElementById('explain').value
-        };
+            if (showAlert && !confirm('시험을 등록하시겠습니까?')) {
+                return resolve(); // 취소하면 실행 중단
+            }
 
-        const confirmed = confirm('시험을 등록하시겠습니까?');
-        if (confirmed) {
             fetch('/board/test', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(testData)
             })
                     .then(response => response.json())
                     .then(data => {
                         testId = data; // 시험 ID 저장
-                        alert("시험이 성공적으로 등록되었습니다!");
                         document.getElementById('testCard').classList.add('disabled');
+
+                        if (showAlert) {
+                            alert("시험이 성공적으로 등록되었습니다!");
+                        }
+                        resolve();
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('오류가 발생했습니다. 다시 시도해주세요.');
+                        if (showAlert) {
+                            alert('오류가 발생했습니다. 다시 시도해주세요.');
+                        }
+                        reject(error);
                     });
-        }
+        });
     }
 
+    function sendRequest(type, formData, showAlert) {
+        return new Promise((resolve, reject) => {
+            if (showAlert && !confirm(`${type === 'notice' ? '공지사항' : '수업 요약'}을 등록하시겠습니까?`)) {
+                return resolve(); // 취소하면 실행 중단
+            }
 
-    function sendRequest(type, formData) {
-        const confirmed = confirm(`${type === 'notice' ? '공지사항' : '수업 요약'}을 등록하시겠습니까?`);
-        if (confirmed) {
             fetch(`/board/${type}`, {
                 method: 'POST',
                 body: formData
             })
                     .then(response => response.json())
                     .then(data => {
-                        if (type === 'summary') {
-                            summaryId = data; // 요약 ID 저장
-                        }
-                        if (type === 'notice') {
-                            noticeId = data; // 요약 ID 저장
-                        }
+                        if (type === 'summary') summaryId = data;
+                        if (type === 'notice') noticeId = data;
 
-                        alert(`${type === 'notice' ? '공지사항' : '수업 요약'}이 성공적으로 등록되었습니다!`);
                         document.getElementById(`${type}Card`).classList.add('disabled');
+
+                        if (showAlert) {
+                            alert(`${type === 'notice' ? '공지사항' : '수업 요약'}이 성공적으로 등록되었습니다!`);
+                        }
+                        resolve();
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('오류가 발생했습니다. 다시 시도해주세요.');
+                        if (showAlert) {
+                            alert('오류가 발생했습니다. 다시 시도해주세요.');
+                        }
+                        reject(error);
                     });
-        }
+        });
     }
 
+
     function clickAll() {
+        const confirmed = confirm("게시물을 한 번에 등록하시겠습니까?");
+        if (!confirmed) return;
+
         if (!document.getElementById('noticeCard').classList.contains('disabled')) {
-            submitData('notice');
+            submitData('notice', false);
         }
         if (!document.getElementById('summaryCard').classList.contains('disabled')) {
-            submitData('summary');
+            submitData('summary', false);
         }
         if (!document.getElementById('testCard').classList.contains('disabled')) {
-            submitTest();
+            submitTest(false);
         }
     }
     function proceedNext() {

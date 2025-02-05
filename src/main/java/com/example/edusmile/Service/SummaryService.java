@@ -74,4 +74,7 @@ public class SummaryService {
         summaryRepository.deleteById(id);
     }
 
+    public void deleteByClassId(String classId) {
+        summaryRepository.deleteByClassId(classId);
+    }
 }

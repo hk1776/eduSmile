@@ -58,22 +58,26 @@ public class HomeController {
             subjectT.setTeacher(teacher.get());
             subjectsT.add(subjectT);
         }
+        if(myTeacher != null) {
+            model.addAttribute("teacherInfo", myTeacher);
 
 
-        model.addAttribute("member", member);
-        model.addAttribute("subjects", subjectsT);
-        model.addAttribute("subLen",subjects.size());
-        model.addAttribute("teacherInfo", myTeacher);
-        model.addAttribute("classBoard", ClassBoard5);
-        model.addAttribute("teacher",member.getRole().equals("teacher"));
+            model.addAttribute("member", member);
+            model.addAttribute("subjects", subjectsT);
+            model.addAttribute("subLen", subjects.size());
+            model.addAttribute("classBoard", ClassBoard5);
+            model.addAttribute("teacher", member.getRole().equals("teacher"));
 
-        //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
-        //여기 까지
+            //헤더 있는페이지는 이거 필수
+            List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(), "teacher");
+            MemberEntity teacher = listteacher.get(0);
+            model.addAttribute("class-teacher", teacher);
+            //여기 까지
 
-        log.info("member: {}", member.getName());
-        return "main";
+            log.info("member: {}", member.getName());
+            return "main";
+        }else {
+            return "index";
+        }
     }
 }

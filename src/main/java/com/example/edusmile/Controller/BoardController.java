@@ -198,7 +198,13 @@ public class BoardController {
 
         log.info("notice = {}, summary={}, test = {}", noticeId, summaryId, testId);
 
+        boolean nothing = false;
+        if(noticeId==null&&summaryId==null&&testId==null){
+            nothing = true;
+        }
+
         // Flash Attribute에 데이터 저장
+        redirectAttributes.addFlashAttribute("nothing", nothing);
         redirectAttributes.addFlashAttribute("member", member);
         redirectAttributes.addFlashAttribute("noticeId", noticeId);
         redirectAttributes.addFlashAttribute("summaryId", summaryId);
@@ -208,6 +214,7 @@ public class BoardController {
         subjectService.findById(classId).ifPresent(subject -> redirectAttributes.addFlashAttribute("subject", subject));
 
         // 새로고침 대비해서 세션에도 데이터 저장
+        session.setAttribute("nothing", nothing);
         session.setAttribute("lastMember", member);
         session.setAttribute("lastNoticeId", noticeId);
         session.setAttribute("lastSummaryId", summaryId);
@@ -226,6 +233,7 @@ public class BoardController {
         }
 
         // Flash Attribute가 없을 때 세션 데이터 활용 (새로고침 대비)
+        boolean nothing = (boolean) session.getAttribute("nothing");
         MemberEntity lastMember = (MemberEntity) session.getAttribute("lastMember");
         Long lastNoticeId = (Long) session.getAttribute("lastNoticeId");
         Long lastSummaryId = (Long) session.getAttribute("lastSummaryId");
@@ -233,6 +241,7 @@ public class BoardController {
         Subject lastSubject = (Subject) session.getAttribute("lastSubject");
 
         if (lastMember != null) {
+            model.addAttribute("nothing", nothing);
             model.addAttribute("member", lastMember);
             model.addAttribute("noticeId", lastNoticeId);
             model.addAttribute("summaryId", lastSummaryId);

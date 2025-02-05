@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface TestResultRepository extends JpaRepository<TestResult,Long> {
     Optional<List<TestResult>> findByTestId(Long id);
 
+    void deleteByClassId(String classId);
+
     @Modifying
     @Query("DELETE FROM TestResult e WHERE e.testId = :testId")
     void deleteByTestId(@Param("testId") long testId);

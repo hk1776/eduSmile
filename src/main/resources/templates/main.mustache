@@ -25,7 +25,7 @@
     }
 
     .info-box h2 {
-        color: #6A4C93;
+        color: #576096;
         margin-bottom: 15px;
         font-size: 1.5em;
     }
@@ -58,18 +58,25 @@
         border: none;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         transition: transform 0.2s ease-in-out;
-    }
 
+        min-height: 350px; /* 일정한 높이 유지 */
+        height: auto;
+        justify-content: flex-start; /* 위쪽 정렬 */
+        align-items: stretch; /* 내부 요소 너비 조정 */
+    }
     .card h2 {
         font-family: "Hakgyo", sans-serif;
         font-size: 1.3em;
-        color: #6A4C93;
+        color: #576096;
         margin-bottom: 15px;
     }
 
     .cardIn {
-        list-style: none;
+        width: 100%;
         padding: 0;
+        margin-top: 10px; /* 제목과 간격 조정 */
+        flex-grow: 1; /* 리스트가 빈 공간을 차지하도록 설정 */
+        text-align: left; /* 텍스트 왼쪽 정렬 */
     }
 
     .cardIn li {
@@ -97,16 +104,17 @@
     }
 
     .cardIn a:hover {
-        color: #6A4C93;
+        color: #576096;
         text-decoration: underline;
     }
     .scroll-container {
         display: flex;
         gap: 15px;
         overflow-x: auto;
+        height: 100%;
         padding: 10px 0;
         scrollbar-width: thin; /* Firefox */
-        scrollbar-color: #6A4C93 transparent; /* Firefox */
+        scrollbar-color: #576096 transparent; /* Firefox */
         scroll-behavior: smooth; /* 부드러운 스크롤 */
         white-space: nowrap; /* 가로 스크롤 유지 */
     }
@@ -116,7 +124,7 @@
     }
 
     .scroll-container::-webkit-scrollbar-thumb {
-        background-color: #6A4C93;
+        background-color: #576096;
         border-radius: 4px;
     }
 
@@ -143,7 +151,7 @@
         margin: 0 0 10px 0;
         font-size: 1.1em;
         font-weight: bold;
-        color: #6A4C93;
+        color: #576096;
     }
 
     .scroll-card a {
@@ -154,7 +162,7 @@
     }
 
     .scroll-card a:hover {
-        color: #6A4C93;
+        color: #576096;
     }
     .title {
         background-color: #576096;
@@ -177,8 +185,20 @@
 
     .date-text {
         font-size: 0.9em;
-        color: #6A4C93;
+        color: #576096;
     }
+    .popup {
+        display: none; /* 숨겨진 상태로 시작 */
+        position: fixed;
+        width: 30%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
 
     /* 반응형 스타일 */
     @media (max-width: 768px) {
@@ -201,20 +221,35 @@
 
 <div id="back_ground">
     <div style="width: 100%;max-width: 1300px; height: auto; margin: 0 auto;">
+        <div class="popup" id="popup" style="display: none;">
+            <div style="display: flex; justify-content: center; width: 100%;">
+                <form method="POST" action="/teacher/classDelete" style="padding: 10px; width: 80%; font-family: Score5; font-size: 20px">
+                    <label for="class">등록된 수업을 삭제하시겠습니까?</label>
+                    <label for="class">해당 수업과 관련된 모든 게시물이 삭제됩니다.</label>
+                    <input id = "deleteCode" type="hidden" name="deleteCode"/>
+
+                    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 15px; margin-bottom: 15px;">
+                        <button type="button" id="deleteClosePopup" class="btnAll" onclick="popupClose()">취소</button>
+                        <button type="submit" class="btnAll" style="margin-left: 15px;background: #EB6319">삭제</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div style="display: flex; justify-content: flex-start; width: 100%; padding: 0; margin: 0;">
             <div id="text" class="title">🏠 Home</div>
         </div>
         <!-- 학교 및 선생님 정보 -->
         <div class="container">
             <div class="info-box">
-                <h2 style="margin: 0 0 10px 0;font-size: 1.1em;font-weight: bold; color: #6A4C93;font-family: Hakgyo">학교 정보</h2>
+                <h2 style="margin: 0 0 10px 0;font-size: 1.1em;font-weight: bold; color: #576096;font-family: Hakgyo">학교 정보</h2>
                 <div class="info-content">
                     <p style="font-size: 1.2em; font-weight: bold; color: #333;">🏫 {{member.school}}</p>
                 </div>
             </div>
 
             <div class="info-box">
-                <h2 style="margin: 0 0 10px 0;font-size: 1.1em;font-weight: bold; color: #6A4C93;font-family: Hakgyo">담임 선생님 정보</h2>
+                <h2 style="margin: 0 0 10px 0;font-size: 1.1em;font-weight: bold; color: #576096;font-family: Hakgyo">담임 선생님 정보</h2>
                 <div class="info-content">
                     <p style="font-size: 1.2em; font-weight: bold; color: #333;">성함 : {{teacherInfo.name}}</p>
                     <p style="font-size: 1.2em; color: #333;">전화번호 : {{teacherInfo.phoneNumber}}</p>
@@ -247,13 +282,21 @@
                 {{^subjects}}
                     <div class="scroll-card"><a href="#">과목 등록을 해보세요! </a></div>
                 {{/subjects}}
-                    <div class="scroll-card"><a href="#"><h1>&#43</h1></a></div>
+                    <div class="scroll-card" onclick="popup()" style="cursor:pointer;"><h1>&#43</h1></div>
                 </div>
             </div>
 
             <!-- 우리반 소식 -->
             <div class="card">
-                <h2>우리반 커뮤니티</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="text-align: left; margin: 0;">우리반 커뮤니티</h2>
+                    <button onclick="location.href='/myClass/list?id={{member.teacherCode}}'"
+                            style="width: 35px; height: 35px; background-color: #576096; color: white; border: none;
+                       border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center;
+                       font-size: 20px; font-weight: bold; text-align: center; padding: 0;">
+                        &#43
+                    </button>
+                </div>
                 <ul class="cardIn">
                     {{#classBoard}}
                         <li onclick="location.href='/myClass?id={{member.teacherCode}}&num={{id}}'" class="clickable">
@@ -280,5 +323,12 @@
             scrollContainer.scrollLeft += event.deltaY * 2; // 마우스 휠 속도 조절 (2배 빠르게)
         });
     });
+
+    function popup(){
+        document.getElementById('popup').style.display = 'block';
+    }
+    function popupClose(){
+        document.getElementById('popup').style.display = 'none';
+    }
 </script>
 {{>footer}}

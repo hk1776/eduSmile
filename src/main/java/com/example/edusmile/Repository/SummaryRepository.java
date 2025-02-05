@@ -12,6 +12,8 @@ import org.springframework.data.repository.query.Param;
 public interface SummaryRepository extends JpaRepository<Summary, Long> {
     Page<Summary> findByClassId(String classId, Pageable pageable);
 
+    void deleteByClassId(String classId);
+
     @Modifying
     @Query("UPDATE Summary f SET f.views = f.views + 1 WHERE f.id = :id")
     void increaseViews(@Param("id") Long id);

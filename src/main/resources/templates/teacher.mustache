@@ -308,6 +308,29 @@
             </div>
         </div>
 
+        <div class="popup" id="studentPopup" style="display: none;">
+            <div style="background-color:#576096; width: 100%; height: 10%; color: white; font-family: Hakgyo; font-size: 25px; display: flex; align-items: center; padding: 10px;">
+                학생 관리
+            </div>
+            <div style="display: flex; justify-content: center; width: 100%;">
+                <form method="POST" action="/teacher/studentDel" id="studentForm" style="padding: 10px; width: 80%; font-family: Score5; font-size: 20px">
+                    <ul id="studentList" style="list-style: none; padding: 0; max-height: 300px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px;">
+                        {{#student}}
+                            <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;">
+                                <span>{{name}}</span>
+                                <button type="button" onclick="deleteStudent({{id}}, '{{name}}')" style="background: red; color: white; border: none; padding: 3px 6px; cursor: pointer; border-radius: 10%; font-size: 12px; line-height: 1; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">
+                                    ✕</button>
+                            </li>
+                        {{/student}}
+                    </ul>
+
+                    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 15px; margin-bottom: 15px;">
+                        <button type="button" id="updateClosePopup" class="btnAll" onclick="studentClose()">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="popup" id="deletePopup" style="display: none;">
             <div style="display: flex; justify-content: center; width: 100%;">
                 <form method="POST" action="/teacher/classDelete" style="padding: 10px; width: 80%; font-family: Score5; font-size: 20px">
@@ -322,6 +345,7 @@
                 </form>
             </div>
         </div>
+
         <div class="class-info">
             <p style="font-family: Score5; font-size: 30px; color: black">담임 학급</p>
             <div class="circle">1반</div>
@@ -357,9 +381,9 @@
             <div class="card">
                 <h2 style="font-family:Hakgyo ">학생 상담</h2>
                 <ul class="cardIn" style="padding: 5%">
-                    <li><a href="/counsel/Audio">음성 상담 분석</a></li>
-                    <li><a href="/teacher/student_recode">상담 기록</a></li>
-                    <li><a href="/teacher/student_recode">학생 생활기록부 등록</a></li>
+                    <li onclick="location.href='/counsel/Audio'" style="cursor:pointer;">음성 상담 분석</li>
+                    <li onclick="location.href='/teacher/student_recode'" style="cursor:pointer;">상담 기록</li>
+                    <li onclick="location.href='/teacher/student_recode'" style="cursor:pointer;">학생 생활기록부 등록</li>
                 </ul>
             </div>
 
@@ -367,9 +391,9 @@
             <div class="card">
                 <h2 style="font-family:Hakgyo ">시험 결과 확인</h2>
                 <ul class="cardIn" style="padding: 5%">
-                    <li><a href="#">yy.mm.dd 결과</a></li>
-                    <li><a href="#">yy.mm.dd 결과</a></li>
-                    <li><a href="#">yy.mm.dd 결과</a></li>
+                    <li onclick="location.href='#'" style="cursor:pointer;">음성 상담 분석</li>
+                    <li onclick="location.href='#'" style="cursor:pointer;">상담 기록</li>
+                    <li onclick="location.href='#'" style="cursor:pointer;">학생 생활기록부 등록</li>
                 </ul>
             </div>
 
@@ -389,8 +413,8 @@
             <div class="card">
                 <h2 style="font-family:Hakgyo ">우리 반 관리</h2>
                 <ul class="cardIn" style="padding: 5%">
-                    <li><a href="#">학생 관리</a></li>
-                    <li><a href="/myClass/list?id={{member.teacherCode}}">우리반 커뮤니티</a></li>
+                    <li onclick="studentPopup()" style="cursor:pointer;"><div>학생 관리</div></li>
+                    <li onclick="location.href='/myClass/list?id={{member.teacherCode}}'" style="cursor:pointer;">우리반 커뮤니티</li>
                     <li style="background-color: transparent; box-shadow: none;"></li>
                 </ul>
             </div>
@@ -422,6 +446,12 @@
         } else {
             window.location.href = "/teacher/class";  // URL 이동
         }
+    }
+    function studentPopup(){
+        document.getElementById('studentPopup').style.display = 'block';
+    }
+    function studentClose(){
+        document.getElementById('studentPopup').style.display = 'none';
     }
 
     function toggleButtons(item) {
@@ -481,6 +511,20 @@
 
     function deleteClose(){
         document.getElementById('deletePopup').style.display = 'none';
+    }
+
+
+    function deleteStudent(studentId, studentName) {
+        const confirmed = confirm(`${studentName} 학생을 반에서 제외하겠습니까?`);
+        if (confirmed) {
+            const form = document.getElementById("studentForm");
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "studentId";
+            input.value = studentId;
+            form.appendChild(input);
+            form.submit();
+        }
     }
 </script>
 {{>footer}}
