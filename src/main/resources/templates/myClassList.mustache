@@ -1,0 +1,69 @@
+{{>header}}
+
+<link rel="stylesheet" href="/css/borderList.css">
+
+<!-- 레이아웃 -->
+<div class="layout">
+    <!-- 메인 콘텐츠 -->
+    <div class="main-content" style="display: flex;justify-content: center">
+        <div class="notice-container"  style="width: 80% ">
+            <div class="notice-header">
+                <h1>우리반 커뮤니티</h1>
+            </div>
+
+            <table class="notice-table">
+                <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#freePage.content}}
+                    <tr onclick="navigateTo('/myClass?id={{subjectId}}&num={{id}}')">
+                        <td>{{title}}</a></td>
+                        <td>{{author}}</td>
+                        <td>{{created}}</td>
+                        <td>{{views}}</td>
+                    </tr>
+                {{/freePage.content}}
+                {{^freePage.content}}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">등록된 게시물이 없습니다.</td>
+                    </tr>
+                {{/freePage.content}}
+                </tbody>
+            </table>
+
+            <div class="pagination-container">
+                <div class="pagination-group">
+                    {{#prevPageNum}}
+                        <a class="pagination" href="/myClass/list?id={{subjectId}}&page={{prevPageNum}}">◀ 이전</a>
+                    {{/prevPageNum}}
+
+                    {{#pageNums}}
+                        <a class="pagination" href="/myClass/list?id={{subjectId}}&page={{.}}">
+                        {{.}}
+                        </a>
+                    {{/pageNums}}
+
+                    {{#nextPageNum}}
+                        <a class="pagination" href="/myClass/list?id={{subjectId}}&page={{nextPageNum}}">다음 ▶</a>
+                    {{/nextPageNum}}
+                </div>
+                <a href="/myClass/write?id={{subjectId}}" class="write-button">글쓰기</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url; // 클릭 시 URL로 이동
+    }
+</script>
+{{>footer}}
+

@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -42,6 +43,9 @@ public class FreeBoardService {
 
     public Page<FreeBoard> findByClassId(String classId, Pageable pageable){
         return freeBoardRepository.findByClassId(classId, pageable);
+    }
+    public List<FreeBoard> findByClassId(String classId){
+        return freeBoardRepository.findByClassId(classId);
     }
 
     public FreeBoard findById(Long id) {

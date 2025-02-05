@@ -47,7 +47,7 @@
 <div id="back_ground">
     <div style="width: 70%; height: 65%;">
         <div style="display: flex; justify-content: flex-start; width: 100%; padding: 0; margin: 0;">
-            <div id="text" class="title">과목별 게시판</div>
+            <div id="text" class="title">수업 게시판</div>
         </div>
         <div class="container"
              style="background-color: #F6E1A0; padding: 60px; width: 100%; height: 80%; border-radius: 15px; position: relative; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; justify-content: flex-start; overflow-y: auto;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);">
@@ -65,6 +65,13 @@
                             <li onclick="navigateTo('/board/testList?id={{id}}')" style="font-family: Hakgyo; font-size: 20px;padding-left: 3%">✏️ 시험</li>
                             <li onclick="navigateTo('/board/freeList?id={{id}}')" style="font-family: Hakgyo; font-size: 20px;padding-left: 3%">🗣️ 자유게시판</li>
                         </ul>
+                    </div>
+                </div>
+            {{/subjects}}
+            {{^subjects}}
+                <div class="text-button-container">
+                    <div id="backDiv" class="item" style="margin-top: 10px; width: 100%; background-color: #FFFEFD; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); padding: 10px; cursor: pointer;" onclick="toggleDropdownBoard(this)">
+                        <p style="font-family: Score5; text-align: center;font-size: 30px">등록된 수업이 없어 수업 게시판을 이용할 수 없습니다. 🥲</p>
                     </div>
                 </div>
             {{/subjects}}

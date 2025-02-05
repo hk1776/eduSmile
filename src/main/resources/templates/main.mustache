@@ -17,6 +17,7 @@
         flex-wrap: wrap; /* 반응형 */
     }
 
+
     /* 정보 블록 */
     .info-box {
         width: 45%;
@@ -72,7 +73,20 @@
     }
 
     .cardIn li {
-        margin: 10px 0;
+        width: 100%;
+        background-color: white;
+        display: flex;
+        justify-content: space-between; /* 좌우 정렬 */
+        align-items: center; /* 세로 중앙 정렬 */
+        padding: 10px 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 */
+        margin: 5px 0; /* 항목 간 간격 */
+        cursor: pointer;
+    }
+    .cardIn li.empty {
+        justify-content: center; /* 중앙 정렬 */
+        text-align: center;
     }
 
     .cardIn a {
@@ -155,6 +169,17 @@
         font-size: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
+    .title-text {
+        font-weight: bold;
+        color: #333;
+        font-family: Score5;
+    }
+
+    .date-text {
+        font-size: 0.9em;
+        color: #6A4C93;
+    }
+
     /* 반응형 스타일 */
     @media (max-width: 768px) {
         .container {
@@ -211,7 +236,16 @@
                         <p style="font-family: Score5">담당 선생님 : {{teacher.name}}</p>
                         <a style="font-size: 15px; font-family: Score4" href="/board/noticeList?id={{id}}">과목 게시판으로 이동-></a>
                     </div>
-                    <div class="scroll-card"><a href="#">추가 항목</a></div>
+                    <div class="scroll-card">
+                        <h4 style="font-family: Score8">과목예시</h4>
+                        <p style="font-family: Score5">예시 학년 예시 분반</p>
+                        <br>
+                        <p style="font-family: Score5">담당 선생님 : 김철수</p>
+                        <a style="font-size: 15px; font-family: Score4" href="#">과목 게시판으로 이동-></a>
+                    </div>
+                {{/subjects}}
+                {{^subjects}}
+                    <div class="scroll-card"><a href="#">과목 등록을 해보세요! </a></div>
                 {{/subjects}}
                     <div class="scroll-card"><a href="#"><h1>&#43</h1></a></div>
                 </div>
@@ -219,11 +253,19 @@
 
             <!-- 우리반 소식 -->
             <div class="card">
-                <h2>우리반 소식</h2>
+                <h2>우리반 커뮤니티</h2>
                 <ul class="cardIn">
-                    <li><a href="#">yy.mm.dd 결과</a></li>
-                    <li><a href="#">yy.mm.dd 결과</a></li>
-                    <li><a href="#">yy.mm.dd 결과</a></li>
+                    {{#classBoard}}
+                        <li onclick="location.href='/myClass?id={{member.teacherCode}}&num={{id}}'" class="clickable">
+                            <span class="title-text">{{title}}</span>
+                            <span class="date-text">{{updated}}</span>
+                        </li>
+                    {{/classBoard}}
+                    {{^classBoard}}
+                        <li class="empty">
+                            <span class="title-text">우리반 커뮤니티가 비어있습니다.</span>
+                        </li>
+                    {{/classBoard}}
                 </ul>
             </div>
         </div>

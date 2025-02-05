@@ -344,6 +344,11 @@
                         </div>
                     </div>
                 {{/subjects}}
+                {{^subjects}}
+                    <div class="text-button-container">
+                            <p style="font-family: Score5; text-align: center;">수업을 등록해 주세요!</p>
+                    </div>
+                {{/subjects}}
             </div>
         </div>
 
@@ -385,8 +390,8 @@
                 <h2 style="font-family:Hakgyo ">우리 반 관리</h2>
                 <ul class="cardIn" style="padding: 5%">
                     <li><a href="#">학생 관리</a></li>
-                    <li><a href="/board/freeList?id={{member.teacherCode}}">우리반 게시판</a></li>
-                    <li style="background-color: transparent; box-shadow: none;"><a href="#"></a></li>
+                    <li><a href="/myClass/list?id={{member.teacherCode}}">우리반 커뮤니티</a></li>
+                    <li style="background-color: transparent; box-shadow: none;"></li>
                 </ul>
             </div>
         </div>

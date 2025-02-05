@@ -1,9 +1,12 @@
 package com.example.edusmile.Controller;
 
 import com.example.edusmile.Dto.BoardDTO;
+import com.example.edusmile.Entity.FreeBoard;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.MemberRepository;
+import com.example.edusmile.Repository.SubjectRepository;
+import com.example.edusmile.Service.FreeBoardService;
 import com.example.edusmile.Service.MemberService;
 import com.example.edusmile.Service.SubjectService;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +26,7 @@ public class HomeController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final SubjectService subjectService;
+    private final FreeBoardService freeBoardService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -39,6 +40,10 @@ public class HomeController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         MemberEntity myTeacher = memberService.myTeacher(member.getTeacherCode());
         List<Subject> subjects = subjectService.getMemberSubject(member.getId());
+        List<FreeBoard> classBoard = freeBoardService.findByClassId(member.getTeacherCode());
+        Collections.sort(classBoard, Comparator.comparing(FreeBoard::getId).reversed());
+        List<FreeBoard> ClassBoard5 = classBoard.subList(0, Math.min(5, classBoard.size()));
+
         subjects.sort(Comparator
                 .comparing(Subject::getGrade) // 이름 기준 오름차순
                 .thenComparing(Subject::getDivClass));
@@ -59,6 +64,7 @@ public class HomeController {
         model.addAttribute("subjects", subjectsT);
         model.addAttribute("subLen",subjects.size());
         model.addAttribute("teacherInfo", myTeacher);
+        model.addAttribute("classBoard", ClassBoard5);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
