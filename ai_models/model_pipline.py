@@ -145,6 +145,44 @@ class EduContentProcessor:
             print(f"Claude API 호출 중 오류 발생: {str(e)}")
             raise
     
+    
+    def get_openai_answer(self, question_text, choices):
+        """OpenAI GPT-3.5 Turbo를 이용해 수학 문제의 정답을 검증"""
+        prompt = f"""
+        다음 객관식 문제의 정답을 구하세요. 반드시 하나의 선택지를 반환하세요.
+        
+        문제: {question_text}
+        선택지: {choices}
+        
+        답변 형식: 반드시 선택지 중 하나를 그대로 반환하세요.
+        """
+        try:
+            client = openai.OpenAI(api_key=self.openai_api_key)
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": prompt}]
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"🚨 OpenAI API 오류 발생: {str(e)}")
+            return None
+    
+    def validate_answers_with_openai(self, quiz_data):
+        """Claude가 생성한 문제에서 OpenAI를 이용하여 정답 검증"""
+        for question in quiz_data.get("questions", []):
+            correct_index = question.get("correct_answer", -1)
+            choices = question.get("choices", [])
+            if 0 <= correct_index < len(choices):
+                correct_choice = choices[correct_index]
+                openai_answer = self.get_openai_answer(question["question"], choices)
+                if openai_answer and openai_answer in choices:
+                    if openai_answer != correct_choice:
+                        print(f"⚠️ 정답 오류 발견! Claude의 정답: {correct_choice}, OpenAI 정답: {openai_answer}")
+                        question["correct_answer"] = choices.index(openai_answer)
+            
+            
+    
+    
     def generate_quiz(self, content: str, num_questions: int = 5) -> Dict:
         """객관식 문제를 생성합니다."""
         prompt = f"""
@@ -300,6 +338,7 @@ class EduContentProcessor:
         except Exception as e:
             print(f"컨텐츠 처리 중 오류 발생: {str(e)}")
             return {'오류': {'내용': str(e)}}
+        
     def process_content_counsel_text(self, text) -> Dict:
         """텍스트 컨텐츠를 처리하고 결과물을 생성합니다."""
         try:
@@ -308,9 +347,12 @@ class EduContentProcessor:
             
             # 공지사항 추출
             notice = self.get_claude_response(f"""
-            다음 텍스트에서 상담내용을 요약하여  정리해주세요.
-            상담과 관련이 없는 내용일 경우 "상담 내용이 아닙니다."라고만 응답해주세요
-            상담요약내용만 응답해주세요.
+            다음 텍스트에서 상담내용을 요약하여 정리해주세요.
+            맨앞에 말머리를 붙이지 말고 요약해주세요.
+            1000자 이상이 되게 요약해주세요
+            이름말고 학생과 상담사로 바꿔주세요.
+            상담내용요약:text가 되게 요약해주세요.
+            일정 택스트 길이마다 \n\n을 적용해 두줄씩 띄어주세요.
             
             상담 내용:
             {content}
