@@ -4,6 +4,7 @@ import com.example.edusmile.Entity.Attend;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.AttendRepository;
+import com.example.edusmile.Repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.util.Optional;
 public class AttendService {
     private final AttendRepository repository;
     private final AttendRepository attendRepository;
-
+    private final SubjectRepository subjectRepository;
     public Attend save(MemberEntity member, Subject subject) {
         Attend attend = new Attend(member, subject);
         return repository.save(attend);
@@ -67,5 +68,16 @@ public class AttendService {
         List<Attend> attends = repository.findBySubject_Id(subjectId);
         repository.deleteAll(attends);
     }
+
+public void delete_subject(String subjectId) {
+    Optional<Subject> sub = subjectRepository.findById(subjectId);
+
+    if(sub.isPresent()) {
+        Subject subject = sub.get();
+        subjectRepository.deleteSubjectById(subject.getId());
+
+    }
+
+}
 
 }

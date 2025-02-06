@@ -68,6 +68,23 @@ public class MemberController {
 
     }
 
+    @GetMapping("/mypage/deleteaccount")
+    public String deleteAccount(@AuthenticationPrincipal UserDetails user, Model model) {
+
+        MemberEntity member  = memberService.memberInfo(user.getUsername());
+        model.addAttribute("member", member);
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
+        model.addAttribute("st", member.getRole().equals("student"));
+
+        //헤더 있는페이지는 이거 필수
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
+        //여기 까지
+
+        return "deleteaccount";
+    }
+
 
 
 }

@@ -14,4 +14,8 @@ public interface SubjectRepository extends JpaRepository<Subject, String> {
     @Transactional
     @Query("DELETE FROM Subject s WHERE s.id = :id")
     void deleteSubjectById(@Param("id") String id);
+
+
+    @Query("SELECT s FROM Subject s where s.teacherId = :teacherId")
+    List<Subject> findSubjectByTeacherId(@Param("teacherId") Long teacherId);
 }

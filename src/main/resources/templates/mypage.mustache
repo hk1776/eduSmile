@@ -201,6 +201,14 @@
         transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 및 애니메이션 */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
     }
+    .deleteAccount{
+        color:#908282;
+        font-size: 1.3vw;
+        text-decoration: none; /* 밑줄 없애기 */
+        left: 90vw;
+        top: 46vw;
+        position: absolute;
+    }
 </style>
 
 
@@ -271,6 +279,8 @@
             <button type="button" id="openPopup" class="openPopup">과목추가</button>
         {{/member}}
     {{/st}}
+
+    <a class="deleteAccount" href="/mypage/deleteaccount">회원 탈퇴</a>
     </div>
 
 
