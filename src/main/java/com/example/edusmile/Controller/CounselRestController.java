@@ -68,7 +68,7 @@ public class CounselRestController {
         if(recode.isEmpty()) {
 
 
-            System.out.println(escapedContent);
+
 
         }
         else {

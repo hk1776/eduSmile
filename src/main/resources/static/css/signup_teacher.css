@@ -21,6 +21,19 @@
     width:30vw;
     z-index: 2;
 }
+
+.grade {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCore5", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 400;
+    position: absolute;
+    left: 23.5vw;
+    top: 50vw;
+    width:30vw;
+    z-index: 2;
+}
 .div2 {
     color: #4b4b4b;
     text-align: left;

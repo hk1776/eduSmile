@@ -60,7 +60,7 @@ public class LoginService {
 
                     memberDto.setSchoolClass(teacher.getSchoolClass());
                     memberDto.setSchool(teacher.getSchool());
-
+                    memberDto.setSchoolgrade(teacher.getSchoolgrade());
                     MemberEntity tm = memberDto.toEntity();
                     tm.setImg_path("blank_profile.svg");
                     memberRepository.save(tm);

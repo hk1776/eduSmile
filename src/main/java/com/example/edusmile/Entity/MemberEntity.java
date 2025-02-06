@@ -51,6 +51,9 @@ public class MemberEntity {
     @Column(name = "school_class" , nullable = false)
     private int schoolClass;
 
+    @Column(name = "school_grade" , nullable = false)
+    private int schoolgrade;
+
     @Column(name = "role" , nullable = false)
     private String role;
 

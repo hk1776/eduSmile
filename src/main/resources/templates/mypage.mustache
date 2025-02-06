@@ -239,7 +239,7 @@
     <div class="main-box" >
         {{#member}}
             <img class="profile"
-                 src=" {{img_path}}"
+                 src="{{img_path}}"
             onerror="this.src='/blank_profile/blank_profile.svg';" />
         <div class="sub-box" >
             <div class="info">
@@ -249,8 +249,9 @@
             </div>
         </div>
         <div class="file-div">
-            <input type="file" id="fileInput" style="display: none;">
-            <button class="file-select" id="uploadButton1">+</button>
+            <input type="file" id="fileInput" style="
+            display: none;">
+            <button class="file-select" id="uploadButton12">+</button>
         </div>
         <div class="name">{{name}} 님</div>
             <input type="hidden" value="{{id}}">
@@ -275,6 +276,80 @@
 
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const profileImage = document.querySelector('.profile');
+        const currentTimestamp = new Date().getTime(); // 현재 타임스탬프
+        const imgPath = profileImage.src.split('?')[0]; // 기존 이미지 URL에서 쿼리 파라미터 제거
+        profileImage.src = `${imgPath}?t=${currentTimestamp}`; // 새로운 타임스탬프 추가
+
+    });
+
+    const fileInput = document.getElementById('fileInput');
+    const uploadButton = document.getElementById('uploadButton12');
+    const profileImage = document.querySelector('.profile'); // 프로필 이미지 요소
+
+    // "+" 버튼 클릭 시 파일 선택 창 열기
+    uploadButton.addEventListener('click', () => {
+        console.log('Button clicked');  // 버튼 클릭 확인용 로그
+        fileInput.click();
+    });
+
+    // 파일 선택 후 업로드 처리
+    fileInput.addEventListener('change', async () => {
+        if (fileInput.files.length === 0) {
+            alert('파일을 선택해주세요!');
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+
+        // 확장자 검사
+        if (!allowedExtensions.includes(fileExtension)) {
+            alert('JPG 또는 PNG 형식의 파일만 업로드 가능합니다!');
+            fileInput.value = ''; // 파일 입력 초기화
+            return;
+        }
+
+        // FileReader를 사용하여 이미지를 로컬에서 바로 갱신
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            profileImage.src = event.target.result; // 이미지를 로컬에서 읽어 프로필 이미지 갱신
+        };
+        reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기
+
+        const idValue = document.querySelector('input[type="hidden"]').value;
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]); // 단일 파일 업로드
+        formData.append('id', idValue);
+
+        try {
+            const response = await fetch('/uploadsprofile', { // 스프링 백엔드의 업로드 엔드포인트
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                // 업로드 성공 후 이미지 갱신
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profileImage.src = event.target.result; // 이미지를 로컬에서 읽어 프로필 이미지 갱신
+                };
+                reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기
+
+                alert('프로필 사진 업로드 성공!');
+            } else {
+                alert('프로필 사진 업로드 실패!');
+            }
+        } catch (error) {
+            alert('업로드 중 오류 발생!');
+            console.error(error);
+        }
+    });
+
+
     function validateForm() {
 
         //아이디 유효성
@@ -371,76 +446,6 @@
 
 
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const profileImage = document.querySelector('.profile');
-        const currentTimestamp = new Date().getTime(); // 현재 타임스탬프
-        const imgPath = profileImage.src.split('?')[0]; // 기존 이미지 URL에서 쿼리 파라미터 제거
-        profileImage.src = `${imgPath}?t=${currentTimestamp}`; // 새로운 타임스탬프 추가
 
-    });
-
-    const fileInput = document.getElementById('fileInput');
-    const uploadButton = document.getElementById('uploadButton1');
-    const profileImage = document.querySelector('.profile'); // 프로필 이미지 요소
-
-    // "+" 버튼 클릭 시 파일 선택 창 열기
-    uploadButton.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-    // 파일 선택 후 업로드 처리
-    fileInput.addEventListener('change', async () => {
-        if (fileInput.files.length === 0) {
-            alert('파일을 선택해주세요!');
-            return;
-        }
-
-        const file = fileInput.files[0];
-        const allowedExtensions = ['jpg', 'jpeg', 'png'];
-        const fileExtension = file.name.split('.').pop().toLowerCase();
-
-        // 확장자 검사
-        if (!allowedExtensions.includes(fileExtension)) {
-            alert('JPG 또는 PNG 형식의 파일만 업로드 가능합니다!');
-            fileInput.value = ''; // 파일 입력 초기화
-            return;
-        }
-
-        // FileReader를 사용하여 이미지를 로컬에서 바로 갱신
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            profileImage.src = event.target.result; // 이미지를 로컬에서 읽어 프로필 이미지 갱신
-        };
-        reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기
-
-        const idValue = document.querySelector('input[type="hidden"]').value;
-
-        const formData = new FormData();
-        formData.append('file', fileInput.files[0]); // 단일 파일 업로드
-        formData.append('id', idValue);
-
-        try {
-            const response = await fetch('/uploadsprofile', { // 스프링 백엔드의 업로드 엔드포인트
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                // 업로드 성공 후 이미지 갱신
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    profileImage.src = event.target.result; // 이미지를 로컬에서 읽어 프로필 이미지 갱신
-                };
-                reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기
-
-                alert('프로필 사진 업로드 성공!');
-            } else {
-                alert('프로필 사진 업로드 실패!');
-            }
-        } catch (error) {
-            alert('업로드 중 오류 발생!');
-            console.error(error);
-        }
-    });
 </script>
 {{>footer}}

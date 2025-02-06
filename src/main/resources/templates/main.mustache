@@ -347,8 +347,10 @@
                     <img class="profile"
                          src=" {{teacherInfo.img_path}}"
                          onerror="this.src='/blank_profile/blank_profile.svg';" />
-                    <p style="font-size: 1.2em; position:relative; font-family: Score6; color: #333; left:1.4vw; top:20%;">성함 : {{teacherInfo.name}}</p>
-                    <p style="font-size: 1.2em; position:relative; font-family: Score6; color: #333; left:5vw; top:20%;">전화번호 : {{teacherInfo.phoneNumber}}</p>
+                    <div class="info" style="position: relative;left:4vw;">
+                    <p style="font-size: 1.2em; font-family: Score6; color: #333; ">성함 : {{teacherInfo.name}}</p>
+                    <p style="font-size: 1.2em;  font-family: Score6; color: #333; ">전화번호 : {{teacherInfo.phoneNumber}}</p>
+                    </div>
 
                 </div>
             </div>

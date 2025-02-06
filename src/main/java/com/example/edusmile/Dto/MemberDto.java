@@ -23,9 +23,9 @@ public class MemberDto {
     private String role;
     private String teacherCode;
     private String subject;
-
+    private int schoolgrade;
     public MemberEntity toEntity() {
-        return new MemberEntity(null,loginId,encoder.encode(password),name,phoneNumber,school,schoolClass,
+        return new MemberEntity(null,loginId,encoder.encode(password),name,phoneNumber,school,schoolClass,schoolgrade,
                 role,teacherCode,null,null,null,null);
     }
 }
