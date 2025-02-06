@@ -1,0 +1,97 @@
+{{>header}}
+
+<link rel="stylesheet" href="/css/borderList.css">
+<style>
+    .header-container {
+        display: flex;
+        justify-content: space-between; /* 왼쪽과 오른쪽에 공간 배분 */
+        align-items: center; /* 세로로 중앙 정렬 */
+        padding: 20px;
+    }
+</style>
+<!-- 레이아웃 -->
+<div class="layout">
+    <!-- 메인 콘텐츠 -->
+    <div class="main-content" style="display: flex;justify-content: center">
+        <div class="notice-container"  style="width: 80% ">
+            <div class="header-container">
+                <div class="notice-header">
+                    <h1>{{thisSubject.subject}} | {{thisSubject.grade}}학년 {{thisSubject.divClass}}분반 시험 결과</h1>
+                </div>
+                <select style="background-color: #FFFEFD;
+                  opacity: 0.9;
+                  border: 1px solid #ddd;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                  width: 200px;
+                  border-radius: 5px;
+                  font-family: 'Score5', sans-serif;"
+                        onchange="redirectToTestResult(this)">
+                    <option value="">과목 선택</option>
+                    {{#subjects}}
+                        <option value="{{id}}">{{subject}} | {{grade}}학년 {{divClass}}분반</option>
+                    {{/subjects}}
+                </select>
+            </div>
+
+            <table class="notice-table">
+                <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#testPage.content}}
+                    <tr onclick="navigateTo('/testResult/result?id={{subjectId}}&num={{id}}')">
+                        <td>{{title}}</a></td>
+                        <td>{{author}}</td>
+                        <td>{{created}}</td>
+                        <td>{{views}}</td>
+                    </tr>
+                {{/testPage.content}}
+                {{^testPage.content}}
+                    <tr>
+                        <td colspan="4" style="text-align: center;">등록된 게시물이 없습니다.</td>
+                    </tr>
+                {{/testPage.content}}
+                </tbody>
+            </table>
+
+            <div class="pagination-container">
+                <div class="pagination-group">
+                    {{#prevPageNum}}
+                        <a class="pagination" href="/testResult/list?id={{thisSubject.id}}&page={{prevPageNum}}">◀ 이전</a>
+                    {{/prevPageNum}}
+
+                    {{#pageNums}}
+                        <a class="pagination" href="/testResult/list?id={{thisSubject.id}}&page={{.}}">
+                        {{.}}
+                        </a>
+                    {{/pageNums}}
+
+                    {{#nextPageNum}}
+                        <a class="pagination" href="/testResult/list?id={{thisSubject.id}}&page={{nextPageNum}}">다음 ▶</a>
+                    {{/nextPageNum}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url; // 클릭 시 URL로 이동
+    }
+
+    function redirectToTestResult(selectElement) {
+        const selectedValue = selectElement.value;
+        if (selectedValue) {
+            // 선택된 값이 있을 때, URL로 이동
+            window.location.href = '/testResult/list?id=' + selectedValue;
+        }
+    }
+</script>
+{{>footer}}
+

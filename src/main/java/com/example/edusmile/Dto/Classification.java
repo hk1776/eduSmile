@@ -54,12 +54,20 @@ public class Classification {
             private List<String> choices;
             private int answer;
             private String explanation;
+            private double rate;
 
             public Question(String question, List<String> choices, int answer, String explanation) {
                 this.question = question;
                 this.choices = choices;
                 this.answer = answer;
                 this.explanation = explanation;
+            }
+            public Question(String question, List<String> choices, int answer, String explanation,double rate) {
+                this.question = question;
+                this.choices = choices;
+                this.answer = answer;
+                this.explanation = explanation;
+                this.rate = rate;
             }
         }
     }

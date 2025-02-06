@@ -367,4 +367,18 @@ public class MyClassController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("저장 실패");
         }
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Map<String, String>> deleteClass(@RequestBody Map<String, Object> requestData) {
+        try {
+            Long memberId = Long.valueOf(requestData.get("memberId").toString());
+            String classId = requestData.get("classId").toString();
+
+            attendService.memberSubjectDelete(memberId,classId);
+            return ResponseEntity.ok(Collections.singletonMap("message", "수업이 삭제되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("message", "삭제 중 오류가 발생했습니다."));
+        }
+    }
 }

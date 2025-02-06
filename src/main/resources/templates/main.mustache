@@ -131,13 +131,14 @@
     }
 
     .scroll-card {
+        position: relative; /* 버튼 위치를 카드 내부 기준으로 설정 */
         flex: 0 0 auto;
         width: 250px;
         background-color: white;
         border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         display: flex;
-        flex-direction: column; /* 세로 정렬 */
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         padding: 15px;
@@ -287,7 +288,24 @@
         top: 50%;  /* 부모의 수직 중앙 */
         transform: translateY(-50%);  /* 수직으로 정확히 중앙 정렬 */
     }
+    .delete-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(255, 255, 255, 0.7); /* 기본적으로 반투명 */
+        color: #ff4d4d;
+        border: 1px solid #ff4d4d;
+        padding: 3px 7px;
+        font-size: 12px;
+        border-radius: 15%;
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s;
+    }
 
+    .delete-btn:hover {
+        background: #ff4d4d;
+        color: white;
+    }
 </style>
 
 <div id="back_ground">
@@ -337,6 +355,7 @@
                 <h2 style="margin: 0 0 10px 0;font-size: 1.1em;font-weight: bold; color: #576096;font-family: Hakgyo">학교 정보</h2>
                 <div class="info-content">
                     <p style="font-size: 1.2em; font-weight: bold; color: #333;">🏫 {{member.school}}</p>
+                    <p style="font-size: 1.2em; font-weight: bold; color: #333;">{{member.schoolClass}}반</p>
                 </div>
             </div>
 
@@ -364,6 +383,9 @@
                 <div class="scroll-container" id="scrollContainer">
                 {{#subjects}}
                     <div class="scroll-card">
+                        {{^isTeacher}}
+                        <button class="delete-btn" onclick="deleteClass('{{id}}')">✕</button>
+                        {{/isTeacher}}
                         <h4 style="font-family: Score8">{{subject}}</h4>
                         <p style="font-family: Score5">{{grade}}학년 {{divClass}}분반</p>
                         <br>
@@ -374,7 +396,9 @@
                 {{^subjects}}
                     <div class="scroll-card"><a href="#">과목 등록을 해보세요! </a></div>
                 {{/subjects}}
+                {{^isTeacher}}
                     <div class="scroll-card" onclick="popup()" style="cursor:pointer;"><h1>&#43</h1></div>
+                {{/isTeacher}}
                 </div>
             </div>
 
@@ -513,6 +537,29 @@
         document.getElementById("cartList").innerHTML = "";
         document.getElementById("cartList").style.display = "none";
         cart = [];
+    }
+
+    function deleteClass(classId) {
+        if (!confirm("해당 과목을 삭제하시겠습니까?")) {
+            return;
+        }
+
+        const memberId = {{member.id}};  // 서버에서 받아오는 member ID
+
+        fetch("/myClass/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ memberId, classId })
+        })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);  // 서버에서 받은 메시지 표시
+                    location.reload();    // 페이지 새로고침
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("삭제 실패! 다시 시도해주세요.");
+                });
     }
 </script>
 {{>footer}}

@@ -1,0 +1,352 @@
+{{>header}}
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        font-family: 'Score6', sans-serif;
+        background-color: #FCF2D4;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+    }
+
+    .layout {
+    display: flex;
+    flex: 1;
+    }
+
+    /* 왼쪽 네비게이션 스타일 */
+    .sidebar {
+        width: 200px;
+        height: 95vh;
+        background-color: #F6E1A0;
+        margin: 20px 20px;
+        padding: 20px;
+        display: flex; /* 플렉스박스 활성화 */
+        flex-direction: column; /* 자식 요소를 수직으로 정렬 */
+        align-items: center; /* 좌우 기준으로 중앙 정렬 */
+        gap: 20px; /* 항목 간 간격 추가 */
+        box-sizing: border-box;
+        border-radius: 30px;
+    }
+
+
+    /* 메인 콘텐츠 스타일 */
+    .main-content {
+        flex: 1;
+        height: 100vh;
+        padding: 2px 20px;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+
+    .notice-container {
+        weight: 100%;
+        height: 95vh;
+        background-color: #F6E1A0;
+        border-radius: 30px;
+        box-shadow: 7px 7px 4px rgba(0, 0, 0, 0.25);
+        margin: 20px 5px;
+        padding: 30px;
+        margin-bottom: 20px; /* 추가로 풋바와의 간격 확보 */
+        display: flex; /* 내부 요소 정렬을 위해 플렉스 사용 */
+        flex-direction: column; /* 자식 요소를 수직 정렬 */
+        justify-content: flex-start; /* 내부 콘텐츠 상단부터 배치 */
+    }
+
+
+    .notice-header h1 {
+        font-size: 20px;
+        background-color: #576096;
+        padding: 15px 30px;
+        color: white;
+        border-radius: 30px;
+        box-shadow: inset 0 0 0 5px #F19B2A;
+        margin: 0;
+    }
+
+    .notice-row {
+        display: flex; /* 가로 배치 */
+        align-items: center; /* 세로 중앙 정렬 */
+        background-color: #FFFFFF; /* 배경 흰색 */
+        border: 1px solid #E0E0E0; /* 연한 테두리 */
+        border-radius: 30px; /* 둥근 모서리 */
+        padding: 10px; /* 내부 여백 */
+        margin-bottom: 10px; /* 항목 간 간격 */
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+        margin-top: 3%;
+    }
+
+    /* 각 항목의 공통 스타일 */
+    .notice-item {
+        overflow: hidden; /* 넘치는 내용 숨김 */
+        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+        text-overflow: ellipsis; /* 넘치는 텍스트는 ... 표시 */
+        padding: 0 10px; /* 좌우 여백 */
+    }
+
+    /* 열 별로 고정 너비 설정 */
+    .notice-title {
+        flex: 5; /* 제목의 너비 비율 */
+        text-align: center;
+    }
+
+    .notice-author {
+        flex: 1.5; /* 작성자의 너비 비율 */
+        text-align: center;
+    }
+
+    .notice-date {
+        flex: 2; /* 작성일의 너비 비율 */
+        text-align: center;
+    }
+
+    .notice-views {
+        flex: 1.5; /* 조회수의 너비 비율 */
+        text-align: center;
+        color: #ed8b04;
+    }
+    .question {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .question h3 {
+        margin-top: 0;
+    }
+
+    .choices {
+        margin: 10px 0;
+    }
+
+    .choices label {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .button-container-bottom {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        width: 100%;
+    }
+    .write-button {
+        text-decoration: none; /* 밑줄 제거 */
+        background-color: #F19B2A;
+        color: white;
+        border: none;
+        padding: 5px 25px;
+        border-radius: 30px;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* 그림자 효과 */
+        box-shadow: inset 0 0 0 5px #576096;
+        cursor: pointer;
+    }
+    .student-list {
+        list-style: none;
+        padding: 0;
+        max-height: 100%;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        background-color: white;
+        border-radius: 5px;
+    }
+
+    .student-list li {
+        padding: 15px; /* 항목 크기 증가 */
+        font-size: 18px; /* 글자 크기 증가 */
+        border-bottom: 1px solid #ddd; /* 각 항목 구분선 추가 */
+        text-align: center;
+    }
+
+    .student-list li:last-child {
+        border-bottom: none;
+    }
+
+    .details-btn {
+        display: block; /* 블록 요소로 변경하여 줄바꿈 */
+        margin-top: 8px;
+        background: #576096;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        text-decoration: none;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .details-btn:hover {
+        background: #394577;
+    }
+
+</style>
+
+<!-- 레이아웃 -->
+<div class="layout">
+    <!-- 사이드바 -->
+    <aside class="sidebar">
+        <div style="font-family: Hakgyo; background-color:#576096;border-radius: 30px; padding:5px 15px; border: 5px solid #F19B2A;"><h5 style="color: white">참여한 학생</h5></div>
+        <ul class="student-list">
+            {{#members}}
+                <li>
+                    <p style="font-size: 15px">{{schoolgrade}}학년 {{schoolClass}}반</p>
+                    <span>{{name}}</span>
+                    <a class="details-btn" href="/testResult/result/Detail?mid={{id}}&sid={{test.id}}">자세히 보기</a>
+                </li>
+            {{/members}}
+        </ul>
+    </aside>
+    <!-- 메인 콘텐츠 -->
+    <div class="main-content">
+        <div class="notice-container">
+            {{#test}}
+            <div class="notice-row">
+                <div class="notice-item notice-title">{{title}}</div>
+                <div class="notice-item notice-author">{{author}}</div>
+                <div class="notice-item notice-date">{{created}}</div>
+                <div class="notice-item notice-views">평균 점수 : {{meanScore}}점</div>
+            </div>
+                <div style="width: 100%; height: 100%; background-color: white; margin-top: 1%; padding: 15px; overflow: auto;">
+                    {{#questions}}
+                        <div class="question">
+                            <p style="font-weight: bold">문제: {{question}}</p>
+                            <p style="font-weight: bold; color:#576096 ">정답률: {{rate}}%</p>
+                            <div class="choices">
+                                {{#choices}}
+                                    <label>
+                                        <input type="radio" name="answer_{{question}}" value="{{.}}" />
+                                        {{.}}
+                                    </label>
+                                {{/choices}}
+                            </div>
+                            <p class="correct-answer" data-answer="{{answer}}" style="display: none;">정답: {{answer}}</p>
+                            <div class="explanation" style="display: none;">해설: {{explanation}}</div>
+                            <p class="result"></p> <!-- 정오 체크 표시 -->
+                        </div>
+                    {{/questions}}
+                </div>
+            {{/test}}
+        </div>
+    </div>
+</div>
+
+<script>
+    function navigateTo(url) {
+        window.location.href = url; // 클릭 시 URL로 이동
+    }
+
+    window.onload = function() {
+        if ({{saveCheck}}) {
+            // 이미 제출한 문제풀이일 경우
+            const questions = document.querySelectorAll(".question");
+            let sDiv = document.getElementById("submitDiv");
+            sDiv.style.display = "none";
+            questions.forEach((questionElem, index) => {
+                // 정답 및 해설 표시
+                questionElem.querySelector(".correct-answer").style.display = "block";
+                questionElem.querySelector(".explanation").style.display = "block";
+
+                // 라디오 버튼 비활성화
+                questionElem.querySelectorAll("input[type='radio']").forEach(radioBtn => {
+                    radioBtn.disabled = true;
+                });
+            });
+        }
+    };
+
+
+    function submitAnswers() {
+        let totalScore = 0;
+        let questions = document.querySelectorAll(".question");
+        let answersData = [];
+
+        // 문제마다 처리
+        questions.forEach((questionElem) => {
+            let selectedInput = questionElem.querySelector("input[type='radio']:checked");
+            let correctAnswer = questionElem.querySelector(".correct-answer").dataset.answer;
+            let explanationElem = questionElem.querySelector(".explanation");
+            let resultElem = questionElem.querySelector(".result");
+
+            // 선택되지 않은 경우
+            if (!selectedInput) {
+                resultElem.innerHTML = "❌ 선택하지 않음 (0점)";
+                resultElem.style.color = "red";
+            } else {
+                // 라디오 버튼의 순서 (index)를 가져와서 비교
+                let selectedAnswerIndex = Array.from(questionElem.querySelectorAll("input[type='radio']")).indexOf(selectedInput);
+
+                // 정답일 경우
+                if (Number(selectedAnswerIndex)+1 ===Number(correctAnswer)) {
+                    resultElem.innerHTML = "✅ 정답 (20점)";
+                    resultElem.style.color = "green";
+                    totalScore += 20;
+                } else {
+                    // 오답일 경우
+                    resultElem.innerHTML = "❌ 오답 (0점)";
+                    resultElem.style.color = "red";
+                }
+
+                // 채점 결과 저장
+                answersData.push({
+                    question: questionElem.querySelector("p").innerText.replace("문제: ", ""),
+                    selectedAnswer: selectedInput ? Number(selectedAnswerIndex)+1 : "미선택",
+                    correctAnswer: correctAnswer,
+                    score: Number(selectedAnswerIndex)+1 ===Number(correctAnswer) ? 20 : 0 // 정답 체크
+                });
+            }
+
+            // 정답 및 해설 표시
+            questionElem.querySelector(".correct-answer").style.display = "block";
+            explanationElem.style.display = "block";
+
+            questionElem.querySelectorAll("input[type='radio']").forEach(radioBtn => {
+                radioBtn.disabled = true; // 모든 라디오 버튼 비활성화
+            });
+        });
+
+        // 채점 결과 표시
+        alert("총점: " + totalScore + "점");
+
+        // 서버로 결과 전송
+        fetch('/board/testSave', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                score: totalScore,
+                memberId : "{{member.id}}",
+                testId : "{{test.id}}",
+                classId:"{{subjectId}}",
+                answers: answersData
+            })
+        })
+                .then(response => response.json())
+                .then(data => alert("채점 결과가 서버에 저장되었습니다."))
+                .catch(error => console.error("오류 발생:", error));
+    }
+
+    function deletePost() {
+        if (confirm("정말 삭제하시겠습니까?")) {
+            fetch(`/board/test/delete?num={{test.id}}`, {
+                method: "DELETE"
+            }).then(response => {
+                if (response.ok) {
+                    alert("삭제 완료!");
+                    window.location.href = `/board/testList?id={{subjectId}}`;
+                } else {
+                    alert("삭제 실패");
+                }
+            }).catch(error => console.error("Error:", error));
+        }
+    }
+</script>
+{{>footer}}
+

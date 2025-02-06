@@ -60,13 +60,12 @@ public class HomeController {
         }
         if(myTeacher != null) {
             model.addAttribute("teacherInfo", myTeacher);
-
-
             model.addAttribute("member", member);
             model.addAttribute("subjects", subjectsT);
             model.addAttribute("subLen", subjects.size());
             model.addAttribute("classBoard", ClassBoard5);
             model.addAttribute("teacher", member.getRole().equals("teacher"));
+            model.addAttribute("isTeacher", member.getRole().equals("teacher"));
 
             //헤더 있는페이지는 이거 필수
             Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());

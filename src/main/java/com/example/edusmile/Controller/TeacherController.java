@@ -63,6 +63,11 @@ public class TeacherController {
                 .thenComparing(Subject::getDivClass));
         List<MemberEntity> student = memberService.myStudent(member.getTeacherCode());
 
+        if(!subjects.isEmpty()){
+            model.addAttribute("firstSubject", subjects.get(0));
+        }else {
+            model.addAttribute("firstSubject", false);
+        }
         model.addAttribute("student", student);
         model.addAttribute("member", member);
         model.addAttribute("subjects", subjects);

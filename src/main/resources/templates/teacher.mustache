@@ -393,9 +393,11 @@
             <div class="card">
                 <h2 style="font-family:Hakgyo ">시험 결과 확인</h2>
                 <ul class="cardIn" style="padding: 5%">
-                    <li onclick="location.href='#'" style="cursor:pointer;">음성 상담 분석</li>
-                    <li onclick="location.href='#'" style="cursor:pointer;">상담 기록</li>
-                    <li onclick="location.href='#'" style="cursor:pointer;">학생 생활기록부 등록</li>
+                    <li style="background-color: transparent; box-shadow: none;"></li>
+                    {{#firstSubject}}
+                    <li onclick="location.href='/testResult/list?id={{firstSubject.id}}'" style="cursor:pointer;">과목별 시험 결과 확인</li>
+                    {{/firstSubject}}
+                    <li style="background-color: transparent; box-shadow: none;"></li>
                 </ul>
             </div>
 

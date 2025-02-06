@@ -1,9 +1,12 @@
 package com.example.edusmile.Service;
 
+import com.example.edusmile.Entity.FreeBoard;
 import com.example.edusmile.Entity.TestResult;
 import com.example.edusmile.Repository.TestResultRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -37,5 +40,9 @@ public class TestResultService {
 
     public void deleteByClassId(String classId) {
         testResultRepository.deleteByClassId(classId);
+    }
+
+    public Page<TestResult> findByClassId(String classId, Pageable pageable){
+        return testResultRepository.findByClassId(classId, pageable);
     }
 }
