@@ -26,15 +26,6 @@ public class AttendService {
         return repository.save(attend);
     }
 
-    public void memberDelete(Long memberId) {
-        List<Attend> attends = repository.findAll(); // 모든 Attend 데이터를 가져옴
-        for (Attend attend : attends) {
-            if (attend.getMember().getId().equals(memberId)) {
-                repository.delete(attend);  // 조건이 맞으면 삭제
-            }
-        }
-    }
-
     public void subjectDelete(String subjectId) {
         List<Attend> attends = repository.findAll(); // 모든 Attend 데이터를 가져옴
         for (Attend attend : attends) {
@@ -55,6 +46,11 @@ public class AttendService {
 
     public List<Attend> findByMemberId(Long memberId) {
         return repository.findByMember_Id(memberId);
+    }
+
+    public void memberDelete(Long memberId){
+        List<Attend> attends = repository.findByMember_Id(memberId);
+        repository.deleteAll(attends);
     }
 
     public List<Attend> findBySubjectId(String subjectId) {

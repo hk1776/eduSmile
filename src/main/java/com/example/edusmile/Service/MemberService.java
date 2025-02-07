@@ -47,6 +47,16 @@ public class MemberService {
     public void studentClassDel(Long id){
         Optional<MemberEntity> member = memberRepository.findById(id);
         member.get().setTeacherCode("&");
+        member.get().setSchoolClass(-1);
+        member.get().setSchoolgrade(-1);
+        memberRepository.save(member.get());
+    }
+
+    public void setSchool(MemberEntity teacher, long student){
+        Optional<MemberEntity> member = findById(student);
+        member.get().setTeacherCode(teacher.getTeacherCode());
+        member.get().setSchoolClass(teacher.getSchoolClass());
+        member.get().setSchoolgrade(teacher.getSchoolgrade());
         memberRepository.save(member.get());
     }
 

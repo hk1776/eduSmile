@@ -348,8 +348,8 @@
         </div>
 
         <div class="class-info">
-            <p style="font-family: Score5; font-size: 30px; color: black">담임 학급</p>
-            <div class="circle">1반<br>{{member.teacherCode}}
+            <p style="font-family: Score5; font-size: 30px; color: black;">담임 학급</p>
+            <div class="circle">{{member.schoolgrade}}학년 {{member.schoolClass}}반<br>{{member.teacherCode}}
             </div>
             <div class="text-button-container">
                 <span style="
@@ -519,7 +519,7 @@
 
 
     function deleteStudent(studentId, studentName) {
-        const confirmed = confirm(`${studentName} 학생을 반에서 제외하겠습니까?`);
+        const confirmed = confirm(`🚨[주의]\n${studentName} 학생을 반에서 제외하겠습니까? \n학생의 수강 목록이 초기화 됩니다.`);
         if (confirmed) {
             const form = document.getElementById("studentForm");
             const input = document.createElement("input");
