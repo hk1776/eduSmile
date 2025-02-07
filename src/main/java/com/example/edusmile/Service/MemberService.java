@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -60,6 +61,22 @@ public class MemberService {
         memberRepository.save(member.get());
     }
 
+    public void changeClass (long id,String school,int schoolgrade,int schoolClass){
+        Optional<MemberEntity> teacher = memberRepository.findById(id);
+
+        teacher.get().setSchool(school);
+        teacher.get().setSchoolgrade(schoolgrade);
+        teacher.get().setSchoolClass(schoolClass);
+        memberRepository.save(teacher.get());
+        List<MemberEntity> student = memberRepository.findByTeacherCodeTeacher(teacher.get().getTeacherCode(), "student");
+        for(MemberEntity member : student){
+            member.setSchool(school);
+            member.setSchoolgrade(schoolgrade);
+            member.setSchoolClass(schoolClass);
+            memberRepository.save(member);
+        }
+
+    }
 
 //    public void removeMemberFromSubject(Long memberId, String subjectId) {
 //        // Member와 Subject 조회

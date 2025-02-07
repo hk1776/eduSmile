@@ -303,13 +303,14 @@ public class TeacherController {
     }
 
 
-//    public boolean isValidMp3(File file) {
+    @PostMapping("/classManage")
+    public String classManage(@RequestParam Long id,
+                              @RequestParam String school,
+                              @RequestParam int schoolgrade,
+                              @RequestParam int schoolClass,
+                              RedirectAttributes redirectAttributes) {
+        memberService.changeClass(id, school, schoolgrade, schoolClass);
 
-//        try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file)) {
-//            AudioFormat format = audioInputStream.getFormat();
-//            return format != null && format.getEncoding() == AudioFormat.Encoding.PCM_SIGNED;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
+        return "redirect:/teacher"; // ✅ 변경 후 teacher 페이지로 리다이렉트
+    }
 }

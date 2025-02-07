@@ -115,8 +115,11 @@ public class TestResultController {
                     }
                 }
             }
-
+            model.addAttribute("meanScore", score/testResult.size());
+        }else{
+            model.addAttribute("meanScore", 0);
         }
+
         for(int i = 0 ;i<5;i++) {
             rate[i] = (rate[i]/testResult.size())*100;
         }
@@ -155,7 +158,6 @@ public class TestResultController {
 
         // 로그로 test.exam 정보 출력 (디버그용)
         log.info("test exam: {}", test.getExam());
-        model.addAttribute("meanScore", score/testResult.size());
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("member", member);
         model.addAttribute("members", members);

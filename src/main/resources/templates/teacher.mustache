@@ -205,17 +205,6 @@
         z-index: 1000;
     }
 
-
-    .overlay {
-        display: none; /* 숨겨진 상태로 시작 */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-    }
     .btnAll {
         background-color: #F19B2A;
         color: white;
@@ -347,6 +336,46 @@
             </div>
         </div>
 
+        <div class="popup" id="classManagePopup" style="display: none;">
+            <div style="background-color:#576096; width: 100%; height: 10%; color: white; font-family: Hakgyo; font-size: 25px; display: flex; align-items: center; padding: 10px;">
+                학급 정보 관리
+            </div>
+            <div style="display: flex; justify-content: center; width: 100%; padding-top: 20px;">
+                <form method="POST" action="/teacher/classManage" id="updateClass" style="padding: 20px; width: 80%;">
+
+                    <input type="hidden" name="id" value="{{member.id}}">
+
+                    <!-- 이름 입력 필드 (기존 데이터 미리 입력) -->
+                    <div style="margin-bottom: 15px;">
+                        <label for="name" style="font-size: 18px;">학교:</label>
+                        <input type="text" id="school" name="school" value="{{member.school}}" required
+                               style="width: 100%; padding: 10px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; text-align: center; outline: none;">
+                    </div>
+
+                    <!-- 학년 입력 필드 (기존 데이터 미리 입력) -->
+                    <div style="margin-bottom: 15px;">
+                        <label for="schoolGrade" style="font-size: 18px;">학년:</label>
+                        <input type="number" min="1" id="schoolgrade" name="schoolgrade" value="{{member.schoolgrade}}" required
+                               style="width: 100%; padding: 10px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; text-align: center; outline: none;">
+                    </div>
+
+                    <!-- 반 입력 필드 (기존 데이터 미리 입력) -->
+                    <div style="margin-bottom: 15px;">
+                        <label for="schoolClass" style="font-size: 18px;">반:</label>
+                        <input type="number" min="1" id="schoolClass" name="schoolClass" value="{{member.schoolClass}}" required
+                               style="width: 100%; padding: 10px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; text-align: center; outline: none;">
+                    </div>
+
+                    <!-- 수정 버튼 -->
+                    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 15px; margin-bottom: 15px;">
+                        <button type="button" id="deleteClosePopup" class="btnAll" onclick="classManageClose()">취소</button>
+                        <button type="submit" class="btnAll" style="margin-left: 15px;background: #EB6319">변경</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
         <div class="class-info">
             <p style="font-family: Score5; font-size: 30px; color: black;">담임 학급</p>
             <div class="circle">{{member.schoolgrade}}학년 {{member.schoolClass}}반<br>{{member.teacherCode}}
@@ -419,7 +448,7 @@
                 <ul class="cardIn" style="padding: 5%">
                     <li onclick="studentPopup()" style="cursor:pointer;"><div>학생 관리</div></li>
                     <li onclick="location.href='/myClass/list?id={{member.teacherCode}}'" style="cursor:pointer;">우리반 커뮤니티</li>
-                    <li style="background-color: transparent; box-shadow: none;"></li>
+                    <li onclick="classManagePopup()" style="cursor:pointer;"><div>학급 정보 관리</div></li>
                 </ul>
             </div>
         </div>
@@ -430,18 +459,12 @@
     var subLen = {{subLen}};
     document.getElementById('openPopup').addEventListener('click', function() {
         document.getElementById('popup').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
     });
 
     document.getElementById('closePopup').addEventListener('click', function() {
         document.getElementById('popup').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
     });
 
-    document.getElementById('overlay').addEventListener('click', function() {
-        document.getElementById('popup').style.display = 'none';
-        this.style.display = 'none';
-    });
 
     function checkSubjects() {
 
@@ -456,6 +479,13 @@
     }
     function studentClose(){
         document.getElementById('studentPopup').style.display = 'none';
+    }
+
+    function classManagePopup(){
+        document.getElementById('classManagePopup').style.display = 'block';
+    }
+    function classManageClose(){
+        document.getElementById('classManagePopup').style.display = 'none';
     }
 
     function toggleButtons(item) {
@@ -530,5 +560,35 @@
             form.submit();
         }
     }
+
+
+    document.getElementById("updateClass").addEventListener("submit", async function(event) {
+        event.preventDefault(); // 기본 제출 방지
+        if (!confirm("학급 정보를 변경하시겠습니까?")) {
+            console.log("사용자가 취소함");
+            return; // 사용자가 취소(Cancel)를 누르면 요청을 보내지 않음
+        }
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch(this.action, {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error("반 코드가 유효하지 않습니다.");ㄹ
+            }
+
+            const result = await response.json();
+
+            alert(result.message);
+            window.location.href = "/teacher"; // 변경 완료 후 페이지 이동
+
+        } catch (error) {
+            alert(error.message || "서버 요청에 실패했습니다.");
+        }
+    });
 </script>
 {{>footer}}
