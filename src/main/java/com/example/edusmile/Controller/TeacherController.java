@@ -53,6 +53,7 @@ public class TeacherController {
     private final SummaryService summaryService;
     private final TestService testService;
     private final TestResultService testResultService;
+    private final AttendService attendService;
 
     @GetMapping()
     public String home(@AuthenticationPrincipal UserDetails user, Model model) {
@@ -294,8 +295,9 @@ public class TeacherController {
     @PostMapping("/studentDel")
     public String studentDel(@RequestParam("studentId") Long id, Model model,@AuthenticationPrincipal UserDetails user) {
         log.info("받아온 값"+id);
-        MemberEntity member  = memberService.memberInfo(user.getUsername());
+
         memberService.studentClassDel(id);
+        attendService.memberDelete(id);
         model.addAttribute("message", "학생을 성공적으로 반에서 제외하였습니다!");
         return "redirect:/teacher"; // 리다이렉트할 URL
     }
