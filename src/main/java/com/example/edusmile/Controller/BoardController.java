@@ -281,7 +281,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= noticePage.getTotalPages(); i++) {
@@ -316,7 +316,7 @@ public class BoardController {
         model.addAttribute("my", my);
         //여기 까지
 
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
         Path dirPath = Paths.get(projectDir);
@@ -417,7 +417,7 @@ public class BoardController {
         model.addAttribute("my", my);
         //여기 까지
 
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= summaryPage.getTotalPages(); i++) {
@@ -449,7 +449,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         Summary summary = summaryService.findById(id);
         log.info("summary= {}",summary.getSummary());
@@ -477,7 +477,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= testPage.getTotalPages(); i++) {
@@ -511,7 +511,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         List<TestResult> testResult = testResultService.findByTestId(id);
         if (!testResult.isEmpty()) {
@@ -606,7 +606,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
@@ -645,7 +645,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 디렉토리가 존재하지 않으면 생성
         if (!Files.exists(dirPath)) {
             try {
@@ -702,7 +702,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         return "freeNew";
     }
     @PostMapping("/free/write")
@@ -767,7 +767,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         return "noticeNew";
     }
     @PostMapping("/notice/write")
@@ -835,7 +835,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
         Path dirPath = Paths.get(projectDir);
@@ -952,7 +952,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
         Path dirPath = Paths.get(projectDir);
@@ -1071,7 +1071,7 @@ public class BoardController {
         MemberEntity my = m.get();
         model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
         return "summaryUpdate";
     }
 

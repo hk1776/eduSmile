@@ -62,11 +62,11 @@ public class MyClassController {
 
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
-
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
@@ -75,6 +75,9 @@ public class MyClassController {
         }
         Integer prevPageNum = (freePage.hasPrevious()) ? page - 1 : null;
         Integer nextPageNum = (freePage.hasNext()) ? page + 1 : null;
+
+
+
 
         model.addAttribute("member", member);
         model.addAttribute("subjectId", subjectId);
@@ -101,10 +104,13 @@ public class MyClassController {
         Path dirPath = Paths.get(projectDir);
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
+
+
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         // 디렉토리가 존재하지 않으면 생성
         if (!Files.exists(dirPath)) {
@@ -158,10 +164,12 @@ public class MyClassController {
         model.addAttribute("member", member);
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
+
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         return "myClassNew";
     }
@@ -210,6 +218,7 @@ public class MyClassController {
             }
         }
 
+
         return "redirect:/myClass?id=" + free.getClassId() + "&num=" + save.getId();
     }
 
@@ -224,10 +233,12 @@ public class MyClassController {
         String uuid = free.getFile(); // 저장된 UUID 값
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
+        MemberEntity my = m.get();
+        model.addAttribute("my", my);
         //여기 까지
+
+        model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         // 파일이 저장된 디렉토리
         String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
