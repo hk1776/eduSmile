@@ -545,7 +545,7 @@
 
     {{#student }}
         <div class="main-box" >
-            <img class="blank_profile" src="{{img_path}}"
+            <img id="profile_Image" class="blank_profile" src="{{img_path}}"
                  onerror="this.src='/blank_profile/blank_profile.svg';" />
             <div class="name">{{name}} | 학생</div>
         </div>
@@ -665,7 +665,18 @@
             });
 
 
+
         });
+
+        var fileName = "{{#student}}{{img_path}}{{/student}}";
+
+        fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
+                .then(response => response.text())
+                .then(url => {
+                    document.getElementById("profile_Image").src = url;
+                })
+                .catch(error => console.error("Error loading image:", error));
+
 
         // 버튼 클릭 이벤트 리스너 추가
         document.querySelector(".show_recode").addEventListener("click", function () {

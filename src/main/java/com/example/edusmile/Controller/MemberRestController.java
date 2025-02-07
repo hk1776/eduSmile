@@ -8,8 +8,10 @@ import com.example.edusmile.Repository.AttendRepository;
 import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Repository.SubjectRepository;
 import com.example.edusmile.Service.AttendService;
+import com.example.edusmile.Service.BlobService;
 import com.example.edusmile.Service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -37,6 +39,8 @@ public class MemberRestController {
     private static final String UPLOAD_DIR = "C:/uploads/"; // 외부 폴더
     private final AttendRepository attendRepository;
     private final SubjectRepository subjectRepository;
+    private final BlobService blobService;
+
 
     @PostMapping("/uploadsprofile")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
@@ -45,6 +49,16 @@ public class MemberRestController {
             return ResponseEntity.badRequest().body("파일이 비어 있습니다.");
         }
 
+
+        try {
+            String fileUrl = blobService.uploadProfile(file,id);
+
+            return ResponseEntity.ok("File uploaded successfully: " + fileUrl);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
+        }
+
+        /*
         try {
 
             // 실제 저장 경로
@@ -90,6 +104,13 @@ public class MemberRestController {
             e.printStackTrace();
             return ResponseEntity.status(500).body("파일 업로드 중 오류 발생: " + e.getMessage());
         }
+
+         */
+    }
+
+    @GetMapping("/signed-url")
+    public String getSignedUrl(@RequestParam String fileName) {
+        return blobService.generateSignedUrl(fileName);
     }
 
     @GetMapping("/trueDeleteAccount")
@@ -105,6 +126,8 @@ public class MemberRestController {
             for(MemberEntity memberEntity : members)
             {
                 memberEntity.setTeacherCode("&");
+                memberEntity.setSchoolClass(-1);
+                memberEntity.setSchoolgrade(-1);
                 memberRepository.save(memberEntity);
             }
 

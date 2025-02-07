@@ -50,6 +50,8 @@
     position: absolute;
     left: 30vw;
     top: 12vw;
+    z-index: 3;
+    color:red;
 }
 .rectangle-3 {
     border-radius: 0px;

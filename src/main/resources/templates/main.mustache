@@ -364,6 +364,7 @@
 
                 <div class="info-content">
                     <img class="profile"
+                         id="profile_Image"
                          src=" {{teacherInfo.img_path}}"
                          onerror="this.src='/blank_profile/blank_profile.svg';" />
                     <div class="info" style="position: relative;left:4vw;">
@@ -438,6 +439,17 @@
             event.preventDefault();
             scrollContainer.scrollLeft += event.deltaY * 2; // 마우스 휠 속도 조절 (2배 빠르게)
         });
+
+        var fileName = "{{teacherInfo.img_path}}";
+
+        fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
+                .then(response => response.text())
+                .then(url => {
+                    document.getElementById("profile_Image").src = url;
+                })
+                .catch(error => console.error("Error loading image:", error));
+
+
     });
 
     function popup(){

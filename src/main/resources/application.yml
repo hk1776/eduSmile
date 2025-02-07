@@ -37,3 +37,5 @@ spring:
       path: /error  # 오류 경로 설정
       whitelabel:
         enabled: false  # 기본 오류 페이지 비활성화
+
+

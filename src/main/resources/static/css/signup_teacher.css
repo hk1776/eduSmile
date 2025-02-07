@@ -75,8 +75,8 @@
     position: absolute;
     left: 30vw;
     top: 12vw;
-    z-index: 2;
-    color:#e13652;
+    z-index: 3;
+    color:red;
 }
 .rectangle-3 {
     border-radius: 0px;

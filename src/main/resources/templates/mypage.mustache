@@ -246,7 +246,7 @@
 
     <div class="main-box" >
         {{#member}}
-            <img class="profile"
+            <img id="profile_Image" class="profile"
                  src="{{img_path}}"
             onerror="this.src='/blank_profile/blank_profile.svg';" />
         <div class="sub-box" >
@@ -293,6 +293,18 @@
         profileImage.src = `${imgPath}?t=${currentTimestamp}`; // 새로운 타임스탬프 추가
 
     });
+
+    var fileName = "{{#member}}{{img_path}}{{/member}}";
+
+    fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
+            .then(response => response.text())
+            .then(url => {
+                document.getElementById("profile_Image").src = url;
+            })
+            .catch(error => console.error("Error loading image:", error));
+
+
+
 
     const fileInput = document.getElementById('fileInput');
     const uploadButton = document.getElementById('uploadButton12');

@@ -43,7 +43,7 @@
                             <div class="user-info-right-column">
                                 <div style="text-align: center;">
                                     {{#my}}
-                                        <img  class="teacher-image" src="{{img_path}}" onerror="this.src='/blank_profile/blank_profile.svg';"
+                                        <img  id="profileImage" class="teacher-image" src="{{img_path}}" onerror="this.src='/blank_profile/blank_profile.svg';"
                                               alt="사용자 이미지" style="width: 5vw; height: 5vw; border-radius: 50%;">
                                         <div class="teacher-info" style="left:13.5vw; top:7vw">
                                             <p style="margin-bottom: 5px;margin-top: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{name}}</p>
@@ -66,7 +66,19 @@
         menu.classList.toggle('active');
     }
 
-    // Close dropdown when clicking outside
+    document.addEventListener("DOMContentLoaded", function() {
+
+        var fileName = "{{#my}}{{img_path}}{{/my}}";
+
+        fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
+                .then(response => response.text())
+                .then(url => {
+                    document.getElementById("profileImage").src = url;
+                })
+                .catch(error => console.error("Error loading image:", error));
+    });
+
+
     window.addEventListener('click', function(event) {
         const dropdown = document.querySelector('.user-info');
         const menu = document.getElementById('user-info-menu');

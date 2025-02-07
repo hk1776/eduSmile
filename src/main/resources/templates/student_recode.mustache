@@ -150,7 +150,7 @@
     <div class="div-choice" >학생 선택하기</div>
     <div class="main-box" >
         {{#students}}
-            <div  class="student-div" id="student"><img class="blank_profile"  src="{{img_path}}"
+            <div  class="student-div" id="student"><img id="profile_Image" class="blank_profile"  src="{{img_path}}"
                                                         onerror="this.src='/blank_profile/blank_profile.svg';" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0{{phoneNumber}}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{School}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{schoolClass}}반<a href="/teacher/student_recode/{{id}}" id="edit-button" class="edit-button">등록하기</a></div>
         {{/students}}
@@ -174,6 +174,16 @@
 
 
         }
+
+        var fileName = "{{#students}}{{img_path}}{{/students}}";
+
+        fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
+                .then(response => response.text())
+                .then(url => {
+                    document.getElementById("profile_Image").src = url;
+                })
+                .catch(error => console.error("Error loading image:", error));
+
 
         // 처음 로드 시와 화면 크기가 변경될 때마다 업데이트
         updatePositions();
