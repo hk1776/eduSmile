@@ -9,6 +9,7 @@ import com.example.edusmile.Repository.SubjectRepository;
 import com.example.edusmile.Service.FreeBoardService;
 import com.example.edusmile.Service.MemberService;
 import com.example.edusmile.Service.SubjectService;
+import com.example.edusmile.Service.VisitorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class HomeController {
     private final MemberRepository memberRepository;
     private final SubjectService subjectService;
     private final FreeBoardService freeBoardService;
+    private final VisitorService visitorService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -68,6 +70,7 @@ public class HomeController {
         model.addAttribute("my", my);
 
         if(myTeacher != null) {
+            visitorService.increaseVisitorCount();
             model.addAttribute("teacherInfo", myTeacher);
             model.addAttribute("subjects", subjectsT);
             model.addAttribute("subLen", subjects.size());

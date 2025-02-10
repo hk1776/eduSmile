@@ -1,6 +1,7 @@
 package com.example.edusmile.Controller;
 import com.example.edusmile.Config.ClovaSpeechClient;
 import com.example.edusmile.Dto.Classification;
+import com.example.edusmile.Entity.ClassLog;
 import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Entity.Subject;
 import com.example.edusmile.Repository.MemberRepository;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -54,6 +56,7 @@ public class TeacherController {
     private final TestService testService;
     private final TestResultService testResultService;
     private final AttendService attendService;
+    private final ClassLogService classLogService;
 
     @GetMapping()
     public String home(@AuthenticationPrincipal UserDetails user, Model model) {
@@ -118,9 +121,6 @@ public class TeacherController {
         if(!member.getRole().equals("teacher")) {
             return "main";
         }else {
-            if (!Objects.equals(file.getContentType(), "audio/mp3")) {
-                log.info("파일 형식 에러" + file.getContentType());
-            }
             log.info("파일 이름 = {} 파일 정보 = {} 파일 사이즈 = {} 파일 타입 = {}",file.getOriginalFilename(), file.getContentType(), file.getSize(),file.getContentType());
             String projectDir = Paths.get(System.getProperty("user.dir"), "file", "audio").toString();
 //            File directory = new File(projectDir);
@@ -188,6 +188,15 @@ public class TeacherController {
             String uploadedFileName = file.getOriginalFilename();
 
             try (Stream<Path> files = Files.list(dirPath)) {
+                ClassLog classLog= new ClassLog();
+                classLog.setTeacherId(member.getId());
+                classLog.setTeacherName(member.getName());
+                classLog.setSchoolName(member.getSchool());
+                classLog.setPhoneNumber(member.getPhoneNumber());
+                classLog.setDate(LocalDate.now());
+                classLog.setFileSize(getFileSizeReadable(file.getSize()));
+                classLogService.save(classLog);
+
                 files
                         .map(Path::getFileName)
                         .map(Path::toString)
@@ -247,7 +256,6 @@ public class TeacherController {
         if (lastMember != null) {
             model.addAttribute("member", lastMember);
         }
-
         return "classResult";
     }
 
@@ -312,5 +320,15 @@ public class TeacherController {
         memberService.changeClass(id, school, schoolgrade, schoolClass);
 
         return "redirect:/teacher"; // ✅ 변경 후 teacher 페이지로 리다이렉트
+    }
+
+    public static String getFileSizeReadable(long size) {
+        if (size >= 1024 * 1024) {
+            return String.format("%.2f MB", size / (1024.0 * 1024.0));
+        } else if (size >= 1024) {
+            return String.format("%.2f KB", size / 1024.0);
+        } else {
+            return size + " bytes";
+        }
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -77,6 +79,47 @@ public class MemberService {
         }
 
     }
+
+    public int memberCnt(){
+        return memberRepository.findAll().size();
+    }
+
+    public int schoolCnt(){
+        HashSet<String> schools = new HashSet<>();
+        memberRepository.findAll()
+                .forEach(member -> schools.add(member.getSchool()));
+        return schools.size();
+    }
+    public int teacherCnt(){
+        HashSet<String> teachers = new HashSet<>();
+        memberRepository.findAll()
+                .forEach(member -> teachers.add(member.getTeacherCode()));
+
+        return teachers.size();
+    }
+    public int studentCnt(){
+        HashSet<Long> students = new HashSet<>();
+        List<MemberEntity> all = memberRepository.findAll();
+        for(MemberEntity member : all){
+            if(member.getRole().equals("student")){
+                students.add(member.getId());
+            }
+        }
+        return students.size();
+    }
+
+    public int adminCnt(){
+        HashSet<Long> students = new HashSet<>();
+        List<MemberEntity> all = memberRepository.findAll();
+        for(MemberEntity member : all){
+            if(member.getRole().equals("admin")){
+                students.add(member.getId());
+            }
+        }
+        return students.size();
+    }
+
+
 
 //    public void removeMemberFromSubject(Long memberId, String subjectId) {
 //        // Member와 Subject 조회
