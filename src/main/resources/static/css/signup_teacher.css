@@ -176,6 +176,26 @@
     overflow: visible;
     z-index: 2;
 }
+.agree-check{
+    position: absolute;
+    top:30.3vw;
+    left:68vw;
+    z-index:3;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    width:15vw;
+    height: 5vw;
+    font-size:1vw;
+}
+.agree-check2{
+    position: absolute;
+    top:50.3vw;
+    left:68vw;
+    z-index:3;
+    width:15vw;
+    height: 3vw;
+    font-family: "SCoreDream-5Medium", sans-serif;
+    font-size:1vw;
+}
 .main-box {
     background: rgba(255, 254, 253, 0.95);
     border-radius: 20px;
@@ -206,7 +226,7 @@
     width: 20vw;
     height: 3vw;
     left: 58vw;
-    top: 50vw;
+    top: 52vw;
     z-index: 2;
 }
 .back-btn {
@@ -371,15 +391,45 @@
     border-radius: 15px; /* 테두리를 둥글게 */
     border: 2px solid #000000; /* 얇은 테두리 라인 */
     width: 25vw; /* 너비 */
-    height: 32vw; /* 높이 */
+    height: 15vw; /* 높이 */
     position: absolute; /* 절대 위치 */
     left: 55vw; /* 왼쪽 위치 */
     top: 15vw; /* 위쪽 위치 */
-    overflow: visible; /* 넘치는 내용 표시 */
+    overflow: auto; /* 넘치는 내용 표시 */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
     padding: 10px;
     z-index: 2;
 }
+.rectangle-1063 {
+    font-size:1vw;
+    font-family: "Score4" ,sans-serif ;
+    background: #FFFDFD; /* 배경색 */
+    color: #000000; /* 텍스트 색상 */
+    border-radius: 15px; /* 테두리를 둥글게 */
+    border: 2px solid #000000; /* 얇은 테두리 라인 */
+    width: 25vw; /* 너비 */
+    height: 15vw; /* 높이 */
+    position: absolute; /* 절대 위치 */
+    left: 55vw; /* 왼쪽 위치 */
+    top: 35vw; /* 위쪽 위치 */
+    overflow: visible; /* 넘치는 내용 표시 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    padding: 10px;
+    z-index: 2;
+    overflow: auto;
+}
+.div02 {
+    color: #4b4b4b;
+    text-align: left;
+    font-family: "SCore6", sans-serif;
+    font-size: 1.5vw;
+    font-weight: 800;
+    position: absolute;
+    left: 55vw;
+    top: 32vw;
+    z-index: 2;
+}
+
 .div9 {
     color: #4b4b4b;
     text-align: left;
