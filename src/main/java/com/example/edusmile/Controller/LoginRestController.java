@@ -22,7 +22,7 @@ public class LoginRestController {
     @PostMapping("/user/tcode")
     public String receiveString(@RequestBody String text) {          //학생 회원가입시 교사코드 인증하기
 
-        System.out.println(text+"1234");
+
         List<MemberEntity> members = memberRepository.findByTeacherCodeTeacher(text , "teacher");
 
         if(members.isEmpty()) {

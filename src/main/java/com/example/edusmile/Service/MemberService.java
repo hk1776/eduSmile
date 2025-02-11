@@ -6,6 +6,7 @@ import com.example.edusmile.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,6 +20,7 @@ import java.util.*;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final AttendService attendService;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public MemberEntity memberInfo(String loginId) {
         Optional<MemberEntity> member = memberRepository.findByloginId(loginId);
@@ -119,6 +121,30 @@ public class MemberService {
         return students.size();
     }
 
+    public boolean findByLoginId(String loginId) {
+
+        if(memberRepository.findByloginId(loginId).isEmpty())
+            return false;
+        else
+            return true;
+    }
+
+
+    public void saveAdmin(String adminId , String admimPassword,String Role)
+    {
+        MemberEntity admin = new MemberEntity();
+        admin.setLoginId(adminId);
+        admin.setRole("ADMIN");
+        admin.setName("ADMIN");
+        admin.setPhoneNumber(9999999999L);
+        admin.setSchool("ADMIN");
+        admin.setSchoolgrade(-1);
+        admin.setSchoolClass(-1);
+        admin.setImg_path("1234");
+        admin.setPassword(encoder.encode(admimPassword));
+
+        memberRepository.save(admin);
+    }
 
 
 //    public void removeMemberFromSubject(Long memberId, String subjectId) {

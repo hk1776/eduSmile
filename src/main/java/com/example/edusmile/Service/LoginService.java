@@ -42,6 +42,7 @@ public class LoginService {
 
             memberDto.setTeacherCode(result.toString());
             MemberEntity tm = memberDto.toEntity();
+            System.out.println(tm.getPassword());
             tm.setImg_path("blank_profile.svg");
             memberRepository.save(tm);
             return true;
