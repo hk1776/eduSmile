@@ -146,6 +146,17 @@ public class MemberService {
         memberRepository.save(admin);
     }
 
+    public List<MemberEntity> findAll(){
+        return memberRepository.findAll();
+    }
+
+    public void updateUserRole(Long memberId, String newRole) {
+        MemberEntity member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+
+        member.setRole(newRole);
+        memberRepository.save(member);
+    }
 
 //    public void removeMemberFromSubject(Long memberId, String subjectId) {
 //        // Member와 Subject 조회
