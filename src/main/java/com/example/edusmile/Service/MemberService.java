@@ -114,7 +114,7 @@ public class MemberService {
         HashSet<Long> students = new HashSet<>();
         List<MemberEntity> all = memberRepository.findAll();
         for(MemberEntity member : all){
-            if(member.getRole().equals("admin")){
+            if(member.getRole().equals("ADMIN")){
                 students.add(member.getId());
             }
         }
