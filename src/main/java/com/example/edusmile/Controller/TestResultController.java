@@ -250,7 +250,7 @@ public class TestResultController {
         model.addAttribute("sid",sid);
         model.addAttribute("result", result);
         model.addAttribute("saveCheck", saveCheck);
-        model.addAttribute("subjectId", sid);
+        model.addAttribute("subjectId", test.getClassId());
         model.addAttribute("member", member);
         model.addAttribute("tester", tester.get());
         model.addAttribute("test", test);

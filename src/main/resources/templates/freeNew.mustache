@@ -18,7 +18,8 @@
                 <input type="hidden" name="classId" value="{{subjectId}}">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;width: 100%;border-radius: 20px;background-color: white; padding: 5px">
                     <label for="title" style="padding-left: 20px;">제목 :</label>
-                    <input type="text" id="title" name="title" required style="flex: 1;border:none; outline: none;width: 80%;padding-left: 10px;border-radius: 20px ">
+                    <input type="text" id="title" name="title" maxlength="99" required style="flex: 1;border:none; outline: none;width: 80%;padding-left: 10px;border-radius: 20px ">
+                    <span id="titleCount" style="color: #939393">0/100</span>
                 </div>
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;width: 100%; border-radius: 20px;background-color: white; padding: 5px">
                     <div style="display: flex; align-items: center; flex: 1;padding-left: 20px;padding-right: 20px;">
@@ -53,6 +54,13 @@
     function navigateTo(url) {
         window.location.href = url; // 클릭 시 URL로 이동
     }
+
+    const input = document.getElementById("title");
+    const titleCount = document.getElementById("titleCount");
+
+    input.addEventListener("input", () => {
+        titleCount.textContent = `${input.value.length}/100`;
+    });
 </script>
 {{>footer}}
 

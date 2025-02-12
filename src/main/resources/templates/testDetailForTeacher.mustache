@@ -13,10 +13,10 @@
         <div style="font-family: Hakgyo; background-color:#576096;border-radius: 30px; padding:5px 15px; border: 5px solid #F19B2A;"><h5 style="color: white">참여한 학생</h5></div>
         <ul class="student-list">
             {{#members}}
-                <li>
-                    <p style="font-size: 15px">{{schoolgrade}}학년 {{schoolClass}}반</p>
+                <li class="student-item" data-id="{{id}}">
+                    <p class="grade-info" style="font-size: 15px">{{schoolgrade}}학년 {{schoolClass}}반</p>
                     <span>{{name}}</span>
-                    <a class="details-btn" href="/testResult/result/Detail?mid={{id}}&sid={{test.id}}">자세히 보기</a>
+                    <a class="details-btn"  href="/testResult/result/Detail?mid={{id}}&sid={{test.id}}">자세히 보기</a>
                 </li>
             {{/members}}
         </ul>
@@ -24,6 +24,9 @@
     <!-- 메인 콘텐츠 -->
     <div class="main-content">
         <div class="notice-container">
+            <div style="align-self: flex-start;">
+                <a class="details-btn"  href="/testResult/list?id={{subjectId}}"> 시험 목록 보러가기</a>
+            </div>
             {{#test}}
             <div class="notice-row">
                 <div class="notice-item notice-title">{{title}}</div>
@@ -59,13 +62,19 @@
     function navigateTo(url) {
         window.location.href = url; // 클릭 시 URL로 이동
     }
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".student-item").forEach(item => {
+            const gradeText = item.querySelector(".grade-info");
+            if (gradeText && gradeText.textContent.includes("-1")) {
+                gradeText.style.display = "none";
+            }
+        });
+    });
 
     window.onload = function() {
         if ({{saveCheck}}) {
             // 이미 제출한 문제풀이일 경우
             const questions = document.querySelectorAll(".question");
-            let sDiv = document.getElementById("submitDiv");
-            sDiv.style.display = "none";
             questions.forEach((questionElem, index) => {
                 // 정답 및 해설 표시
                 questionElem.querySelector(".correct-answer").style.display = "block";
@@ -129,40 +138,8 @@
             });
         });
 
-        // 채점 결과 표시
-        alert("총점: " + totalScore + "점");
-
-        // 서버로 결과 전송
-        fetch('/board/testSave', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                score: totalScore,
-                memberId : "{{member.id}}",
-                testId : "{{test.id}}",
-                classId:"{{subjectId}}",
-                answers: answersData
-            })
-        })
-                .then(response => response.json())
-                .then(data => alert("채점 결과가 서버에 저장되었습니다."))
-                .catch(error => console.error("오류 발생:", error));
     }
 
-    function deletePost() {
-        if (confirm("정말 삭제하시겠습니까?")) {
-            fetch(`/board/test/delete?num={{test.id}}`, {
-                method: "DELETE"
-            }).then(response => {
-                if (response.ok) {
-                    alert("삭제 완료!");
-                    window.location.href = `/board/testList?id={{subjectId}}`;
-                } else {
-                    alert("삭제 실패");
-                }
-            }).catch(error => console.error("Error:", error));
-        }
-    }
 </script>
 {{>footer}}
 

@@ -69,22 +69,25 @@ public class HomeController {
         Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
         MemberEntity my = m.get();
         model.addAttribute("my", my);
+        if(member.getRole().equals("ADMIN")) {
+            return "redirect:/admin";
+        }else{
+            if(myTeacher != null) {
+                visitorService.increaseVisitorCount();
+                model.addAttribute("teacherInfo", myTeacher);
+                model.addAttribute("subjects", subjectsT);
+                model.addAttribute("subLen", subjects.size());
+                model.addAttribute("classBoard", ClassBoard5);
+                model.addAttribute("teacher", member.getRole().equals("teacher"));
+                model.addAttribute("isTeacher", member.getRole().equals("teacher"));
 
-        if(myTeacher != null) {
-            visitorService.increaseVisitorCount();
-            model.addAttribute("teacherInfo", myTeacher);
-            model.addAttribute("subjects", subjectsT);
-            model.addAttribute("subLen", subjects.size());
-            model.addAttribute("classBoard", ClassBoard5);
-            model.addAttribute("teacher", member.getRole().equals("teacher"));
-            model.addAttribute("isTeacher", member.getRole().equals("teacher"));
-
-            log.info("member: {}", member.getName());
-            return "main";
-        }else {
-
-            return "noClass";
+                log.info("member: {}", member.getName());
+                return "main";
+            }else {
+                return "noClass";
+            }
         }
+
     }
     @PostMapping("/submitClass")
     public ResponseEntity<Map<String, String>> submitClassMember(@RequestParam String classId,
