@@ -38,6 +38,8 @@ public class SMSController {
     public int sendOne(@RequestBody String phoneNumber) {
         System.out.println("Sending message");
 
+
+
         Message message = new Message();
         SecureRandom secureRandom = new SecureRandom();
         int code = 100000 + secureRandom.nextInt(900000);

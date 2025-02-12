@@ -277,14 +277,14 @@ public class CounselController {
 
         MemberEntity member = memberService.memberInfo(user.getUsername());
 
-        
+
 
         //헤더 있는페이지는 이거 필수
         List<MemberEntity> listteacher = memberService.FindbyRoleTcode("teacher",member.getTeacherCode());
         MemberEntity teacher = listteacher.get(0);
         model.addAttribute("class-teacher", teacher);
         //여기 까지
-        List<MemberEntity> students = memberService.FindbyRoleTcode("teacher",member.getTeacherCode());
+        List<MemberEntity> students = memberService.FindbyRoleTcode("student",member.getTeacherCode());
 
         model.addAttribute("students", students);
 

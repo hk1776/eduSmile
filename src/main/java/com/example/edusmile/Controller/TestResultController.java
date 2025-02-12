@@ -52,6 +52,8 @@ public class TestResultController {
         MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
+
+        model.addAttribute("teacher", member.getRole().equals("teacher"));
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= testPage.getTotalPages(); i++) {
@@ -93,6 +95,7 @@ public class TestResultController {
         //여기 까지
 
 
+        model.addAttribute("teacher", member.getRole().equals("teacher"));
         List<TestResult> testResult = testResultService.findByTestId(id);
         int score = 0;
         double []rate = {0,0,0,0,0};
@@ -183,6 +186,7 @@ public class TestResultController {
         model.addAttribute("my", my);
         //여기 까지
 
+        model.addAttribute("teacher", member.getRole().equals("teacher"));
         Optional<MemberEntity> tester = memberService.findById(mid);
         List<TestResult> testResult = testResultService.findByTestId(sid);
         List<MemberEntity>members = new ArrayList<>();
