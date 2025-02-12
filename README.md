@@ -35,3 +35,26 @@
 
 
 ## </u> 🧐Project Objectives
+
+
+
+
+## </u> 💻System Design
+ ### Tech Stack
+
+
+
+ ### System Requirements
+ ![Image](https://github.com/user-attachments/assets/d5cb4c78-565e-4043-8bef-257692ef497c)
+
+
+
+## </u> 📲Result
+ ### 사용 기술
+ ![Image](https://github.com/user-attachments/assets/60fbbead-0552-4254-ad12-90198979c64d)
+ ![Image](https://github.com/user-attachments/assets/4e1260c5-3fe2-4e2a-bf01-9f55a60439db)
+ ![Image](https://github.com/user-attachments/assets/231f288c-54f4-4cb8-828c-4552465c26f2)
+
+
+
+ 
