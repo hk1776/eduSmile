@@ -49,12 +49,14 @@
             <div class="info-box">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h2 style="margin: 0 0 10px 0;font-size: 1.3em;font-weight: bold; color: #576096;font-family: Hakgyo">학교 & 학급 정보</h2>
+                    {{^isTeacher}}
                     <button onclick="confirmChange('{{member.id}}')"
                             style="background-color: #576096; color: white; border: none;font-family: Score4;
                             border-radius: 5px; cursor: pointer; display: flex; justify-content: center; align-items: center;
                             text-align: center; padding: 5px;font-size: 13px; margin-bottom: 5px;">
                         재설정
                     </button>
+                    {{/isTeacher}}
                 </div>
                 <div class="info-content" >
                     <p style="font-size: 1.2em; font-weight: bold; color: #333;">🏫 {{member.school}}</p>
