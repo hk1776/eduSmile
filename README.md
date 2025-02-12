@@ -24,8 +24,7 @@
             </td>
             <td>
               <ul>
-                  <li>백엔드</li>
-                  <li>프론트엔드</li>
+                  <li>Full-stack</li>
               </ul>
             </td>
         </tr>
