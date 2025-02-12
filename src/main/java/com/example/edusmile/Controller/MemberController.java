@@ -80,7 +80,7 @@ public class MemberController {
         model.addAttribute("my", my);
         //여기 까지
 
-        return "deleteaccount";
+        return "deleteAccount";
     }
 
 

@@ -29,6 +29,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .sessionManagement(session -> session
+                        .invalidSessionUrl("/user/login") // 세션 만료 시 로그인 페이지로 이동
+                )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers( "/user/**", "/h2-console/**","/fonts/**","/").permitAll()  // 특정 URL 접근 허용
