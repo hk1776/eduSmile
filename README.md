@@ -1,8 +1,10 @@
+![AI 20조 썸네일](https://github.com/user-attachments/assets/751af4bc-d885-40b9-95b4-aeda6d770586)
+
 
 **KT AIVLE School 빅 프로젝트**
 <br>
 제작기간 : 2025.1.2~2025.2.17
-![AI 20조 썸네일](https://github.com/user-attachments/assets/751af4bc-d885-40b9-95b4-aeda6d770586)
+
 
 ## <u>👨‍🔧Team
  ### AI트랙 충남/충북 20조
