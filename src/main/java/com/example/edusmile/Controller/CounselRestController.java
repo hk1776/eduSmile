@@ -165,7 +165,7 @@ public class CounselRestController {
         counselService.upload_pdf(file,studentId);
 
 
-        return ResponseEntity.ok("{\"message\": \"생활기록부 분석시 5분정도 소요됩니다.\"}");
+        return ResponseEntity.ok("{\"message\": \"분석은 약 5분 정도 소요되며, 진행되는 동안 다른 작업을 자유롭게 하실 수 있습니다.\"}");
     }
 
 
