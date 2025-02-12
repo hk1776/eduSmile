@@ -20,15 +20,86 @@
       <tr>
             <td>강홍규</td>
             <td>  
-                조장
+                조장, 서버 개발
             </td>
             <td>
               <ul>
                   <li>Full-stack</li>
+                  <li>서비스 배포</li>
               </ul>
             </td>
         </tr>
-       
+        <tr>
+            <td>김대길</td>
+            <td>  
+               서버 개발
+            </td>
+            <td>
+              <ul>
+                  <li>Full-stack</li>
+                  <li>보안</li>
+              </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>김규원</td>
+            <td>  
+                서버 개발
+            </td>
+            <td>
+              <ul>
+                  <li>Back End</li>
+                  <li>데이터 수집</li>
+              </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>김지섭</td>
+            <td>  
+                AI 개발
+            </td>
+            <td>
+              <ul>
+                  <li>모델 튜닝</li>
+                  <li>배포</li>
+              </ul>
+            </td>
+        </tr>
+        <tr>
+          <td>김강용</td>
+            <td>  
+                 AI 개발
+            </td>
+            <td>
+              <ul>
+                  <li>모델 튜닝</li>
+                  <li>데이터 수집</li>
+              </ul>
+            </td>
+        </tr>
+        <tr>
+          <td>남윤주</td>
+            <td>  
+                디자인, 영상 제작
+            </td>
+            <td>
+              <ul>
+                  <li>웹 디자인</li>
+                  <li>소개 영상 제작</li>
+              </ul>
+            </td>
+        </tr>
+      <tr>
+          <td>신성호</td>
+            <td>  
+                디자인
+            </td>
+            <td>
+              <ul>
+                  <li>Front End</li>
+              </ul>
+            </td>
+        </tr>
     </tbody>
 </table>
 
