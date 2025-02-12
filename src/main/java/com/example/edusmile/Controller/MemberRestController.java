@@ -34,12 +34,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberRestController {
 
-    private final MemberRepository memberRepository;
-    private final AttendService attendService;
+
     private static final String UPLOAD_DIR = "C:/uploads/"; // 외부 폴더
-    private final AttendRepository attendRepository;
-    private final SubjectRepository subjectRepository;
+
     private final BlobService blobService;
+    private final MemberService memberService;
 
 
     @PostMapping("/uploadsprofile")
@@ -58,54 +57,6 @@ public class MemberRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("File upload failed.");
         }
 
-        /*
-        try {
-
-            // 실제 저장 경로
-            String basePath = UPLOAD_DIR+"profile_img/";
-            File directory = new File(basePath);
-
-            // 디렉토리 존재 여부 확인 및 생성
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-
-
-            // 파일 저장 경로
-            String originalFilename = file.getOriginalFilename();
-            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String filePath = basePath + id+extension;
-            System.out.println(filePath);
-
-            File existFile = new File(filePath);
-            if (existFile.exists()) {
-                System.out.println("!");
-                if (existFile.delete()) {
-                    System.out.println("기존 파일 삭제 성공");
-                } else {
-                    System.out.println("기존 파일 삭제 실패");
-                }
-            }
-
-
-            file.transferTo(new File(filePath));
-
-
-            MemberEntity member = memberRepository.findById(id).orElse(null);
-
-            member.setImg_path("/profile_img/"+id+extension);
-
-            memberRepository.save(member);
-
-            return ResponseEntity.ok("파일 업로드 성공: " + filePath);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("파일 업로드 중 오류 발생: " + e.getMessage());
-        }
-
-         */
     }
 
     @GetMapping("/signed-url")
@@ -116,48 +67,9 @@ public class MemberRestController {
     @GetMapping("/trueDeleteAccount")
     public ResponseEntity<String> deleteAccount(@AuthenticationPrincipal User user) {
 
-        Optional<MemberEntity> mem = memberRepository.findByloginId(user.getUsername());
-        MemberEntity member = mem.get();
+        MemberEntity member = memberService.memberInfo(user.getUsername());
 
-        if(member.getRole().equals("teacher"))
-        {
-            List<MemberEntity> members = memberRepository.findByRoleAndTeacherCode("student",member.getTeacherCode());
-
-            for(MemberEntity memberEntity : members)
-            {
-                memberEntity.setTeacherCode("&");
-                memberEntity.setSchoolClass(-1);
-                memberEntity.setSchoolgrade(-1);
-                memberRepository.save(memberEntity);
-            }
-
-            List<Subject> subjects = subjectRepository.findSubjectByTeacherId(member.getId());
-
-            System.out.println(subjects.size());
-
-            for(Subject subject : subjects)
-            {
-                String subjectcode = subject.getId();
-
-                attendRepository.deleteAttendBySubjectId(subjectcode);
-
-            }
-            for(Subject subject : subjects)
-            {
-                String subjectcode = subject.getId();
-
-                subjectRepository.deleteSubjectById(subjectcode);
-
-
-            }
-
-            memberRepository.deleteById(member.getId());
-
-        }
-        else if(member.getRole().equals("student"))
-        {
-            memberRepository.delete(member);
-        }
+        memberService.deleteAccount(member);
 
 
 

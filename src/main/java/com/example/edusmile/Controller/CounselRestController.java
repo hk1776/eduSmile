@@ -6,6 +6,7 @@ import com.example.edusmile.Entity.MemberEntity;
 import com.example.edusmile.Repository.CounselRepository;
 import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Service.CounselService;
+import com.example.edusmile.Service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.core.io.ByteArrayResource;
@@ -31,11 +32,11 @@ import java.util.*;
 public class CounselRestController {
 
 
-    private final MemberRepository memberRepository;
 
-    private final CounselRepository counselRepository;
 
     private final CounselService counselService;
+
+    private final MemberService memberService;
 
     public  String escapeJsonString(String input) {
         return input.replace("\"", "\\\"")
@@ -47,13 +48,13 @@ public class CounselRestController {
 
     @GetMapping("/api/counsel/{CounselId}")
     public ResponseEntity<String> getStudentCounsel(@PathVariable Long CounselId) {
-        CounselEntity counselEntity = counselRepository.findById(CounselId).orElse(null);
+        CounselEntity counselEntity = counselService.getCounselById(CounselId);
         String counsel1 = counselEntity.getCounsel();
 
-        Optional<MemberEntity> mem = memberRepository.findByloginId(counselEntity.getLoginId());
-        MemberEntity member = mem.get();
+        MemberEntity member = memberService.memberInfo(counselEntity.getLoginId());
 
-        List<CounselEntity> recode = counselRepository.duplicateContent_loginId(member.getLoginId(),"record");
+
+        List<CounselEntity> recode = counselService.getCounselsOrRecode(member.getLoginId(),"record");
 
         String c = "";
         String answerJson = "";
@@ -83,7 +84,6 @@ public class CounselRestController {
             answer[2] = answer[2].substring(6);
 
 
-                System.out.println(answer[0]);
             // 각 항목을 이스케이프 처리
 
               escapedAnswer0 = escapeJsonString(answer[0]);
@@ -105,27 +105,25 @@ public class CounselRestController {
     @GetMapping("/api/record/{studentId}")
     public ResponseEntity<String[]> getStudentRecord(@PathVariable Long studentId) {
 
-        MemberEntity member = memberRepository.findById(studentId).orElse(null);
-        System.out.println(member.toString());
-        List<CounselEntity> counsel = counselRepository.findCounsel(member.getLoginId(),"record");
+        Optional<MemberEntity> mem = memberService.findById(studentId);
+        if(mem.isPresent()) {
+            MemberEntity member =mem.get();
+            List<CounselEntity> counsel = counselService.getCounselsOrRecode(member.getLoginId(),"record");
+            String c = counsel.get(0).getCounsel();
 
-        String c = counsel.get(0).getCounsel();
-        System.out.println(c);
+            String[] answer = new String[3];
 
-        String[] answer = new String[3];
+            answer[0] = c.split(" 8\\.")[0];
+            answer[1] = c.split(" 9\\.")[0].split(" 8\\.")[1];
+            answer[1] = answer[1].substring(6);
+            answer[2] = c.split(" 9\\.")[1];
+            answer[2] = answer[2].substring(6);
 
-        answer[0] = c.split(" 8\\.")[0];
-        answer[1] = c.split(" 9\\.")[0].split(" 8\\.")[1];
-        answer[1] = answer[1].substring(6);
-        answer[2] = c.split(" 9\\.")[1];
-        answer[2] = answer[2].substring(6);
+            return ResponseEntity.ok(answer);
+        }
+        else
+            return null;
 
-
-
-        // JSON 객체로 응답을 반환
-
-
-        return ResponseEntity.ok(answer);
     }
 
     @Transactional
@@ -134,7 +132,7 @@ public class CounselRestController {
 
         LocalDate today = LocalDate.now();
 
-        MemberEntity member = memberRepository.findById(id).orElse(null);
+        MemberEntity member = memberService.findById(id).get();
 
         CounselEntity counsel = new CounselEntity();
 
@@ -144,7 +142,8 @@ public class CounselRestController {
         counsel.setType("counsel");
         counsel.setTitle("상담 : " + today);
         counsel.setLoginId(member.getLoginId());
-        counselRepository.save(counsel);
+        counselService.saveCounsel(counsel);
+
         return ResponseEntity.ok("ok");
     }
 

@@ -26,7 +26,7 @@ import java.util.Optional;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
+
     private final AttendService attendService;
     private final SubjectService subjectService;
 
@@ -40,9 +40,9 @@ public class MemberController {
         model.addAttribute("member", member);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
         model.addAttribute("st", member.getRole().equals("student"));
+
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 
@@ -54,9 +54,8 @@ public class MemberController {
     @PostMapping("/member/mypage/classAdd")
     public String classAdd(@AuthenticationPrincipal UserDetails user, @RequestParam("subject") String subject, Model model) {
 
-        Optional<MemberEntity> mem = memberRepository.findByloginId(user.getUsername());
+       MemberEntity member = memberService.memberInfo(user.getUsername());
 
-        MemberEntity member = mem.get();
 
         Optional<Subject> sub = subjectService.findById(subject);
 
@@ -77,8 +76,7 @@ public class MemberController {
         model.addAttribute("st", member.getRole().equals("student"));
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 

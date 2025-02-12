@@ -44,9 +44,9 @@ import java.util.stream.Stream;
 public class MyClassController {
     private final MemberService memberService;
     private final FreeBoardService freeBoardService;
-    private final MemberRepository memberRepository;
+
     private final SubjectService subjectService;
-    private final AttendRepository attendRepository;
+
     private final AttendService attendService;
 
     @GetMapping("/list")
@@ -62,8 +62,7 @@ public class MyClassController {
 
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
         model.addAttribute("teacher",member.getRole().equals("teacher"));
@@ -104,11 +103,9 @@ public class MyClassController {
         Path dirPath = Paths.get(projectDir);
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
-
 
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
@@ -164,8 +161,7 @@ public class MyClassController {
         model.addAttribute("member", member);
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 
@@ -233,8 +229,7 @@ public class MyClassController {
         String uuid = free.getFile(); // 저장된 UUID 값
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 

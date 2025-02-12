@@ -22,8 +22,7 @@ import java.util.List;
 public class LoginController {
 
     private final LoginService loginService;
-    private final MemberRepository memberRepository;
-    private final MemberService memberService;
+
 
     @GetMapping("/user/login")
     public String login(@RequestParam(value = "error", required = false) String error, Model model) {
@@ -89,7 +88,7 @@ public class LoginController {
     @PostMapping("/user/findLoginId/find")
     public String findLoginId(@ModelAttribute FindIdDto findIdDto, RedirectAttributes rttr) {
 
-        List<MemberEntity> members = memberRepository.findByNameAndPhoneNumber(findIdDto.getName(), findIdDto.getPhoneNumber());
+        List<MemberEntity> members = loginService.FindByNamePhone(findIdDto.getName(), findIdDto.getPhoneNumber());
         rttr.addFlashAttribute("members", members);
 
         if(members.isEmpty())
@@ -119,7 +118,7 @@ public class LoginController {
     @PostMapping("/user/reset_password/find")
     public String reset_password(@ModelAttribute FindPWDto findPWDto, RedirectAttributes rttr) {
 
-        List<MemberEntity> members = memberRepository.findByIDAndNameAndPhoneNumber(findPWDto.getLoginId(), findPWDto.getName(), findPWDto.getPhoneNumber());
+        List<MemberEntity> members = loginService.FindByIdNamePhone(findPWDto.getLoginId(), findPWDto.getName(), findPWDto.getPhoneNumber());
         rttr.addFlashAttribute("members", members);
 
         if(members.isEmpty())

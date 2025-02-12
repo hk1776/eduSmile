@@ -1,0 +1,306 @@
+/* 컨테이너 스타일 */
+.container {
+    background-color: #F6E1A0;
+    padding: 25px;
+    width: 100%;
+    max-width: 1300px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin: 0 auto 30px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap; /* 반응형 */
+}
+
+
+/* 정보 블록 */
+.info-box {
+    width: 45%;
+    text-align: center;
+}
+
+.info-box h2 {
+    color: #576096;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.info-content {
+    background: white;
+    padding: 20px;
+    height: 60%;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+
+/* 카드 레이아웃 */
+.grid {
+    display: grid;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr); /* 2열 */
+    gap: 20px;
+}
+
+.card {
+    background-color: #F6E1A0;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+
+    min-height: 350px; /* 일정한 높이 유지 */
+    height: auto;
+    justify-content: flex-start; /* 위쪽 정렬 */
+    align-items: stretch; /* 내부 요소 너비 조정 */
+}
+.card h2 {
+    font-family: "Hakgyo", sans-serif;
+    font-size: 1.3em;
+    color: #576096;
+    margin-bottom: 15px;
+}
+
+.cardIn {
+    width: 100%;
+    padding: 0;
+    margin-top: 10px; /* 제목과 간격 조정 */
+    flex-grow: 1; /* 리스트가 빈 공간을 차지하도록 설정 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.cardIn li {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: space-between; /* 좌우 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 */
+    margin: 5px 0; /* 항목 간 간격 */
+    cursor: pointer;
+}
+.cardIn li.empty {
+    justify-content: center; /* 중앙 정렬 */
+    text-align: center;
+}
+
+.cardIn a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.cardIn a:hover {
+    color: #576096;
+    text-decoration: underline;
+}
+.scroll-container {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    height: 100%;
+    padding: 10px 0;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #576096 transparent; /* Firefox */
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+    white-space: nowrap; /* 가로 스크롤 유지 */
+}
+
+.scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: #576096;
+    border-radius: 4px;
+}
+
+.scroll-card {
+    position: relative; /* 버튼 위치를 카드 내부 기준으로 설정 */
+    flex: 0 0 auto;
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    transition: transform 0.2s ease-in-out;
+    text-align: center;
+}
+
+.scroll-card:hover {
+    transform: translateY(-5px);
+}
+
+.scroll-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #576096;
+}
+
+.scroll-card a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.scroll-card a:hover {
+    color: #576096;
+}
+.title {
+    background-color: #576096;
+    color: white;
+    border: 5px solid #F19B2A;
+    border-radius: 30px;
+    width: 15%;
+    margin-bottom: 15px;
+    padding: 5px;
+    text-align: center;
+    font-family: Score6;
+    font-size: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.title-text {
+    font-weight: bold;
+    color: #333;
+    font-family: Score5;
+}
+
+.date-text {
+    font-size: 0.9em;
+    color: #576096;
+}
+.popup {
+    display: none; /* 숨겨진 상태로 시작 */
+    position: fixed;
+    width: 50%;
+    min-height: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.btnAll {
+    background-color: #F19B2A;
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Score6', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* 호버 효과 및 애니메이션 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.btnSearch {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px; /* 크기 일정하게 유지 */
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+    height: 40px; /* input과 동일한 높이 설정 */
+    display: flex;
+    align-items: center; /* 버튼 내부 텍스트를 수직 중앙 정렬 */
+    justify-content: center; /* 버튼 내부 텍스트를 수평 중앙 정렬 */
+}
+
+.btnSearch:hover {
+    background: #2980b9;
+}
+
+.btnSearch:active {
+    background: #1f6692;
+}
+
+/* 장바구니 리스트 크기 조정 */
+#cartList {
+    list-style: none;
+    padding: 0;
+    max-height: 150px; /* 높이 고정 */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .info-box {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: 1fr; /* 한 줄 */
+    }
+
+}
+.info-content {
+    background: white;
+    padding: 20px;
+    height: 60%;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;  /* 부모 요소는 상대 위치 설정 */
+}
+
+.profile {
+    position: absolute;  /* 부모 요소 내에서 절대 위치 설정 */
+    border: 0.1vw solid #1E2D84;
+    width: 15%;
+    height: 60%;
+    border-radius: 50%;
+    left: 20%;  /* 부모의 왼쪽에서 일정한 위치 */
+    top: 50%;  /* 부모의 수직 중앙 */
+    transform: translateY(-50%);  /* 수직으로 정확히 중앙 정렬 */
+}
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.7); /* 기본적으로 반투명 */
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    padding: 3px 7px;
+    font-size: 12px;
+    border-radius: 15%;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.delete-btn:hover {
+    background: #ff4d4d;
+    color: white;
+}

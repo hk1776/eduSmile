@@ -33,7 +33,7 @@ import java.util.*;
 @RequestMapping("/testResult")
 public class TestResultController {
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
+
     private final SubjectService subjectService;
     private final TestResultService testResultService;
     private final TestService testService;
@@ -49,11 +49,9 @@ public class TestResultController {
         Page<Test>testPage  = testService.findByClassId(subjectId, pageable);
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
-
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
         for (int i = 1; i <= testPage.getTotalPages(); i++) {
@@ -90,8 +88,7 @@ public class TestResultController {
         Test test = testService.findById(id);
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 
@@ -182,8 +179,7 @@ public class TestResultController {
         List<Integer> selects = new ArrayList<>();
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 

@@ -24,7 +24,7 @@ import java.util.*;
 @RequestMapping("/notice") // 공지사항 관련 경로
 public class NoticeController {
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
+
     // 공지사항 목록 페이지
     @GetMapping
     public String getNoticeList(
@@ -37,9 +37,8 @@ public class NoticeController {
         model.addAttribute("member", member);
         model.addAttribute("teacher", member.getRole().equals("teacher"));
 
-        //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        ///헤더 있는페이지는 이거 필수
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 

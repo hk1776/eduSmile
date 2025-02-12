@@ -1,0 +1,137 @@
+.ai-020,
+.ai-020 * {
+    box-sizing: border-box;
+}
+.ai-020 {
+    background: #fcf2d4;
+    height: 50vw;
+    position: relative;
+    overflow: hidden;
+}
+.left-box {
+    width: 15vw; /* 가로 길이 */
+    height: 47vw; /* 세로 길이 */
+    background-color: #F6E1A0; /* 배경색 (임의 지정) */
+    border-radius: 15px; /* 모서리를 둥글게 */
+    margin-top: 1.5vw; /* 위쪽 마진 */
+    margin-bottom: 1.5vw; /* 아래쪽 마진 */
+    margin-left: 1vw; /* 왼쪽 마진 0으로 설정 */
+    margin-right: 0; /* 오른쪽 마진 0으로 설정 */
+    box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.teacher-button
+{
+    background: #576096;
+    border-radius: 30px;
+    font-family: "Score6", sans-serif;
+    font-size:1.3vw;
+    color:#FFFFFF;
+    border-style: solid;
+    border-color: #f19b2a;
+    border-width: 0.5vw;
+    width: 10vw;
+    height: 5vw;
+    left:3.5vw;
+    top:5vw;
+    position: absolute;
+    box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.div-choice{
+    border-radius: 30px;
+    border-style: solid;
+    background: #f19b2a;
+    font-family: "Score6", sans-serif;
+    font-size:1.3vw;
+    color:#FFFFFF;
+    border-width: 0.2vw;
+    width: 11vw;
+    height: 3vw;
+    left:18vw;
+    top: 2.6vw;
+    position: absolute;
+    display: flex;               /* Flexbox를 사용하여 내부 콘텐츠를 중앙 정렬 */
+    justify-content: center;     /* 수평 중앙 정렬 */
+    align-items: center;         /* 수직 중앙 정렬 */
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.main-box {
+    border-radius: 30px;
+    background: #F6E1A0;
+    font-family: "Score6", sans-serif;
+    font-size: 1.3vw;
+    border-width: 0.2vw;
+    width: 78vw;  /* 너비를 vw로 설정 */
+    height: 41.5vw;  /* 높이를 vh로 설정 */
+    left: 18vw;  /* 좌측 위치를 vw로 설정 */
+    top: 7vw;    /* 상단 위치를 vh로 설정 */
+    position: absolute;
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    justify-content: flex-start;  /* 위에서부터 정렬 */
+    align-items: center;  /* 가로 중앙 정렬 */
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+    padding-top: 2vh; /* 상단 여백을 vh로 설정 */
+}
+
+.student-div {
+    border-style: solid;
+    text-decoration: none;
+    border-radius: 15px;
+    background: #FFFFFF;
+
+    font-family: "Score6", sans-serif;
+    font-size: 1.3vw;
+    border-color: #576096;
+    color: #000000;
+    border-width: 0.2vw;
+    width: 60vw;  /* 너비를 vw로 설정 */
+    height: 4vw;  /* 높이를 vh로 설정 */
+    margin-top: 4vw;  /* 세로 간격을 vh로 설정 */
+    display: flex;
+    padding-left:3vw;
+    justify-content: left;
+    align-items: center;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.btlogin
+{
+    font-size: 1.3vw;
+    text-decoration: none; /* 밑줄 없애기 */
+    color: inherit;        /* 텍스트 색상을 부모 요소의 색상으로 상속 */
+    left: 17vw;
+    top: 53vw;
+}
+.blank_profile{
+    height: 3vw;
+    width: 3vw;
+    border: 0.1vw solid #576096; /* 테두리 두께와 색상 설정 */
+
+}
+.edit-button{
+    border-radius: 30px;
+    border-style: solid;
+    background: #f19b2a;
+    font-family: "Score6", sans-serif;
+    font-size:1.3vw;
+    color:#FFFFFF;
+    border-width: 0.2vw;
+    width: 10vw;
+    height: 2.5vw;
+    text-decoration: none; /* 밑줄 없애기 */
+    left:45vw;
+    top: 0.5vw;
+    position: absolute;
+    display: flex;               /* Flexbox를 사용하여 내부 콘텐츠를 중앙 정렬 */
+    justify-content: center;     /* 수평 중앙 정렬 */
+    align-items: center;         /* 수직 중앙 정렬 */
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.back-btn{
+    color:#908282;
+    font-size: 1.3vw;
+    text-decoration: none; /* 밑줄 없애기 */
+    left: 2vw;
+    top: 46vw;
+    position: absolute;
+}

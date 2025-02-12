@@ -1,0 +1,517 @@
+.ai-020,
+.ai-020 * {
+    box-sizing: border-box;
+}
+.ai-020 {
+    background: #fcf2d4;
+    height: 57vw;
+    position: relative;
+    overflow: hidden;
+    z-index:1;
+}
+.left-box {
+    width: 15vw; /* 가로 길이 */
+    height: 54vw; /* 세로 길이 */
+    background-color: #F6E1A0; /* 배경색 (임의 지정) */
+    border-radius: 15px; /* 모서리를 둥글게 */
+    margin-top: 1.5vw; /* 위쪽 마진 */
+    margin-bottom: 1.5vw; /* 아래쪽 마진 */
+    margin-left: 1vw; /* 왼쪽 마진 0으로 설정 */
+    margin-right: 0; /* 오른쪽 마진 0으로 설정 */
+    box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.teacher-button
+{
+    background: #576096;
+    border-radius: 30px;
+    font-family: "Score6", sans-serif;
+    font-size:1.3vw;
+    color:#FFFFFF;
+    border-style: solid;
+    border-color: #f19b2a;
+    border-width: 0.5vw;
+    width: 10vw;
+    height: 5vw;
+    left:3.5vw;
+    top:5vw;
+    position: absolute;
+    box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.main-box {
+    border-radius: 30px;
+    background: #F6E1A0;
+    font-family: "Score6", sans-serif;
+    font-size: 1.3vw;
+    border-width: 0.2vw;
+    width: 78vw;  /* 너비를 vw로 설정 */
+    height: 8vw;  /* 높이를 vh로 설정 */
+    left: 18vw;  /* 좌측 위치를 vw로 설정 */
+    top: 1.5vw;    /* 상단 위치를 vh로 설정 */
+    position: absolute;
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    justify-content: flex-start;  /* 위에서부터 정렬 */
+    align-items: center;  /* 가로 중앙 정렬 */
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+    padding-top: 2vh; /* 상단 여백을 vh로 설정 */
+}
+.btlogin
+{
+    font-size: 1.3vw;
+    text-decoration: none; /* 밑줄 없애기 */
+    color: inherit;        /* 텍스트 색상을 부모 요소의 색상으로 상속 */
+    left: 17vw;
+    top: 53vw;
+}
+.blank_profile
+{
+    height: 6vw;
+    width: 6vw;
+    border: 0.3vw solid #1E2D84;
+    left:5vw;
+    top:1vw;
+    position:absolute;
+    border-radius: 50%;
+}
+.name{
+    font-family: "Score6", sans-serif;
+    font-size:2.5vw;
+    color: #1E2D84;
+    left:15vw;
+    top: 2vw;
+    position:absolute;
+}
+.back-btn{
+    color:#908282;
+    font-size: 1.3vw;
+    text-decoration: none; /* 밑줄 없애기 */
+    left: 2vw;
+    top: 50vw;
+    position: absolute;
+}
+.m-box{
+    border: 0.5vw solid #E1B86A;
+    border-radius: 15px;
+    padding: 1vw;
+    text-align: center;
+    background-color: #E1B86A;
+    justify-content: center;   /* 수평 중앙 정렬 */
+    align-items: center;       /* 수직 중앙 정렬 */
+    color: #666;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-size: 3vw;
+    width: 78vw;
+    height: 44.5vw;
+    margin: 1VW auto;
+    position: absolute;
+    left:18vw;
+    top:10vw;
+    transition: background-color 0.3s;
+    overflow-y:auto;
+    z-index:1;
+}
+.file_drag {
+    border: 0.5vw solid #FFFAEB;
+    border-radius: 15px;
+    padding: 1vw;
+    text-align: center;
+    background-color: #FFFAEB;
+    justify-content: center;   /* 수평 중앙 정렬 */
+    align-items: center;       /* 수직 중앙 정렬 */
+    color: #666;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-size: 3vw;
+    width: 74vw;
+    height: 39.5vw;
+    margin: 1VW auto;
+    position: absolute;
+    left:20vw;
+    top:12vw;
+    transition: background-color 0.3s;
+    overflow-y:auto;
+    z-index:1;
+}
+
+.file_drag.dragover {
+    background-color: #e0ffe0;
+    border-color: #2ecc71;
+
+}
+
+.file_list_header {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+}
+.plz_drag
+{
+    display: flex;             /* Flexbox 사용 */
+    justify-content: center;   /* 수평 중앙 정렬 */
+    align-items: center;       /* 수직 중앙 정렬 */
+    text-align: center;        /* 텍스트 중앙 정렬 */
+    font-family: "SCore5", sans-serif;
+    font-size:2vw;
+    margin-top: 15vw;
+}
+.file_list_header_task button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #f00;
+    cursor: pointer;
+}
+
+.file_list_header_title, .file_list_header_volume {
+    display: inline-block;
+    z-index:3;
+}
+
+#fileList {
+    list-style: none;
+    padding: 0;
+    overflow-y:auto;
+    margin: 10px 0 0 0;
+}
+
+#fileList li {
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc;
+    position: absolute;
+    left:1vw;
+    top:24vw;
+    width:71vw;
+}
+.file-div
+{
+    position:absolute;
+    left:0vw;
+    top:0vw;
+}
+.file-select-1{
+    position: absolute;
+    font-size: 1.5vw;
+    font-family: "SCore5", sans-serif;
+    background-color: #576096;
+    color: white;
+    border: 7px solid #FB9C1F; /* 주황색 테두리 설정 */
+    border-radius: 30px;       /* 둥근 테두리 설정 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 15vw;
+    height: 4vw;
+    left: 40vw;
+    top: 33vw;
+    z-index: 2;
+}
+.file-select-2{
+    position: absolute;
+    font-size: 1.5vw;
+    font-family: "SCore5", sans-serif;
+    background-color: #576096;
+    color: white;
+    border: 0.5vw solid #FB9C1F; /* 주황색 테두리 설정 */
+    border-radius: 30px;       /* 둥근 테두리 설정 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 15vw;
+    height: 4vw;
+    left: 72vw;
+    top: 5.2vw;
+    z-index: 2;
+}
+.send{
+
+    position: absolute;
+    left: 57vw;
+    top: 33vw;
+    background: #f19b2a;
+    border-radius: 30px;
+    border-style: solid;
+    border-color: #576096;
+    border-width: 7px;
+    width: 15vw;
+    height: 4vw;
+    font-family: "SCore5", sans-serif;
+    font-size:1.5vw;
+    display: flex; /* 플렉스 박스 활성화 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: bold;
+    color: white;
+    z-index: 2;
+}
+
+.file{
+    border-radius: 15px;
+    border-color:#E1B86A;
+    width: 10vw;
+    height: 3vw;
+    border:1px;
+    position: absolute;
+    font-family: "Hakgyo", sans-serif;
+    font-size: 1.2vw;
+    overflow: visible;
+    left:75vw;
+    top:8.5vw;
+    z-index: 0;
+    background-color:#E1B86A;
+}
+.show{
+    border-radius: 15px;
+    border-color:#7E5200;
+    width: 10vw;
+    height: 3vw;
+    border:1px;
+    position: absolute;
+    font-family: "Hakgyo", sans-serif;
+    font-size: 1.5vw;
+    overflow: visible;
+    left:85vw;
+    top:8.5vw;
+    z-index: 0;
+    background-color:#7E5200;
+}
+/* 클릭한 버튼 색상 */
+.file.active {
+    background-color: #7E5200;
+}
+
+.show.active {
+    background-color: #E1B86A;
+}
+.show_counsel{
+    border: 0.5vw solid #FFFAEB;
+    border-radius: 15px;
+    padding: 1vw;
+    overflow: auto;
+    font-size: 1vw;
+    background-color: #FFFAEB;
+    justify-content: center;   /* 수평 중앙 정렬 */
+    align-items: center;       /* 수직 중앙 정렬 */
+    color: #666;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: left;
+    width: 35vw;
+    height: 15vw;
+    margin: 1VW auto;
+    position: absolute;
+    left:20vw;
+    top:16vw;
+    transition: background-color 0.3s;
+    z-index:1;
+
+}
+.show_counsel2{
+    border: 0.5vw solid #FFFAEB;
+    border-radius: 15px;
+    padding: 1vw;
+    overflow: auto;
+    font-size: 1vw;
+    background-color: #FFFAEB;
+    justify-content: center;   /* 수평 중앙 정렬 */
+    align-items: center;       /* 수직 중앙 정렬 */
+    color: #666;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: left;
+    width: 35vw;
+    height: 15vw;
+    margin: 1VW auto;
+    position: absolute;
+    left:58vw;
+    top:16vw;
+    transition: background-color 0.3s;
+    z-index:1;
+
+}
+.show_counsel3{
+    border: 0.5vw solid #FFFAEB;
+    border-radius: 15px;
+    padding: 1vw;
+    overflow: auto;
+    font-size: 1vw;
+    background-color: #FFFAEB;
+    justify-content: center;   /* 수평 중앙 정렬 */
+    align-items: center;       /* 수직 중앙 정렬 */
+    color: #666;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: left;
+    width: 35vw;
+    height: 15vw;
+    margin: 1VW auto;
+    position: absolute;
+    left:20vw;
+    top:38vw;
+    transition: background-color 0.3s;
+    z-index:1;
+
+}
+.show_counsel4{
+    border: 0.5vw solid #FFFAEB;
+    border-radius: 15px;
+    padding: 1vw;
+    overflow: auto;
+    font-size: 1vw;
+    background-color: #FFFAEB;
+    justify-content: center;   /* 수평 중앙 정렬 */
+    align-items: center;       /* 수직 중앙 정렬 */
+    color: #666;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    text-align: left;
+    width: 35vw;
+    height: 15vw;
+    margin: 1VW auto;
+    position: absolute;
+    left:58vw;
+    top:38vw;
+    transition: background-color 0.3s;
+    z-index:1;
+
+}
+.side-box {
+    background-color: #FCF2D4;
+
+    border-radius: 30px;
+
+    width: 10vw;
+    height: 30vw;
+    margin: 20px 20px;
+    overflow-y: auto;
+    top:12vw;
+    left:2.5vw;
+    padding: 20px;
+    display: flex; /* 플렉스박스 활성화 */
+    flex-direction: column; /* 자식 요소를 수직으로 정렬 */
+    justify-content: flex-start; /* 위쪽 정렬 */
+    align-items: center; /* 좌우 기준으로 중앙 정렬 */
+    gap: 20px; /* 항목 간 간격 추가 */
+    box-sizing: border-box;
+    position: absolute; /* 브라우저 창 기준으로 위치 설정 */
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+}
+.show_recode{
+    font-family: "Score6", sans-serif;
+    background-color:#FFFFFF;
+    height:4vw;
+    width:5vw;
+    font-size:0.7vw;
+    border-radius: 15px;
+    border-color:#FFFFFF;
+    outline:none !important;
+
+    border: none !important;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.show_counsels{
+    font-family: "Score6", sans-serif;
+    background-color:#FFFFFF;
+    height:3vw;
+    width:5vw;
+
+    left:1vw;
+    top:3vw;
+    font-size:0.7vw;
+    border-radius: 15px;
+    border-color:#FFFFFF;
+    outline:none !important;
+
+    border: none !important;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.recode_name{
+    background: #f19b2a;
+    border-radius: 15px;
+    width: 16vw;
+    height: 3.5vw;
+    position: relative;
+    box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+    left:0.7vw;
+    top:-0.7vw;
+    font-size: 2vw;
+    font-family: Hakgyo;
+    line-height: 3.5vw; /* height 값과 동일하게 설정 */
+    color:#FFFFFF;
+
+}
+.recode_name1{
+    background: #f19b2a;
+    border-radius: 15px;
+    width: 13vw;
+    height: 3.5vw;
+    position: relative;
+    box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+    left:38.7vw;
+    top:-4vw;
+    font-size: 2vw;
+    font-family: Hakgyo;
+    line-height: 3.5vw; /* height 값과 동일하게 설정 */
+    color:#FFFFFF;
+
+}
+.recode_name2{
+    background: #f19b2a;
+    border-radius: 15px;
+    width: 12vw;
+    height: 3.5vw;
+    position: relative;
+    box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+    left:0.7vw;
+    top:14vw;
+    font-size: 2vw;
+    font-family: Hakgyo;
+    line-height: 3.5vw; /* height 값과 동일하게 설정 */
+    color:#FFFFFF;
+
+}
+.recode_name3{
+    background: #f19b2a;
+    border-radius: 15px;
+    width: 12vw;
+    height: 3.5vw;
+    position: relative;
+    box-shadow: 0px 3px 5.8px 0px rgba(0, 0, 0, 0.25);
+    left:38.7vw;
+    top:10.5vw;
+    font-size: 2vw;
+    font-family: Hakgyo;
+    line-height: 3.5vw; /* height 값과 동일하게 설정 */
+    color:#FFFFFF;
+
+}
+.custom_font {
+    font-family: Hakgyo, sans-serif; /* 원하는 폰트 설정 */
+    font-weight: bold; /* 필요하면 추가 */
+    color: #576096; /* 색상 변경 가능 */
+    top:0vw;
+    left:1vw;
+    position: absolute;
+    font-size: 1.5vw;
+
+}
+.show_counsel2_sub
+{
+    position: absolute;
+    top: 2.3vw;
+}
+.show_counsel3_sub
+{
+    position: absolute;
+    top: 2.3vw;
+}
+.show_counsel4_sub
+{
+    position: absolute;
+    top: 3.3vw;
+}
+.show_counsel1_sub
+{
+    position: absolute;
+    top: 3.3vw;
+}

@@ -1,0 +1,44 @@
+.subject-text {
+    font-family: Score8;
+    color: #429115;
+    font-size: 25px;
+    text-align: center;
+}
+
+/* 완료 메시지 스타일 */
+.success-message {
+    font-family: Score5;
+    color: black;
+    font-size: 25px;
+    text-align: center;
+}
+
+/* 버튼 컨테이너 스타일 */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #F6E1A0;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+.custom-button {
+    background-color: white;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Hakgyo;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.custom-button:hover {
+    background-color: #ddd;
+}

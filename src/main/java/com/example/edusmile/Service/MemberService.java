@@ -2,7 +2,9 @@ package com.example.edusmile.Service;
 
 import com.example.edusmile.Dto.BoardDTO;
 import com.example.edusmile.Entity.*;
+import com.example.edusmile.Repository.AttendRepository;
 import com.example.edusmile.Repository.MemberRepository;
+import com.example.edusmile.Repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,7 +22,58 @@ import java.util.*;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final AttendService attendService;
+    private final SubjectRepository subjectRepository;
+    private final AttendRepository attendRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    public void deleteAccount(MemberEntity member){
+
+        if(member.getRole().equals("teacher"))
+        {
+            List<MemberEntity> members = FindbyRoleTcode("student",member.getTeacherCode());
+
+            for(MemberEntity memberEntity : members)
+            {
+                memberEntity.setTeacherCode("&");
+                memberEntity.setSchoolClass(-1);
+                memberEntity.setSchoolgrade(-1);
+                memberRepository.save(memberEntity);
+            }
+
+            List<Subject> subjects = subjectRepository.findSubjectByTeacherId(member.getId());
+
+            System.out.println(subjects.size());
+
+            for(Subject subject : subjects)
+            {
+                String subjectcode = subject.getId();
+
+                attendRepository.deleteAttendBySubjectId(subjectcode);
+
+            }
+            for(Subject subject : subjects)
+            {
+                String subjectcode = subject.getId();
+
+                subjectRepository.deleteSubjectById(subjectcode);
+
+
+            }
+
+            memberRepository.deleteById(member.getId());
+
+        }
+        else if(member.getRole().equals("student"))
+        {
+            memberRepository.delete(member);
+        }
+    }
+    public List<MemberEntity> FindbyRoleTcode(String Role, String Tcode){
+
+        List<MemberEntity> students = memberRepository.findByRoleAndTeacherCode(Role,Tcode);  //자기반학생찾기
+
+        return students;
+    }
 
     public MemberEntity memberInfo(String loginId) {
         Optional<MemberEntity> member = memberRepository.findByloginId(loginId);

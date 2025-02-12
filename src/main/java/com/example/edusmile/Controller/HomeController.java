@@ -64,6 +64,7 @@ public class HomeController {
             subjectT.setTeacher(teacher.get());
             subjectsT.add(subjectT);
         }
+
         model.addAttribute("member", member);
         Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
         MemberEntity my = m.get();

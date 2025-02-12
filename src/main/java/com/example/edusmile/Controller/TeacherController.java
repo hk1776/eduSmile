@@ -46,9 +46,8 @@ import java.util.stream.Stream;
 @RequestMapping("/teacher")
 public class TeacherController {
     private final MemberService memberService;
-    private final PostService postService;
     private final SubjectService subjectService;
-    private final MemberRepository memberRepository;
+
 
     private final NoticeService noticeService;
     private final FreeBoardService freeBoardService;
@@ -79,8 +78,7 @@ public class TeacherController {
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 
@@ -98,8 +96,7 @@ public class TeacherController {
         model.addAttribute("teacher",member.getRole().equals("teacher"));
 
         //헤더 있는페이지는 이거 필수
-        Optional<MemberEntity> m= memberRepository.findByloginId(user.getUsername());
-        MemberEntity my = m.get();
+        MemberEntity my= memberService.memberInfo(user.getUsername());
         model.addAttribute("my", my);
         //여기 까지
 
@@ -265,9 +262,8 @@ public class TeacherController {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
         //헤더 있는페이지는 이거 필수
-        List<MemberEntity> listteacher = memberRepository.findByTeacherCodeTeacher(member.getTeacherCode(),"teacher");
-        MemberEntity teacher = listteacher.get(0);
-        model.addAttribute("class-teacher", teacher);
+        MemberEntity my= memberService.memberInfo(user.getUsername());
+        model.addAttribute("my", my);
         //여기 까지
 
         int gradeId = Integer.parseInt(grade);

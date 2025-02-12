@@ -1,0 +1,64 @@
+#backDiv {
+    margin-top: 10px;
+    width: 50%;
+    background-color: #FFFEFD;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.message {
+    font-family: Score5;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.class-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* input과 버튼 간격 조정 */
+    justify-content: center; /* 중앙 정렬 */
+    width: 100%; /* 부모 요소 기준으로 정렬 */
+}
+
+.input-field {
+    width: 30%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: #F19B2A;
+    box-shadow: 0 0 5px rgba(241, 155, 42, 0.5);
+}
+
+.submit-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #F19B2A;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #D9831E;
+}

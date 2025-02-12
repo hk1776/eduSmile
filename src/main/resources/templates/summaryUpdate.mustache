@@ -1,109 +1,11 @@
 {{>header}}
-<style>
-    body {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        font-family: 'Score6', sans-serif;
-        background-color: #FCF2D4;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-    }
-
-    .layout {
-        display: flex;
-        flex: 1;
-    }
-
-    /* 왼쪽 네비게이션 스타일 */
-    .sidebar {
-        width: 200px;
-        height: 95vh;
-        background-color: #F6E1A0;
-        margin: 20px 20px;
-        padding: 20px;
-        display: flex; /* 플렉스박스 활성화 */
-        flex-direction: column; /* 자식 요소를 수직으로 정렬 */
-        align-items: center; /* 좌우 기준으로 중앙 정렬 */
-        gap: 20px; /* 항목 간 간격 추가 */
-        box-sizing: border-box;
-        border-radius: 30px;
-    }
-
-    .sidebar a {
-        width: 100%;
-        display: block;
-        background-color: #576096;
-        color: white;
-        text-align: center;
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 30px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 24px;
-        font-family: 'Hakgyo', sans-serif;
-        transition: background-color 0.3s, transform 0.2s; /* 마우스 호버 애니메이션 */
-    }
-
-    .sidebar a:hover, .sidebar a.active {
-        background-color: #576096;
-        box-shadow: inset 0 0 0 10px #F19B2A;
-        color: white;
-    }
-
-    /* 메인 콘텐츠 스타일 */
-    .main-content {
-        flex: 1;
-        padding: 2px 20px;
-        box-sizing: border-box;
-    }
-
-    .notice-container {
-        background-color: #F6E1A0;
-        border-radius: 30px;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        box-shadow: 7px 7px 4px rgba(0, 0, 0, 0.25);
-        padding: 30px;
-        display: flex; /* 내부 요소 정렬을 위해 플렉스 사용 */
-        flex-direction: column; /* 자식 요소를 수직 정렬 */
-        justify-content: flex-start; /* 내부 콘텐츠 상단부터 배치 */
-    }
 
 
-    .notice-header h1 {
-        font-size: 20px;
-        background-color: #576096;
-        padding: 15px 30px;
-        color: white;
-        border-radius: 30px;
-        box-shadow: inset 0 0 0 5px #F19B2A;
-        margin: 0;
-    }
 
-    .button-container-bottom {
-        display: flex;
-        justify-content: right;
-        align-items: center;
-        width: 100%;
-    }
-    .write-button {
-        text-decoration: none; /* 밑줄 제거 */
-        background-color: #F19B2A;
-        color: white;
-        border: none;
-        padding: 5px 25px;
-        border-radius: 30px;
-        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* 그림자 효과 */
-        box-shadow: inset 0 0 0 5px #576096;
-        cursor: pointer;
-    }
-
-</style>
 
 <!-- 레이아웃 -->
+
+<link rel="stylesheet" href="/css/summaryUpdate.css">
 <div class="layout">
     <!-- 사이드바 -->
     <aside class="sidebar">

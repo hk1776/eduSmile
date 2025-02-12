@@ -29,6 +29,13 @@ public class LoginService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    public List<MemberEntity> FindByIdNamePhone(String loginid,String name ,String phone) {
+        return memberRepository.findByIDAndNameAndPhoneNumber(loginid,name, phone);
+    }
+
+    public List<MemberEntity> FindByNamePhone(String name ,String phone) {
+      return memberRepository.findByNameAndPhoneNumber(name, phone);
+    }
     public boolean saveMember(MemberDto memberDto) {
         if (memberDto.getRole().equals("teacher")) {
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"; // 대문자만 포함
