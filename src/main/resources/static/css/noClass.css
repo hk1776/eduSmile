@@ -11,6 +11,12 @@
     align-items: center;
     text-align: center;
 }
+.back-btn{
+    color:#908282;
+    font-size: 0.8vw;
+    text-decoration: none; /* 밑줄 없애기 */
+
+}
 
 .message {
     font-family: Score5;

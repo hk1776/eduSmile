@@ -1,9 +1,8 @@
 package com.example.edusmile.Controller;
 
 import com.example.edusmile.Dto.BoardDTO;
+import com.example.edusmile.Entity.FreeBoard;
 import com.example.edusmile.Entity.MemberEntity;
-import com.example.edusmile.Entity.Notice;
-import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,29 +26,31 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/board") // 공지사항 관련 경로
-public class NoticeController {
-    private final NoticeService noticeService;
+@RequestMapping("/board")
+public class FreeController {
     private final MemberService memberService;
+    private final FreeBoardService freeBoardService;
 
-    @GetMapping("/noticeList")
-    public String noticeList(@RequestParam("id") String subjectId,
-                             @RequestParam(value = "page", defaultValue = "1") int page,
-                             Model model,
-                             @AuthenticationPrincipal UserDetails user) {
+
+    @GetMapping("/freeList")
+    public String freList(@RequestParam("id") String subjectId,
+                          @RequestParam(value = "page", defaultValue = "1") int page,
+                          Model model,
+                          @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-        Pageable pageable = PageRequest.of(page - 1, 10,  Sort.by(Sort.Order.desc("id")));
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by(Sort.Order.desc("id")));
 
-        Page<Notice> noticePage  = noticeService.findByClassId(subjectId, pageable);
+        Page<FreeBoard> freePage  = freeBoardService.findByClassId(subjectId, pageable);
 
-        log.info("page: " + noticePage.getContent().toString());
 
 
         //헤더 있는페이지는 이거 필수
@@ -57,34 +58,40 @@ public class NoticeController {
         model.addAttribute("my", my);
         //여기 까지
 
+
         model.addAttribute("teacher",member.getRole().equals("teacher"));
+
         // 페이지 번호 리스트 계산
         List<Integer> pageNums = new ArrayList<>();
-        for (int i = 1; i <= noticePage.getTotalPages(); i++) {
+        for (int i = 1; i <= freePage.getTotalPages(); i++) {
             pageNums.add(i);
         }
-        Integer prevPageNum = (noticePage.hasPrevious()) ? page - 1 : null;
-        Integer nextPageNum = (noticePage.hasNext()) ? page + 1 : null;
+        Integer prevPageNum = (freePage.hasPrevious()) ? page - 1 : null;
+        Integer nextPageNum = (freePage.hasNext()) ? page + 1 : null;
 
         model.addAttribute("member", member);
         model.addAttribute("subjectId", subjectId);
-        model.addAttribute("teacher", "teacher".equals(member.getRole()));
-        model.addAttribute("noticePage", noticePage);
+        model.addAttribute("freePage", freePage);
         model.addAttribute("pageNums", pageNums);
         model.addAttribute("prevPageNum", prevPageNum);
         model.addAttribute("nextPageNum", nextPageNum);
-
-        return "notice";
+        return "free";
     }
-    @GetMapping("/notice")
-    public String notice(@RequestParam("id") String subjectId,
-                         @RequestParam("num") Long id,
-                         Model model,
-                         @AuthenticationPrincipal UserDetails user) {
+
+    @GetMapping("/free")
+    public String free(@RequestParam("id") String subjectId,
+                       @RequestParam("num") Long id,
+                       Model model,
+                       @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
-        Notice notice = noticeService.findById(id);
-        String uuid = notice.getFile(); // 저장된 UUID 값
+        FreeBoard free = freeBoardService.findById(id);
+
+        String uuid = free.getFile(); // 저장된 UUID 값
+
+        // 파일이 저장된 디렉토리
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
+        Path dirPath = Paths.get(projectDir);
 
         //헤더 있는페이지는 이거 필수
         MemberEntity my= memberService.memberInfo(user.getUsername());
@@ -92,10 +99,6 @@ public class NoticeController {
         //여기 까지
 
         model.addAttribute("teacher",member.getRole().equals("teacher"));
-        // 파일이 저장된 디렉토리
-        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
-        Path dirPath = Paths.get(projectDir);
-
         // 디렉토리가 존재하지 않으면 생성
         if (!Files.exists(dirPath)) {
             try {
@@ -125,26 +128,27 @@ public class NoticeController {
         if(fileExists) {
             filename = matchedFileName.substring(36);
         }
+
         log.info("filename = {}", filename);
         model.addAttribute("fileExists", fileExists);
+        model.addAttribute("author", Objects.equals(free.getMemberId(), member.getId()));
         model.addAttribute("filename", filename);
         model.addAttribute("originFilename", matchedFileName);
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("member", member);
-        model.addAttribute("author", Objects.equals(notice.getMemberId(), member.getId()));
-        model.addAttribute("notice", notice);
-        return "noticeDetail";
+        model.addAttribute("free", free);
+        return "freeDetail";
     }
 
-    @GetMapping("/notice/write")
-    public String noticeSaveForm(@RequestParam("id") String subjectId,
-                                 Model model,
-                                 @AuthenticationPrincipal UserDetails user) {
+    @GetMapping("/free/write")
+    public String freeSaveForm(@RequestParam("id") String subjectId,
+                               Model model,
+                               @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("today", LocalDate.now().toString());
-        model.addAttribute("member", member);
 
+        model.addAttribute("member", member);
 
         //헤더 있는페이지는 이거 필수
         MemberEntity my= memberService.memberInfo(user.getUsername());
@@ -152,31 +156,29 @@ public class NoticeController {
         //여기 까지
 
         model.addAttribute("teacher",member.getRole().equals("teacher"));
-        return "noticeNew";
+        return "freeNew";
     }
-    @PostMapping("/notice/write")
-    public String noticeSave(Model model,
-                             @AuthenticationPrincipal UserDetails user,
-                             @ModelAttribute BoardDTO.Free notice,
-                             @RequestParam("file") MultipartFile file) {
+    @PostMapping("/free/write")
+    public String freeSave(Model model,
+                           @AuthenticationPrincipal UserDetails user,
+                           @ModelAttribute BoardDTO.Free free,
+                           @RequestParam("file") MultipartFile file) {
 
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-
-
 
         boolean fileCheck = false;
         if (file != null && !file.isEmpty()) {
             fileCheck = true;
         }
         UUID uuid = UUID.randomUUID();
-        Notice save =null;
+        FreeBoard save =null;
         if(fileCheck){
-            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member, uuid.toString());
+            save = freeBoardService.save(free.getTitle(), free.getAuthor(),member.getId(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),uuid.toString(),free.getClassId());
         }else{
-            save = noticeService.save(notice.getTitle(),notice.getClassId(), notice.getContent(), member, "No");
+            save = freeBoardService.save(free.getTitle(), free.getAuthor(),member.getId(),0,free.getContent(),free.getCreatedAt(),free.getCreatedAt(),"No",free.getClassId());
         }
 
-        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","notice").toString();
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","free").toString();
         File directory = new File(projectDir);
         if (!directory.exists()) {
             boolean created = directory.mkdirs(); // 폴더 생성
@@ -201,18 +203,18 @@ public class NoticeController {
             }
         }
 
-        return "redirect:/board/notice?id=" + notice.getClassId() + "&num=" + save.getId();
+        return "redirect:/board/free?id=" + free.getClassId() + "&num=" + save.getId();
     }
 
-    @GetMapping("/notice/update")
-    public String noticeUpdateForm(@RequestParam("id") String subjectId,
-                                   @RequestParam("num") Long id,
-                                   Model model,
-                                   @AuthenticationPrincipal UserDetails user) {
+    @GetMapping("/free/update")
+    public String freeUpdateForm(@RequestParam("id") String subjectId,
+                                 @RequestParam("num") Long id,
+                                 Model model,
+                                 @AuthenticationPrincipal UserDetails user) {
         MemberEntity member  = memberService.memberInfo(user.getUsername());
-        Notice notice = noticeService.findById(id);
+        FreeBoard free = freeBoardService.findById(id);
 
-        String uuid = notice.getFile(); // 저장된 UUID 값
+        String uuid = free.getFile(); // 저장된 UUID 값
 
         //헤더 있는페이지는 이거 필수
         MemberEntity my= memberService.memberInfo(user.getUsername());
@@ -221,7 +223,7 @@ public class NoticeController {
 
         model.addAttribute("teacher",member.getRole().equals("teacher"));
         // 파일이 저장된 디렉토리
-        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "notice").toString();
+        String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board", "free").toString();
         Path dirPath = Paths.get(projectDir);
 
         // 디렉토리가 존재하지 않으면 생성
@@ -258,18 +260,18 @@ public class NoticeController {
         model.addAttribute("fileExists", fileExists);
         model.addAttribute("filename", filename);
         model.addAttribute("originFilename", matchedFileName);
-        model.addAttribute("notice", notice);
+        model.addAttribute("free", free);
         model.addAttribute("subjectId", subjectId);
         model.addAttribute("today", LocalDate.now().toString());
         model.addAttribute("member", member);
-        return "noticeUpdate";
+        return "freeUpdate";
     }
 
-    @PostMapping("/notice/update")
-    public String noticeUpdate(Model model,
-                               @AuthenticationPrincipal UserDetails user,
-                               @ModelAttribute BoardDTO.Update notice,
-                               @RequestParam("file") MultipartFile file) {
+    @PostMapping("/free/update")
+    public String freeUpdate(Model model,
+                             @AuthenticationPrincipal UserDetails user,
+                             @ModelAttribute BoardDTO.Update free,
+                             @RequestParam("file") MultipartFile file) {
 
         MemberEntity member  = memberService.memberInfo(user.getUsername());
 
@@ -278,10 +280,10 @@ public class NoticeController {
             fileCheck = true;
         }
         UUID uuid = UUID.randomUUID();
-        Notice save =null;
+        FreeBoard save =null;
         if(fileCheck){
-            save = noticeService.update(notice.getTitle(), notice.getContent(), uuid.toString(),notice.getId());
-            String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","notice").toString();
+            save = freeBoardService.update(free.getTitle(), free.getContent(), uuid.toString(),free.getId());
+            String projectDir = Paths.get(System.getProperty("user.dir"), "file", "board","free").toString();
             File directory = new File(projectDir);
             if (!directory.exists()) {
                 boolean created = directory.mkdirs(); // 폴더 생성
@@ -305,18 +307,18 @@ public class NoticeController {
             }
         }else{
             //stay or delete
-            save = noticeService.update(notice.getTitle(), notice.getContent(), notice.getFileStatus(),notice.getId());
+            save = freeBoardService.update(free.getTitle(), free.getContent(), free.getFileStatus(),free.getId());
         }
 
 
 
-        return "redirect:/board/notice?id=" + notice.getClassId() + "&num=" + save.getId();
+        return "redirect:/board/free?id=" + free.getClassId() + "&num=" + save.getId();
     }
 
-    @DeleteMapping("/notice/delete")
-    public ResponseEntity<?> deleteNotice(@RequestParam("num") Long id) {
+    @DeleteMapping("/free/delete")
+    public ResponseEntity<?> deleteFree(@RequestParam("num") Long id) {
 
-        noticeService.deleteNotice(id);
+        freeBoardService.delete(id);
         return ResponseEntity.ok().build();
     }
 
