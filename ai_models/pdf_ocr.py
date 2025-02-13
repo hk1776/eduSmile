@@ -11,10 +11,10 @@ from PyPDF2 import PdfReader, PdfWriter
 
 class PDFProcessor:
     #기본설정
-    def __init__(self, api_key_path: str,base_folder: str,output_folder: str = "pdf2summary"):
+    def __init__(self, api_key: str,base_folder: str,output_folder: str = "pdf2summary"):
         """PDF와 학생 정보를 처리하는 클래스"""
         self.output_folder = Path(output_folder)
-        self.api_key = self._read_api_key(api_key_path)
+        self.api_key = api_key
         self.claude_client = Anthropic(api_key=self.api_key)
         self.base_folder = Path(base_folder)
         self._create_folders()
@@ -97,15 +97,6 @@ class PDFProcessor:
 
         print(f"모든 데이터를 병합하여 저장했습니다: {output_file}")
         return final_data["text"]
-
-    
-    def _read_api_key(self, api_key_path: str) -> str:
-        """API 키를 파일에서 읽어옵니다."""
-        try:
-            with open(api_key_path, 'r', encoding='utf-8') as f:
-                return f.read().strip()
-        except Exception as e:
-            raise Exception(f"API 키 파일을 읽는 중 오류 발생: {str(e)}")
 
     def _create_folders(self):
         """필요한 폴더를 생성합니다."""
@@ -250,7 +241,7 @@ class PDFProcessor:
             raise
 
     def process_pdf(self, pdf_path: str) -> dict:
-        """PDF를 처리하고 결과를 저장합니다."""
+        """PDF를 처리하고 결과를 반환환합니다."""
         try:
             # PDF에서 텍스트 추출
             print("PDF에서 텍스트 추출 중...")
@@ -271,6 +262,8 @@ class PDFProcessor:
                 "status": "error",
                 "error": str(e)
             }
+
+    #저장할 필요없이 바로 return해줘 사용하지않는코드
     def process_pdf1(self, pdf_path: str) -> dict:
         """PDF를 처리하고 결과를 저장합니다."""
         # 텍스트 파일 경로

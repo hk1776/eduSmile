@@ -164,7 +164,7 @@ class CareerAdvisor:
 
 if __name__ == "__main__":
     base_folder = os.path.dirname(os.path.abspath(__file__))
-    anthro_api_key = "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"
+    anthro_api_key = ""
 
     advisor = CareerAdvisor(anthro_api_key, base_folder)
 
