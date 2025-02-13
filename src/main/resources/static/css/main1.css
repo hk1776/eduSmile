@@ -164,6 +164,15 @@
     display: block;
 }
 
+.scroll-card p {
+    font-family: Score5;
+    white-space: nowrap;       /* 한 줄로 표시 */
+    overflow: hidden;          /* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis;   /* 말줄임표 (...) 적용 */
+    max-width: 90%;            /* 최대 너비 지정 (조절 가능) */
+    display: block;
+}
+
 .scroll-card a {
     text-decoration: none;
     color: #333;
