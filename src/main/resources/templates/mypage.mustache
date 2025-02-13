@@ -78,6 +78,17 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+        var fileName = "{{#member}}{{img_path}}{{/member}}";
+
+        fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
+                .then(response => response.text())
+                .then(url => {
+                    document.getElementById("profile_Image").src = url;
+                })
+                .catch(error => console.error("Error loading image:", error));
+
+
         const profileImage = document.querySelector('.profile');
         const currentTimestamp = new Date().getTime(); // 현재 타임스탬프
         const imgPath = profileImage.src.split('?')[0]; // 기존 이미지 URL에서 쿼리 파라미터 제거
@@ -85,14 +96,7 @@
 
     });
 
-    var fileName = "{{#member}}{{img_path}}{{/member}}";
 
-    fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
-            .then(response => response.text())
-            .then(url => {
-                document.getElementById("profile_Image").src = url;
-            })
-            .catch(error => console.error("Error loading image:", error));
 
 
 

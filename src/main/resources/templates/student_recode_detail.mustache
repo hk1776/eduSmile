@@ -108,6 +108,18 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
+
+        var fileName = "{{#student}}{{img_path}}{{/student}}";
+
+        fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
+                .then(response => response.text())
+                .then(url => {
+                    document.getElementById("profile_Image").src = url;
+                })
+                .catch(error => console.error("Error loading image:", error));
+
+
+
         document.querySelectorAll(".show_counsels").forEach(button => {
             button.addEventListener("click", function () {
                 const counselId = this.nextElementSibling.value;
@@ -151,15 +163,6 @@
 
 
         });
-
-        var fileName = "{{#student}}{{img_path}}{{/student}}";
-
-        fetch("/signed-url?fileName=" + encodeURIComponent(fileName))   //특수문자 같은거 인코딩
-                .then(response => response.text())
-                .then(url => {
-                    document.getElementById("profile_Image").src = url;
-                })
-                .catch(error => console.error("Error loading image:", error));
 
 
         // 버튼 클릭 이벤트 리스너 추가
