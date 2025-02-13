@@ -3,6 +3,7 @@ server:
 
 server.servlet.encoding.force-response: true
 
+
 spring:
   datasource:
     driver-class-name: org.h2.Driver
@@ -27,6 +28,8 @@ spring:
         show_sql: true
 
   servlet:
+    session:
+      timeout: 80m
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB

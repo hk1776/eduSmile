@@ -18,7 +18,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 
-import static org.springframework.web.servlet.function.RequestPredicates.headers;
+
 
 @Configuration
 @EnableWebSecurity
@@ -29,9 +29,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement(session -> session
-                        .invalidSessionUrl("/user/login") // 세션 만료 시 로그인 페이지로 이동
-                )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers( "/user/**", "/h2-console/**","/fonts/**","/").permitAll()  // 특정 URL 접근 허용
@@ -41,12 +38,17 @@ public class SecurityConfig {
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/user/login")
-                                .defaultSuccessUrl("/home", true)  // 로그인 성공 후 이동할 URL
+                                .successHandler(new CustomAuthenticationSuccessHandler())
                 )
                 .logout(logout ->
                         logout
-                                .logoutSuccessUrl("/user/login")  // 로그아웃 후 이동할 URL
-                                .invalidateHttpSession(true)  // 세션 무효화
+                                .logoutUrl("/logout")
+                                .logoutSuccessUrl("/user/login") // 로그아웃 후 기본 로그인 페이지로 이동
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID") // 세션 쿠키 삭제
+                )
+                .sessionManagement(session -> session
+                        .invalidSessionUrl("/user/login?expired=true")   // 세션 만료 시 로그인 페이지로 이동
                 )
                 .csrf(csrf -> csrf.disable());  // CSRF 비활성화
 

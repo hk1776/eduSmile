@@ -6,12 +6,14 @@ import com.example.edusmile.Repository.MemberRepository;
 import com.example.edusmile.Service.AttendService;
 import com.example.edusmile.Service.MemberService;
 import com.example.edusmile.Service.SubjectService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,12 +33,15 @@ public class MemberController {
     private final SubjectService subjectService;
 
     @GetMapping("/member/mypage")
-    public String memberPage(@AuthenticationPrincipal UserDetails user, Model model) {
+    public String memberPage(@AuthenticationPrincipal UserDetails user, Model model, HttpServletRequest request) {
         log.info("user = {}",user.getUsername());
 
-
+        String refer = request.getHeader("Referer");
+        log.info("Previous page: {}", refer);
 
         MemberEntity member  = memberService.memberInfo(user.getUsername());
+
+        model.addAttribute("refer", refer);
         model.addAttribute("member", member);
         model.addAttribute("teacher",member.getRole().equals("teacher"));
         model.addAttribute("st", member.getRole().equals("student"));
