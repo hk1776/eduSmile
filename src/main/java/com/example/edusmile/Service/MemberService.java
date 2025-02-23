@@ -210,22 +210,4 @@ public class MemberService {
         member.setRole(newRole);
         memberRepository.save(member);
     }
-
-//    public void removeMemberFromSubject(Long memberId, String subjectId) {
-//        // Member와 Subject 조회
-//        MemberEntity member = memberRepository.findById(memberId)
-//                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-//        Subject subject = subjectRepository.findById(subjectId)
-//                .orElseThrow(() -> new IllegalArgumentException("Subject not found"));
-//
-//        // Attend 객체 조회 및 삭제
-//        Optional<Attend> attendToRemove = member.getAttends().stream()
-//                .filter(attend -> attend.getSubject().equals(subject))
-//                .findFirst();
-//
-//        attendToRemove.ifPresent(attend -> {
-//            member.getAttends().remove(attend); // Member의 attends에서 제거
-//            subject.removeAttend(attend);      // Subject의 attends에서 제거
-//        });
-//    }
 }
