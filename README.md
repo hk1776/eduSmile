@@ -125,6 +125,13 @@
  ![Image](https://github.com/user-attachments/assets/4e1260c5-3fe2-4e2a-bf01-9f55a60439db)
  ![Image](https://github.com/user-attachments/assets/231f288c-54f4-4cb8-828c-4552465c26f2)
 
+ ### 상세 기능 설명서 URL
+ https://www.notion.so/199b474a74fc800390aec3cc5b3bb890
+
+ ### 수상
+ ### AIVLE School Big Project 우수상 수상
+ 
+
 
 
  
