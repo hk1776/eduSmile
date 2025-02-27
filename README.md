@@ -111,7 +111,16 @@
 
 ## </u> 💻System Design
  ### Tech Stack
-
+- FE
+    - HTML / CSS / Java Script / BootStrap / Mustache
+- BE
+    - Spring / Spring Data JPA / Gradle / FastAPI / H2 DB
+- AI
+    - Pandas / Keras / Claude/ BERT / RAG
+- ETC
+    - Git
+    - Figma
+    - Notion
 
 
  ### System Requirements
@@ -123,12 +132,15 @@
  ### 사용 기술
  ![Image](https://github.com/user-attachments/assets/60fbbead-0552-4254-ad12-90198979c64d)
  ![Image](https://github.com/user-attachments/assets/4e1260c5-3fe2-4e2a-bf01-9f55a60439db)
- ![Image](https://github.com/user-attachments/assets/231f288c-54f4-4cb8-828c-4552465c26f2)
+
 
  ### 상세 기능 설명서 URL
  https://www.notion.so/199b474a74fc800390aec3cc5b3bb890
 
- ### 수상
+<br>
+<br>
+
+ # 🏆수상
  ### AIVLE School Big Project 우수상 수상
  
 
