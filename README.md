@@ -121,7 +121,7 @@
     - Git
     - Figma
     - Notion
-    - 
+  
 ## System Architecture
 ![Image](https://github.com/user-attachments/assets/ba5bc215-fe7b-477e-a618-04d337b8322d)
 
