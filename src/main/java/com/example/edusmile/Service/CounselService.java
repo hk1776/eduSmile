@@ -77,7 +77,7 @@ public class CounselService {
 
         // FastAPI 서버에 파일 전송
         ResponseEntity<String> response = restTemplate.exchange(
-                "https://edusmile-fastapi-bbd6che3gpg6fuhx.koreacentral-01.azurewebsites.net/process_pdf/", HttpMethod.POST, requestEntity, String.class);
+                "", HttpMethod.POST, requestEntity, String.class);
 
         // JSON 응답을 그대로 반환 (String 형태)
         String fastResult = response.getBody();

@@ -28,9 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ClovaSpeechClient {
 
     // Clova Speech secret key
-    private static final String SECRET = "dfa5751246c841eeb131e3dbd1af4c6a";
+    private static final String SECRET = "";
     // Clova Speech invoke URL
-    private static final String INVOKE_URL = "https://clovaspeech-gw.ncloud.com/external/v1/10202/99cd0860114a9405313ca4da8421bd6ccf1983ab706ed4d8b8ca254da793a737";
+    private static final String INVOKE_URL = "";
 
     private CloseableHttpClient httpClient = HttpClients.createDefault();
     private Gson gson = new Gson();
@@ -192,12 +192,7 @@ public class ClovaSpeechClient {
         }
     }
 
-    /**
-     * recognize media using URL (외부 파일 URL로 음성 인식 요청)
-     * @param url required, the media URL (필수 파라미터, 외부 파일 URL)
-     * @param nestRequestEntity optional (필수 파라미터가 아님)
-     * @return string (문자열 반환)
-     */
+
     public String url(String url, NestRequestEntity nestRequestEntity) {
         HttpPost httpPost = new HttpPost(INVOKE_URL + "/recognizer/url");
         httpPost.setHeaders(HEADERS);
@@ -218,12 +213,6 @@ public class ClovaSpeechClient {
         return execute(httpPost);
     }
 
-    /**
-     * recognize media using Object Storage (네이버 클라우드 픒랫폼의 Object Storage 내 파일 URL로 음성 인식 요청)
-     * @param dataKey required, the Object Storage key (필수 파라미터, Object Storage 키 값)
-     * @param nestRequestEntity optional (필수 파라미터가 아님)
-     * @return string (문자열 반환)
-     */
     public String objectStorage(String dataKey, NestRequestEntity nestRequestEntity) {
         HttpPost httpPost = new HttpPost(INVOKE_URL + "/recognizer/object-storage");
         httpPost.setHeaders(HEADERS);
@@ -243,14 +232,6 @@ public class ClovaSpeechClient {
         httpPost.setEntity(httpEntity);
         return execute(httpPost);
     }
-
-    /**
-     *
-     * recognize media using a file (로컬 파일 업로드 후 음성 인식 요청)
-     * @param file required, the media file (필수 파라미터, 로컬 파일)
-     * @param nestRequestEntity optional (필수 파라미터가 아님)
-     * @return string (문자열 반환)
-     */
     public String upload(File file, NestRequestEntity nestRequestEntity) {
         HttpPost httpPost = new HttpPost(INVOKE_URL + "/recognizer/upload");
         httpPost.setHeaders(HEADERS);
