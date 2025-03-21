@@ -27,7 +27,8 @@ import java.util.Optional;
 public class LoginService {
 
     private final MemberRepository memberRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    private final PasswordEncoder encoder;
 
     public List<MemberEntity> FindByIdNamePhone(String loginid,String name ,String phone) {
         return memberRepository.findByIDAndNameAndPhoneNumber(loginid,name, phone);
@@ -37,6 +38,8 @@ public class LoginService {
       return memberRepository.findByNameAndPhoneNumber(name, phone);
     }
     public boolean saveMember(MemberDto memberDto) {
+
+
         if (memberDto.getRole().equals("teacher")) {
             String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"; // 대문자만 포함
             StringBuilder result = new StringBuilder();
@@ -50,6 +53,7 @@ public class LoginService {
             memberDto.setTeacherCode(result.toString());
             MemberEntity tm = memberDto.toEntity();
             System.out.println(tm.getPassword());
+            tm.setPassword(encoder.encode(memberDto.getPassword())); //비밀번호 암호화
             tm.setImg_path("blank_profile.svg");
             memberRepository.save(tm);
             return true;
@@ -70,6 +74,7 @@ public class LoginService {
                     memberDto.setSchool(teacher.getSchool());
                     memberDto.setSchoolgrade(teacher.getSchoolgrade());
                     MemberEntity tm = memberDto.toEntity();
+                    tm.setPassword(encoder.encode(memberDto.getPassword())); //비밀번호 암호화
                     tm.setImg_path("blank_profile.svg");
                     memberRepository.save(tm);
                     return true;

@@ -75,7 +75,7 @@ public class BlobService {
 
 
 
-    //이거 컨테이너에 엑세스 가능하게(사진)
+    //이거 컨테이너에 엑세스 가능하게(사진)  ///sas 사용
     public String generateSignedUrl(String blobName) {
 
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);

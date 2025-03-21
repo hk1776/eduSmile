@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Setter
 @NoArgsConstructor
 public class MemberDto {
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 
     private String loginId;
     private String password;
@@ -25,7 +25,7 @@ public class MemberDto {
     private String subject;
     private int schoolgrade;
     public MemberEntity toEntity() {
-        return new MemberEntity(null,loginId,encoder.encode(password),name,phoneNumber,school,schoolClass,schoolgrade,
+        return new MemberEntity(null,loginId,password,name,phoneNumber,school,schoolClass,schoolgrade,
                 role,teacherCode,null,null,null,null);
     }
 }
