@@ -114,7 +114,7 @@
 - FE
     - HTML / CSS / Java Script / BootStrap / Mustache
 - BE
-    - Spring / Spring Data JPA / Gradle / FastAPI / H2 DB
+    - Spring / Spring Data JPA / Gradle / FastAPI / My Sql
 - AI
     - Pandas / Keras / Claude/ BERT / RAG
 - ETC
