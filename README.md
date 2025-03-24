@@ -1,5 +1,14 @@
 ![AI 20조 썸네일](https://github.com/user-attachments/assets/751af4bc-d885-40b9-95b4-aeda6d770586)
 
+ ### 상세 기능 설명서 URL
+ https://www.notion.so/199b474a74fc800390aec3cc5b3bb890
+
+<br>
+
+ # 🏆수상
+ ### AIVLE School Big Project 우수상 수상
+
+*********
 
 **KT AIVLE School 빅 프로젝트**
 <br>
@@ -219,15 +228,6 @@
 5️⃣ 상담 요약: 날짜별 상담 요약 내역을 확인
 
 *************
-
- ### 상세 기능 설명서 URL
- https://www.notion.so/199b474a74fc800390aec3cc5b3bb890
-
-<br>
-<br>
-
- # 🏆수상
- ### AIVLE School Big Project 우수상 수상
  
 
 
