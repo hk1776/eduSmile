@@ -1,7 +1,7 @@
 ![AI 20조 썸네일](https://github.com/user-attachments/assets/751af4bc-d885-40b9-95b4-aeda6d770586)
 
  ### 상세 기능 설명서 URL
- https://www.notion.so/199b474a74fc800390aec3cc5b3bb890
+[ https://www.notion.so/199b474a74fc800390aec3cc5b3bb890](https://equable-mustard-db9.notion.site/199b474a74fc800390aec3cc5b3bb890)
 
 <br>
 
